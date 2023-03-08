@@ -1,0 +1,3231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<meta content="Ivica Letunic" name="author"/>
+<meta content="#ffffff" name="theme-color"/>
+<title>iPath 3: Helper tools</title><link href="https://pathways.embl.de/apple-icon-57x57.png" rel="apple-touch-icon" sizes="57x57"/>
+<link href="https://pathways.embl.de/apple-icon-60x60.png" rel="apple-touch-icon" sizes="60x60"/>
+<link href="https://pathways.embl.de/apple-icon-72x72.png" rel="apple-touch-icon" sizes="72x72"/>
+<link href="https://pathways.embl.de/apple-icon-76x76.png" rel="apple-touch-icon" sizes="76x76"/>
+<link href="https://pathways.embl.de/apple-icon-114x114.png" rel="apple-touch-icon" sizes="114x114"/>
+<link href="https://pathways.embl.de/apple-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
+<link href="https://pathways.embl.de/apple-icon-144x144.png" rel="apple-touch-icon" sizes="144x144"/>
+<link href="https://pathways.embl.de/apple-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
+<link href="https://pathways.embl.de/apple-icon-180x180.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="https://pathways.embl.de/android-icon-192x192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="https://pathways.embl.de/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="https://pathways.embl.de/favicon-96x96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="https://pathways.embl.de/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="https://pathways.embl.de/manifest.json" rel="manifest"/>
+<meta content="#ffffff" name="msapplication-TileColor"/>
+<meta content="/ms-icon-144x144.png" name="msapplication-TileImage"/>
+<meta content="#ffffff" name="theme-color"/>
+<link href="https://pathways.embl.de/js/vendor/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://pathways.embl.de/js/vendor/bootstrap-4.0.0-beta/scss/_card.scss" rel="stylesheet"/>
+<link href="https://pathways.embl.de/js/vendor/bootstrap-theme.css" rel="stylesheet"/>
+<link href="https://pathways.embl.de/js/vendor/featherlight.min.css" rel="stylesheet"/>
+<link href="https://pathways.embl.de/js/vendor/glyphicons.css" rel="stylesheet"/>
+<link href="https://pathways.embl.de/js/vendor/jquery-ui-1.12.1.custom/jquery-ui.min.css" media="screen" rel="stylesheet" type="text/css"/>
+<script src="https://pathways.embl.de/js/vendor/jquery-3.2.1.min.js"></script>
+<script src="https://pathways.embl.de/js/vendor/popper.min.js"></script>
+<script src="https://pathways.embl.de/js/vendor/bootstrap.min.js"></script>
+<script src="https://pathways.embl.de/js/vendor/featherlight.min.js"></script>
+<script src="/js/vendor/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<link href="https://pathways.embl.de/js/vendor/jspanel/jquery.jspanel.min.css" rel="stylesheet"/>
+<script src="https://pathways.embl.de/js/vendor/jspanel/jquery.jspanel-compiled.js"></script>
+<script src="https://pathways.embl.de/js/vendor/jquery.sticky-kit.min.js"></script>
+<script src="https://pathways.embl.de/js/vendor/jquery.md5.js"></script>
+<script src="https://pathways.embl.de/js/vendor/snap.svg-min.js"></script>
+<script src="https://pathways.embl.de/js/vendor/svg-pan-zoom.js"></script>
+<link href="https://pathways.embl.de/css/ipath.css?ver=3.00006" media="screen" rel="stylesheet" type="text/css"/><script src="/js/ipath_all.min.js?ver=3.00006"></script></head>
+<body><!--
+
+  <nav id='mainNav' class="navbar fixed-top navbar-expand-md navbar-light bg-light mb-4" style='padding: 0 10px ; border-bottom: 1px solid #aaa;'>
+      <a class="navbar-brand" href='https://pathways.embl.de/'><img class="d-inline-block align-top" height='30px' src="https://pathways.embl.de/img/ipath3logo_small2.svg" alt=""/></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+<li class='nav-item dropdown'>
+                <a class='nav-link dropdown-toggle' href='https://pathways.embl.de#' id='mapsDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Pathway maps</a>
+                <div class='dropdown-menu' aria-labelledby='mapsDropdown'>
+                <a id='mapSel-metabolic' class='mapSelBtn dropdown-item' href='https://pathways.embl.deipath3.cgi?map=metabolic');">Metabolic pathways</a>
+                  <a id='mapSel-secondary' class='mapSelBtn dropdown-item' href='https://pathways.embl.deipath3.cgi?map=secondary')">Biosynthesis of secondary metabolites</a>
+                  <a id='mapSel-microbial' class='mapSelBtn dropdown-item' href='https://pathways.embl.deipath3.cgi?map=microbial')">Microbial metabolism in diverse environments</a>
+                  <a id='mapSel-antibiotic' class='mapSelBtn dropdown-item' href='https://pathways.embl.deipath3.cgi?map=antibiotic')">Biosynthesis of antibiotics</a>
+                  
+
+                </div>
+                </li>
+
+<li class='nav-item active'> <a class="nav-link" href="https://pathways.embl.detools.cgi">Tools</a></li>
+<li class='nav-item'> <a class="nav-link" href="https://pathways.embl.desharing.cgi">Share</a></li>
+<li class=' nav-item dropdown'>
+                <a class='nav-link dropdown-toggle' href='https://pathways.embl.de#' id='helpDropdown' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Help</a>
+                <div class='dropdown-menu' aria-labelledby='helpDropdown'>
+                <a class='dropdown-item' href='https://pathways.embl.de/help.cgi'>Help pages</a>
+                <a class='dropdown-item' href='https://pathways.embl.de/video_tutorial.cgi'>Video tutorials</a>
+                <div class='dropdown-divider'></div>
+                <a class='dropdown-item' href='https://pathways.embl.de/about.cgi'>About & Contact</a>
+                </div>
+                </li>        </ul>
+<ul class="nav navbar-nav navbar-right">
+<li class='nav-item '><a class='nav-link' href='https://pathways.embl.de/login.cgi'>Login</a></li><li class='nav-item'><a class='nav-link ' href='https://pathways.embl.de/register.cgi'>Register</a></li></ul>
+      </div>
+    </nav>
+
+
+
+
+
+<div class='container'>
+<h2 style='margin-bottom: 40px'>Helper tools</h2>
+<div class='row'>
+<div class='col'>
+<table id='toolList'><tr><th>Tool</th><th>Description</th></tr>
+<tr><td><button class='btn btn-sm btn-info' onclick="showTool('idValidator')">Identifier validator</button></td><td>check the iPath identifier database</td></tr>
+<tr><td><button class='btn btn-sm btn-info' onclick="showTool('directSubmission')">Direct submission</button></td><td>submit element selections programmatically</td></tr>
+<tr><td><button class='btn btn-sm btn-info' onclick="showTool('overlapCalc')">ID overlap</button></td><td>calculate element selection based on ID overlap</td></tr>
+<tr><td><button class='btn btn-sm btn-info' onclick="showTool('numericCalc')">Numeric data</button></td><td>calculate element selection based on numeric data</td></tr>
+<tr><td><button class='btn btn-sm btn-info' onclick="showTool('speciesCompare')">Species comparison</button></td><td>compare two species based on presence/absence of KEGG KOs</td></tr>
+
+</table>
+
+</div></div>
+
+<div class='row'>
+<div id='idValidator' style='display:none' class='col toolBlock'>
+ <h4>Identifier validator</h4>
+  <p>Use this form to check our database for presence of any number of identifiers. Put your identifiers into a plain text file, one identifier per line. After processing,
+  this script will return a list of matches in iPath's database, and you can limit your element selection calculations to these IDs only.</p>
+      <form action='https://pathways.embl.de/validator.cgi' method='post' enctype="multipart/form-data">
+  <table class='table'>
+  <tr><th>Input file</th><td><input type='file' name='inFile' /></td><td></td></tr>
+  <tr><th>Output</th><td><input type='radio' name='outFmt' value='1' checked='checked'/> File  <input type='radio' name='outFmt' value='0' /> Browser</td><td></td></tr>
+  <tr><th>Check map</th><td style='white-space: nowrap'><input type='checkbox' name='chkMapMeta' value='1' checked='checked'> Metabolic pathways<br/>
+  <input type='checkbox' name='chkMapSec' value='1' checked='checked'> Biosynthesis of secondary metabolites<br/>
+  <input type='checkbox' name='chkMapMicrob' value='1' checked='checked'> Microbial metabolism in diverse environments <br/>
+  <input type='checkbox' name='chkMapAnti' value='1' checked='checked'> Biosynthesis of antibiotics
+  </td><td></td></tr>
+  <tr><th style='white-space: nowrap'>Output only valid IDs</th><td><input type='radio' name='outValid' value='1' checked='checked'/> Yes  <input type='radio' name='outValid' value='0' /> No</td><td class="postHl">if set to 'No', all IDs
+  will be included in the output, with second tab-separated column containing a value of '<b>VALID</b>' or '<b>INVALID</b>'</td></tr>
+
+</table>
+  <p><input type='submit' class='btn btn-info' value='Validate IDs'></p>
+  </form>
+</div>
+</div>
+
+<div class='row'>
+--><div class="col toolBlock" id="directSubmission" style="display">
+<h4>Submission form for 2022061615432_E00000150_High Glucose_vs_Low Glucose map</h4>
+<p>
+  Use the form below to submit your element selection and other parameters directly to the iPath3 interactive interface.
+  If using this feature programmatically from your own scripts, simply send a POST request with all parameters directly to <b>ipath3.cgi</b>. You have to specify either 'selection' or 'tax_filter', all other parameters are optional.
+ If you wish to directly create the map in a graphic format, send the POST request to <b>https://pathways.embl.de/mapping.cgi</b> instead, and specify the <b>export_type</b> as well.</p>
+<form action="https://pathways.embl.de/ipath3.cgi" id="directAccessForm" method="post">
+<table class="table">
+<tbody>
+<tr><th>Parameter</th><th>POST parameter</th><th>Input</th><th></th></tr>
+<tr><td class="postNm">Element selection</td><td class="postCl">selection</td><td><textarea cols="20" name="selection" rows="5">C00207 #e0f295 W49 None
+C00479 #e0f295 W49 None
+C02001 #e0f295 W49 None
+C11506 #e0f295 W49 None
+C11507 #e0f295 W49 None
+C15508 #e0f295 W49 None
+C12554 #c2e57c W40 None
+C02658 #fca85e W25 None
+C06244 #fca85e W25 None
+C06735 #fca85e W25 None
+C11489 #fca85e W25 None
+C01845 #f9fcb7 W34 None
+C05979 #f9fcb7 W34 None
+C16845 #a50026 W20 None
+C06145 #e0f295 W24 None
+C14275 #e0f295 W24 None
+C06146 #f9fcb7 W30 None
+C17721 #f9fcb7 W30 None
+C19377 #f9fcb7 W30 None
+C20701 #f9fcb7 W30 None
+C01659 #fee695 W22 None
+C00511 #b2de71 W38 None
+C00546 #b2de71 W38 None
+C19246 #b2de71 W38 None
+C19297 #b2de71 W38 None
+C19440 #b2de71 W38 None
+C19501 #b2de71 W38 None
+C01412 #f9fcb7 W23 None
+C02845 #f9fcb7 W23 None
+C03219 #f9fcb7 W23 None
+C19237 #f9fcb7 W23 None
+C00048 #f9fcb7 W34 None
+C00163 #d2ec87 W24 None
+C00424 #d2ec87 W24 None
+C00937 #d2ec87 W24 None
+C00969 #d2ec87 W24 None
+C05235 #d2ec87 W24 None
+C05999 #d2ec87 W24 None
+C10920 #d2ec87 W24 None
+C17530 #d2ec87 W24 None
+C00037 #f9fcb7 W20 None
+C01837 #f9fcb7 W20 None
+C06808 #f9fcb7 W20 None
+C19445 #f9fcb7 W20 None
+C01857 #fffab7 W17 None
+C00160 #edf7a6 W32 None
+C03547 #edf7a6 W32 None
+C01407 #fffab7 W16 None
+C00557 #fff0a6 W17 None
+C07330 #fff0a6 W17 None
+C15604 #fff0a6 W17 None
+C02659 #fee695 W21 None
+C11118 #fee695 W21 None
+C00741 #d2ec87 W39 None
+C01770 #d2ec87 W39 None
+C01771 #d2ec87 W39 None
+C02497 #d2ec87 W39 None
+C16267 #d2ec87 W39 None
+C16835 #d2ec87 W39 None
+C19201 #d2ec87 W39 None
+C19309 #d2ec87 W39 None
+C19443 #d2ec87 W39 None
+C01390 #fffab7 W18 None
+C01949 #fffab7 W18 None
+C02020 #fffab7 W18 None
+C02223 #fffab7 W18 None
+C07329 #fffab7 W18 None
+C02218 #fffab7 W17 None
+C06695 #fffab7 W17 None
+C20253 #fffab7 W17 None
+C00041 #feda86 W24 None
+C00099 #feda86 W24 None
+C00133 #feda86 W24 None
+C00213 #feda86 W24 None
+C01401 #feda86 W24 None
+C01537 #feda86 W24 None
+C02116 #feda86 W24 None
+C11488 #feda86 W24 None
+C00184 #b2de71 W25 None
+C00186 #b2de71 W25 None
+C00256 #b2de71 W25 None
+C00577 #b2de71 W25 None
+C01013 #b2de71 W25 None
+C01432 #b2de71 W25 None
+C02154 #b2de71 W25 None
+C02426 #b2de71 W25 None
+C02086 #f9fcb7 W26 None
+C01455 #fffab7 W17 None
+C00292 #fffab7 W16 None
+C14447 #fffab7 W16 None
+C02502 #fffab7 W17 None
+C07090 #edf7a6 W37 None
+C14279 #edf7a6 W37 None
+C02395 #fff0a6 W31 None
+C19249 #fff0a6 W31 None
+C00414 #fffab7 W18 None
+C08497 #fffab7 W18 None
+C16310 #fffab7 W18 None
+C11118 #fff0a6 W19 None
+C18796 #fff0a6 W19 None
+C02240 #fffab7 W17 None
+C08279 #fffab7 W17 None
+C12518 #fffab7 W17 None
+C14527 #fffab7 W17 None
+C15499 #fffab7 W17 None
+C19238 #fffab7 W17 None
+C19504 #fffab7 W17 None
+C01234 #fffab7 W17 None
+C02926 #fffab7 W17 None
+C07509 #fffab7 W17 None
+C08267 #fffab7 W17 None
+C11106 #fffab7 W17 None
+C17234 #fffab7 W17 None
+C19456 #fffab7 W17 None
+C19777 #fffab7 W17 None
+C01842 #f67e4b W22 None
+C03982 #f67e4b W22 None
+C10974 #f67e4b W22 None
+C12455 #f67e4b W22 None
+C17255 #f67e4b W22 None
+C19491 #f67e4b W22 None
+C20312 #f67e4b W22 None
+C00109 #e0f295 W30 None
+C00164 #e0f295 W30 None
+C00232 #e0f295 W30 None
+C00349 #e0f295 W30 None
+C06002 #e0f295 W30 None
+C14422 #fffab7 W16 None
+C00334 #fec978 W22 None
+C01026 #fec978 W22 None
+C01205 #fec978 W22 None
+C02261 #fec978 W22 None
+C02356 #fec978 W22 None
+C02721 #fec978 W22 None
+C03284 #fec978 W22 None
+C03665 #fec978 W22 None
+C05145 #fec978 W22 None
+C11109 #fec978 W22 None
+C11735 #fec978 W22 None
+C19514 #fec978 W22 None
+C00989 #f9fcb7 W27 None
+C01089 #f9fcb7 W27 None
+C01188 #f9fcb7 W27 None
+C01991 #f9fcb7 W27 None
+C03197 #f9fcb7 W27 None
+C05984 #f9fcb7 W27 None
+C06001 #f9fcb7 W27 None
+C14601 #f9fcb7 W27 None
+C00065 #d2ec87 W21 None
+C00716 #d2ec87 W21 None
+C00740 #d2ec87 W21 None
+C00258 #fec978 W23 None
+C14689 #fee695 W20 None
+C00556 #fffab7 W16 None
+C01403 #fffab7 W16 None
+C01467 #fffab7 W16 None
+C01468 #fffab7 W16 None
+C01542 #fffab7 W16 None
+C03485 #fffab7 W16 None
+C02389 #fff0a6 W24 None
+C05060 #fff0a6 W24 None
+C00090 #f9fcb7 W21 None
+C00530 #f9fcb7 W21 None
+C01751 #f9fcb7 W21 None
+C01785 #f9fcb7 W21 None
+C11115 #f9fcb7 W21 None
+C15571 #f9fcb7 W21 None
+C00388 #f9fcb7 W17 None
+C02704 #fff0a6 W17 None
+C01546 #e0f295 W19 None
+C00106 #d2ec87 W20 None
+C18474 #d2ec87 W20 None
+C14414 #feda86 W25 None
+C03564 #feda86 W28 None
+C03912 #feda86 W28 None
+C04322 #feda86 W28 None
+C07275 #feda86 W28 None
+C00791 #e0f295 W22 None
+C19280 #e0f295 W22 None
+C00596 #a0d669 W42 None
+C07091 #a0d669 W42 None
+C08370 #e0f295 W40 None
+C01147 #fffab7 W16 None
+C01880 #fffab7 W16 None
+C03228 #fffab7 W16 None
+C01596 #fdb96a W27 None
+C00148 #edf7a6 W21 None
+C00763 #edf7a6 W21 None
+C16435 #edf7a6 W21 None
+C18170 #edf7a6 W21 None
+C00122 #fee695 W27 None
+C01384 #fee695 W27 None
+C02150 #fee695 W27 None
+C00141 #f9fcb7 W21 None
+C02233 #f9fcb7 W21 None
+C03273 #f9fcb7 W21 None
+C06255 #f9fcb7 W21 None
+C00990 #fff0a6 W21 None
+C00441 #fff0a6 W18 None
+C03214 #fff0a6 W18 None
+C03508 #fff0a6 W18 None
+C20250 #fff0a6 W18 None
+C00581 #f9fcb7 W20 None
+C19178 #f9fcb7 W20 None
+C00463 #fffab7 W18 None
+C16074 #fffab7 W18 None
+C00183 #edf7a6 W24 None
+C00431 #edf7a6 W24 None
+C00719 #edf7a6 W24 None
+C01799 #edf7a6 W24 None
+C01826 #edf7a6 W24 None
+C03571 #edf7a6 W24 None
+C06417 #edf7a6 W24 None
+C07457 #edf7a6 W24 None
+C15987 #edf7a6 W24 None
+C16436 #edf7a6 W24 None
+C14512 #f9fcb7 W20 None
+C02804 #f9fcb7 W22 None
+C20827 #f9fcb7 W22 None
+C00188 #edf7a6 W24 None
+C00263 #edf7a6 W24 None
+C00820 #edf7a6 W24 None
+C02115 #edf7a6 W24 None
+C03678 #edf7a6 W24 None
+C05519 #edf7a6 W24 None
+C11108 #edf7a6 W24 None
+C12317 #edf7a6 W24 None
+C01796 #edf7a6 W39 None
+C02022 #edf7a6 W39 None
+C02045 #edf7a6 W39 None
+C06463 #edf7a6 W39 None
+C00601 #f9fcb7 W22 None
+C02083 #f9fcb7 W22 None
+C05627 #f9fcb7 W22 None
+C06758 #f9fcb7 W22 None
+C07113 #f9fcb7 W22 None
+C07209 #f9fcb7 W22 None
+C07214 #f9fcb7 W22 None
+C20782 #f9fcb7 W22 None
+C09815 #f9fcb7 W19 None
+C05823 #f9fcb7 W33 None
+C19296 #f9fcb7 W33 None
+C00180 #fffab7 W16 None
+C00539 #fffab7 W16 None
+C00633 #fffab7 W16 None
+C03067 #fffab7 W16 None
+C06202 #fffab7 W16 None
+C15474 #fffab7 W16 None
+C00153 #fffab7 W17 None
+C01950 #fffab7 W17 None
+C02421 #fffab7 W17 None
+C05853 #fffab7 W18 None
+C06757 #fffab7 W18 None
+C07112 #fffab7 W18 None
+C07213 #fffab7 W18 None
+C07216 #fffab7 W18 None
+C11348 #fffab7 W18 None
+C13637 #fffab7 W18 None
+C14385 #fffab7 W18 None
+C14386 #fffab7 W18 None
+C14582 #fffab7 W18 None
+C00253 #fee695 W25 None
+C06813 #fee695 W25 None
+C07446 #fee695 W25 None
+C10164 #fee695 W25 None
+C00727 #fff0a6 W29 None
+C01502 #fff0a6 W29 None
+C02323 #fff0a6 W29 None
+C02923 #fff0a6 W29 None
+C03351 #fff0a6 W29 None
+C06730 #fff0a6 W29 None
+C15572 #fff0a6 W29 None
+C17467 #fff0a6 W29 None
+C00245 #fffab7 W19 None
+C02441 #f9fcb7 W18 None
+C02854 #f9fcb7 W18 None
+C14602 #f9fcb7 W18 None
+C14604 #f9fcb7 W18 None
+C16671 #f9fcb7 W18 None
+C18351 #f9fcb7 W18 None
+C01108 #f9fcb7 W26 None
+C02183 #f9fcb7 W26 None
+C02752 #f9fcb7 W26 None
+C02814 #f9fcb7 W26 None
+C11101 #f9fcb7 W26 None
+C11918 #f9fcb7 W26 None
+C20718 #f9fcb7 W26 None
+C04051 #fec978 W20 None
+C04592 #fff0a6 W18 None
+C12101 #fff0a6 W18 None
+C07287 #fffab7 W17 None
+C03458 #fffab7 W17 None
+C19721 #fffab7 W17 None
+C01125 #fff0a6 W18 None
+C06719 #fff0a6 W18 None
+C06761 #fff0a6 W18 None
+C11354 #fff0a6 W18 None
+C20240 #fff0a6 W18 None
+C20443 #fff0a6 W18 None
+C20717 #fff0a6 W18 None
+C08487 #fff0a6 W18 None
+C09822 #fff0a6 W18 None
+C10921 #fff0a6 W18 None
+C10976 #fff0a6 W18 None
+C11950 #fff0a6 W18 None
+C13714 #fff0a6 W18 None
+C13717 #fff0a6 W18 None
+C06554 #f9fcb7 W19 None
+C16817 #feda86 W28 None
+C01877 #fec978 W20 None
+C01879 #fec978 W20 None
+C02237 #fec978 W20 None
+C04281 #fec978 W20 None
+C04282 #fec978 W20 None
+C00408 #fff0a6 W17 None
+C03969 #fff0a6 W17 None
+C05936 #fff0a6 W17 None
+C07500 #fff0a6 W17 None
+C13696 #fff0a6 W17 None
+C00433 #edf7a6 W23 None
+C00490 #edf7a6 W23 None
+C01732 #edf7a6 W23 None
+C02132 #edf7a6 W23 None
+C02214 #edf7a6 W23 None
+C02226 #edf7a6 W23 None
+C02800 #edf7a6 W23 None
+C00233 #fffab7 W16 None
+C00671 #fffab7 W16 None
+C00902 #fffab7 W16 None
+C01012 #fffab7 W16 None
+C02122 #fffab7 W16 None
+C02129 #fffab7 W16 None
+C03241 #fffab7 W16 None
+C03465 #fffab7 W16 None
+C03467 #fffab7 W16 None
+C03500 #fffab7 W16 None
+C06008 #fffab7 W16 None
+C06102 #fffab7 W16 None
+C12314 #fffab7 W16 None
+C14530 #fffab7 W16 None
+C02362 #fff0a6 W17 None
+C05840 #fff0a6 W17 None
+C13058 #fff0a6 W17 None
+C00430 #fdb96a W26 None
+C01015 #fdb96a W26 None
+C01073 #fdb96a W26 None
+C01110 #fdb96a W26 None
+C01157 #fdb96a W26 None
+C01165 #fdb96a W26 None
+C03341 #fdb96a W26 None
+C03440 #fdb96a W26 None
+C03651 #fdb96a W26 None
+C03741 #fdb96a W26 None
+C04397 #fdb96a W26 None
+C05147 #fdb96a W26 None
+C19706 #fdb96a W26 None
+C00123 #e0f295 W22 None
+C00407 #e0f295 W22 None
+C01570 #e0f295 W22 None
+C01933 #e0f295 W22 None
+C02378 #e0f295 W22 None
+C02486 #e0f295 W22 None
+C06418 #e0f295 W22 None
+C08263 #e0f295 W22 None
+C16434 #e0f295 W22 None
+C16439 #e0f295 W22 None
+C16647 #e0f295 W22 None
+C00489 #f9fcb7 W33 None
+C00900 #f9fcb7 W33 None
+C02674 #f9fcb7 W33 None
+C03589 #f9fcb7 W33 None
+C04106 #f9fcb7 W33 None
+C04181 #f9fcb7 W33 None
+C06010 #f9fcb7 W33 None
+C08645 #f9fcb7 W33 None
+C11838 #f9fcb7 W33 None
+C00152 #f9fcb7 W20 None
+C01043 #f9fcb7 W20 None
+C01905 #f9fcb7 W20 None
+C02037 #f9fcb7 W20 None
+C02642 #f9fcb7 W20 None
+C16438 #f9fcb7 W20 None
+C19258 #f9fcb7 W20 None
+C19301 #f9fcb7 W20 None
+C00903 #feda86 W21 None
+C01504 #feda86 W21 None
+C16592 #feda86 W21 None
+C00077 #f9fcb7 W18 None
+C00515 #f9fcb7 W18 None
+C01602 #f9fcb7 W18 None
+C03943 #f9fcb7 W18 None
+C11320 #f9fcb7 W18 None
+C00049 #fdb96a W20 None
+C00402 #fdb96a W20 None
+C16433 #fdb96a W20 None
+C19911 #fdb96a W20 None
+C20313 #fffab7 W16 None
+C00149 #feda86 W23 None
+C00497 #feda86 W23 None
+C00711 #feda86 W23 None
+C03064 #feda86 W23 None
+C03668 #feda86 W23 None
+C01801 #fff0a6 W17 None
+C02783 #fff0a6 W17 None
+C04039 #fff0a6 W17 None
+C04272 #fff0a6 W17 None
+C06257 #fff0a6 W17 None
+C08347 #fff0a6 W17 None
+C01710 #fffab7 W26 None
+C02394 #fffab7 W26 None
+C15512 #fffab7 W26 None
+C16930 #fffab7 W26 None
+C20464 #fffab7 W26 None
+C00147 #fffab7 W16 None
+C02505 #f9fcb7 W23 None
+C07565 #f9fcb7 W23 None
+C15561 #f9fcb7 W23 None
+C16075 #f9fcb7 W23 None
+C19714 #f9fcb7 W23 None
+C01620 #fdb96a W21 None
+C00548 #f9fcb7 W19 None
+C01454 #f9fcb7 W19 None
+C03765 #f9fcb7 W19 None
+C05613 #f9fcb7 W19 None
+C06224 #f9fcb7 W19 None
+C07085 #f9fcb7 W19 None
+C07086 #f9fcb7 W19 None
+C07189 #f9fcb7 W19 None
+C07211 #f9fcb7 W19 None
+C07215 #f9fcb7 W19 None
+C10700 #f9fcb7 W19 None
+C10761 #f9fcb7 W19 None
+C14087 #f9fcb7 W19 None
+C15583 #f9fcb7 W19 None
+C20645 #f9fcb7 W19 None
+C14311 #fff0a6 W19 None
+C07587 #fffab7 W17 None
+C00483 #f9fcb7 W24 None
+C01183 #f9fcb7 W24 None
+C02735 #f9fcb7 W24 None
+C03473 #f9fcb7 W24 None
+C16570 #f9fcb7 W24 None
+C18396 #f9fcb7 W24 None
+C19216 #f9fcb7 W24 None
+C19376 #f9fcb7 W24 None
+C00156 #f9fcb7 W22 None
+C00587 #f9fcb7 W22 None
+C00805 #f9fcb7 W22 None
+C05585 #f9fcb7 W22 None
+C10832 #f9fcb7 W22 None
+C16700 #f9fcb7 W22 None
+C18316 #f9fcb7 W22 None
+C00785 #c2e57c W22 None
+C02126 #c2e57c W22 None
+C19345 #c2e57c W22 None
+C00169 #fff0a6 W17 None
+C18667 #fff0a6 W21 None
+C07505 #f9fcb7 W26 None
+C08287 #f9fcb7 W26 None
+C10128 #f9fcb7 W26 None
+C16821 #f9fcb7 W26 None
+C02595 #f9fcb7 W18 None
+C06231 #f9fcb7 W20 None
+C17357 #f9fcb7 W18 None
+C02227 #fee695 W29 None
+C04114 #f9fcb7 W24 None
+C10172 #f9fcb7 W24 None
+C00922 #c2e57c W33 None
+C01757 #c2e57c W33 None
+C02295 #c2e57c W33 None
+C02930 #c2e57c W33 None
+C19821 #c2e57c W33 None
+C19822 #c2e57c W33 None
+C19826 #c2e57c W33 None
+C16837 #f9fcb7 W23 None
+C06423 #fffab7 W18 None
+C07185 #fffab7 W18 None
+C02796 #fffab7 W17 None
+C06324 #fffab7 W17 None
+C06338 #fffab7 W17 None
+C06343 #fffab7 W17 None
+C06415 #fffab7 W17 None
+C08493 #fffab7 W17 None
+C19434 #fffab7 W17 None
+C01475 #e95538 W21 None
+C02946 #e95538 W21 None
+C03239 #e95538 W21 None
+C03656 #e95538 W21 None
+C04076 #e95538 W21 None
+C05825 #e95538 W21 None
+C00026 #fffab7 W18 None
+C03716 #fffab7 W18 None
+C05406 #fffab7 W18 None
+C06030 #fffab7 W18 None
+C06316 #fffab7 W18 None
+C08369 #fffab7 W18 None
+C05851 #fffab7 W17 None
+C00659 #fffab7 W16 None
+C00772 #fffab7 W16 None
+C00966 #fffab7 W16 None
+C01053 #fffab7 W16 None
+C04237 #fffab7 W16 None
+C06006 #fffab7 W16 None
+C06104 #fffab7 W16 None
+C06762 #fffab7 W16 None
+C13811 #fffab7 W16 None
+C14463 #fffab7 W16 None
+C16272 #fffab7 W16 None
+C00064 #fffab7 W16 None
+C00303 #fffab7 W16 None
+C00819 #fffab7 W16 None
+C05100 #fffab7 W16 None
+C16673 #fffab7 W16 None
+C00047 #edf7a6 W21 None
+C00739 #edf7a6 W21 None
+C01142 #edf7a6 W21 None
+C01186 #edf7a6 W21 None
+C05161 #edf7a6 W21 None
+C16440 #edf7a6 W21 None
+C20277 #edf7a6 W21 None
+C01181 #f9fcb7 W17 None
+C01996 #f9fcb7 W17 None
+C08201 #f9fcb7 W17 None
+C14218 #f9fcb7 W20 None
+C14271 #f9fcb7 W20 None
+C14273 #f9fcb7 W20 None
+C00025 #fec978 W21 None
+C00217 #fec978 W21 None
+C00302 #fec978 W21 None
+C00979 #fec978 W21 None
+C03618 #fec978 W21 None
+C03790 #fec978 W21 None
+C05574 #fec978 W21 None
+C05938 #fec978 W21 None
+C05941 #fec978 W21 None
+C12269 #fec978 W21 None
+C17245 #fff0a6 W18 None
+C10144 #feda86 W23 None
+C20310 #feda86 W23 None
+C20802 #feda86 W23 None
+C00652 #edf7a6 W21 None
+C00684 #edf7a6 W21 None
+C00815 #edf7a6 W21 None
+C01087 #edf7a6 W21 None
+C01114 #edf7a6 W21 None
+C02266 #edf7a6 W21 None
+C02612 #edf7a6 W21 None
+C02614 #edf7a6 W21 None
+C02630 #edf7a6 W21 None
+C02674 #edf7a6 W21 None
+C02753 #edf7a6 W21 None
+C02994 #edf7a6 W21 None
+C03196 #edf7a6 W21 None
+C03826 #edf7a6 W21 None
+C05405 #edf7a6 W21 None
+C06029 #edf7a6 W21 None
+C06031 #edf7a6 W21 None
+C06032 #edf7a6 W21 None
+C00418 #fffab7 W18 None
+C00522 #fffab7 W18 None
+C02104 #fffab7 W18 None
+C03348 #fffab7 W18 None
+C04104 #fffab7 W18 None
+C06007 #fffab7 W18 None
+C06471 #fffab7 W18 None
+C06577 #fffab7 W16 None
+C10428 #fffab7 W16 None
+C10452 #fffab7 W16 None
+C14309 #fffab7 W16 None
+C17965 #fffab7 W16 None
+C06524 #f9fcb7 W19 None
+C00073 #edf7a6 W25 None
+C00855 #edf7a6 W25 None
+C01733 #edf7a6 W25 None
+C07418 #edf7a6 W25 None
+C01892 #a0d669 W56 None
+C14872 #c2e57c W44 None
+C00552 #fffab7 W17 None
+C00898 #fffab7 W17 None
+C02107 #fffab7 W17 None
+C02137 #fffab7 W16 None
+C03057 #fffab7 W16 None
+C10812 #fffab7 W16 None
+C00121 #f9fcb7 W23 None
+C00181 #f9fcb7 W23 None
+C00216 #f9fcb7 W23 None
+C00259 #f9fcb7 W23 None
+C00309 #f9fcb7 W23 None
+C00310 #f9fcb7 W23 None
+C00312 #f9fcb7 W23 None
+C00476 #f9fcb7 W23 None
+C00508 #f9fcb7 W23 None
+C01394 #f9fcb7 W23 None
+C01488 #f9fcb7 W23 None
+C01508 #f9fcb7 W23 None
+C01510 #f9fcb7 W23 None
+C02096 #f9fcb7 W23 None
+C02204 #f9fcb7 W23 None
+C02205 #f9fcb7 W23 None
+C02479 #f9fcb7 W23 None
+C02604 #f9fcb7 W23 None
+C05052 #f9fcb7 W23 None
+C06115 #f9fcb7 W23 None
+C08346 #f9fcb7 W23 None
+C08353 #f9fcb7 W23 None
+C08354 #f9fcb7 W23 None
+C11476 #f9fcb7 W23 None
+C16639 #f9fcb7 W23 None
+C20569 #f9fcb7 W23 None
+C08373 #f9fcb7 W23 None
+C01839 #f9fcb7 W20 None
+C01963 #f9fcb7 W20 None
+C02646 #f9fcb7 W20 None
+C05629 #f9fcb7 W20 None
+C13342 #f9fcb7 W20 None
+C15513 #f9fcb7 W20 None
+C16706 #f9fcb7 W20 None
+C17883 #f9fcb7 W20 None
+C19291 #f9fcb7 W20 None
+C20697 #f9fcb7 W20 None
+C02709 #f9fcb7 W21 None
+C03005 #f9fcb7 W21 None
+C03522 #f9fcb7 W21 None
+C04350 #f9fcb7 W21 None
+C04353 #f9fcb7 W21 None
+C06804 #f9fcb7 W21 None
+C07301 #f9fcb7 W21 None
+C16571 #f9fcb7 W21 None
+C17755 #f9fcb7 W21 None
+C17756 #f9fcb7 W21 None
+C18623 #f9fcb7 W21 None
+C20634 #f9fcb7 W21 None
+C00385 #f9fcb7 W21 None
+C07599 #f9fcb7 W21 None
+C00642 #fffab7 W17 None
+C00755 #fffab7 W17 None
+C01983 #fffab7 W17 None
+C01984 #fffab7 W17 None
+C02181 #fffab7 W17 None
+C02519 #fffab7 W17 None
+C02639 #fffab7 W17 None
+C02657 #fffab7 W17 None
+C03663 #fffab7 W17 None
+C04043 #fffab7 W17 None
+C05593 #fffab7 W17 None
+C05852 #fffab7 W17 None
+C10675 #fffab7 W17 None
+C10804 #fffab7 W17 None
+C12064 #fffab7 W17 None
+C12305 #fffab7 W17 None
+C13635 #fffab7 W17 None
+C13636 #fffab7 W17 None
+C14088 #fffab7 W17 None
+C14103 #fffab7 W17 None
+C14108 #fffab7 W17 None
+C17900 #fffab7 W17 None
+C01014 #f9fcb7 W19 None
+C00632 #fff0a6 W19 None
+C01270 #fff0a6 W19 None
+C02518 #fff0a6 W19 None
+C06669 #fff0a6 W19 None
+C07555 #fff0a6 W19 None
+C11343 #fff0a6 W19 None
+C12107 #fff0a6 W19 None
+C12115 #fff0a6 W19 None
+C16235 #fff0a6 W19 None
+C19270 #fff0a6 W19 None
+C17367 #fff0a6 W20 None
+C19830 #fff0a6 W20 None
+C19831 #fff0a6 W20 None
+C00135 #edf7a6 W21 None
+C00768 #edf7a6 W21 None
+C01162 #edf7a6 W21 None
+C06419 #edf7a6 W21 None
+C19675 #fee695 W23 None
+C20797 #fee695 W23 None
+C04112 #fffab7 W18 None
+C04171 #fffab7 W18 None
+C04558 #fffab7 W18 None
+C04559 #fffab7 W18 None
+C04634 #fffab7 W18 None
+C06210 #fffab7 W18 None
+C06321 #fffab7 W18 None
+C06760 #fffab7 W18 None
+C18311 #fffab7 W18 None
+C20710 #fffab7 W18 None
+C03680 #fff0a6 W19 None
+C03817 #fff0a6 W19 None
+C05132 #fff0a6 W19 None
+C05568 #fff0a6 W19 None
+C19481 #fff0a6 W19 None
+C02445 #f9fcb7 W18 None
+C08471 #f9fcb7 W18 None
+C08501 #f9fcb7 W18 None
+C00400 #fffab7 W19 None
+C00553 #fffab7 W19 None
+C09849 #fffab7 W19 None
+C11386 #fffab7 W19 None
+C12307 #fffab7 W19 None
+C02220 #feda86 W25 None
+C14293 #feda86 W25 None
+C17358 #feda86 W25 None
+C14788 #f9fcb7 W21 None
+C07411 #fff0a6 W22 None
+C17361 #fff0a6 W22 None
+C17724 #fff0a6 W22 None
+C20828 #fff0a6 W22 None
+C02631 #feda86 W22 None
+C04670 #feda86 W22 None
+C04815 #feda86 W22 None
+C05126 #feda86 W22 None
+C01601 #f9fcb7 W19 None
+C00651 #fffab7 W18 None
+C03623 #fffab7 W18 None
+C02636 #f9fcb7 W19 None
+C03087 #f9fcb7 W19 None
+C08269 #f9fcb7 W19 None
+C10151 #f9fcb7 W19 None
+C10850 #f9fcb7 W19 None
+C00322 #f9fcb7 W21 None
+C00846 #f9fcb7 W21 None
+C04287 #f9fcb7 W21 None
+C06891 #f9fcb7 W21 None
+C16159 #f9fcb7 W21 None
+C20781 #f9fcb7 W21 None
+C02656 #fff0a6 W21 None
+C04687 #fff0a6 W21 None
+C16657 #fff0a6 W21 None
+C00993 #fdb96a W22 None
+C03153 #fdb96a W22 None
+C06442 #fdb96a W22 None
+C10996 #fdb96a W22 None
+C19929 #fdb96a W22 None
+C02636 #feda86 W23 None
+C05637 #e0f295 W21 None
+C05639 #e0f295 W21 None
+C06330 #e0f295 W21 None
+C06342 #e0f295 W21 None
+C11503 #e0f295 W21 None
+C16716 #e0f295 W21 None
+C19837 #e0f295 W21 None
+C00956 #f9fcb7 W18 None
+C01046 #f9fcb7 W18 None
+C01077 #f9fcb7 W18 None
+C02207 #f9fcb7 W18 None
+C03210 #f9fcb7 W18 None
+C05016 #f9fcb7 W18 None
+C06234 #f9fcb7 W18 None
+C17581 #f9fcb7 W18 None
+C19694 #f9fcb7 W18 None
+C17246 #feda86 W20 None
+C19095 #feda86 W20 None
+C09315 #d2ec87 W40 None
+C20414 #d2ec87 W40 None
+C00478 #d2ec87 W24 None
+C01088 #d2ec87 W24 None
+C01989 #d2ec87 W24 None
+C02360 #d2ec87 W24 None
+C02488 #d2ec87 W24 None
+C02991 #d2ec87 W24 None
+C03652 #d2ec87 W24 None
+C03761 #d2ec87 W24 None
+C03827 #d2ec87 W24 None
+C03979 #d2ec87 W24 None
+C06158 #d2ec87 W24 None
+C06159 #d2ec87 W24 None
+C06474 #d2ec87 W24 None
+C06478 #d2ec87 W24 None
+C06485 #d2ec87 W24 None
+C11592 #d2ec87 W24 None
+C16390 #d2ec87 W24 None
+C17209 #d2ec87 W24 None
+C18028 #d2ec87 W24 None
+C08234 #f9fcb7 W24 None
+C08237 #f9fcb7 W24 None
+C05834 #edf7a6 W23 None
+C19567 #edf7a6 W23 None
+C10141 #f9fcb7 W17 None
+C10143 #f9fcb7 W17 None
+C15478 #f9fcb7 W17 None
+C15479 #f9fcb7 W17 None
+C16843 #f9fcb7 W17 None
+C17580 #f9fcb7 W17 None
+C20311 #f9fcb7 W17 None
+C00166 #f9fcb7 W28 None
+C00811 #f9fcb7 W28 None
+C01772 #f9fcb7 W28 None
+C02763 #f9fcb7 W28 None
+C05838 #f9fcb7 W28 None
+C06738 #f9fcb7 W28 None
+C07114 #f9fcb7 W28 None
+C10945 #f9fcb7 W28 None
+C12621 #f9fcb7 W28 None
+C00507 #fff0a6 W18 None
+C00586 #fff0a6 W18 None
+C00861 #fff0a6 W18 None
+C01018 #fff0a6 W18 None
+C01019 #fff0a6 W18 None
+C01684 #fff0a6 W18 None
+C01721 #fff0a6 W18 None
+C02095 #fff0a6 W18 None
+C02338 #fff0a6 W18 None
+C02431 #fff0a6 W18 None
+C02476 #fff0a6 W18 None
+C02522 #fff0a6 W18 None
+C02781 #fff0a6 W18 None
+C07326 #fff0a6 W18 None
+C08258 #fff0a6 W18 None
+C08259 #fff0a6 W18 None
+C08352 #fff0a6 W18 None
+C16538 #fff0a6 W18 None
+C20835 #fff0a6 W18 None
+C20836 #fff0a6 W18 None
+C00971 #fffab7 W18 None
+C02803 #fffab7 W18 None
+C03757 #fffab7 W18 None
+C05653 #fffab7 W18 None
+C06052 #fffab7 W18 None
+C15769 #fffab7 W18 None
+C02230 #f9fcb7 W31 None
+C02242 #f9fcb7 W31 None
+C04152 #f9fcb7 W31 None
+C04153 #f9fcb7 W31 None
+C00079 #e0f295 W25 None
+C02057 #e0f295 W25 None
+C02265 #e0f295 W25 None
+C07527 #e0f295 W25 None
+C18090 #e0f295 W25 None
+C18747 #e0f295 W25 None
+C19565 #e0f295 W25 None
+C19578 #e0f295 W25 None
+C20487 #e0f295 W25 None
+C20488 #e0f295 W25 None
+C01606 #f9fcb7 W21 None
+C03590 #f9fcb7 W21 None
+C06337 #f9fcb7 W21 None
+C14096 #f9fcb7 W21 None
+C14100 #f9fcb7 W21 None
+C00502 #fff0a6 W18 None
+C00545 #fff0a6 W18 None
+C00878 #fff0a6 W18 None
+C01685 #fff0a6 W18 None
+C05411 #fff0a6 W18 None
+C05412 #fff0a6 W18 None
+C01198 #edf7a6 W22 None
+C01456 #edf7a6 W22 None
+C01479 #edf7a6 W22 None
+C01744 #edf7a6 W22 None
+C02201 #edf7a6 W22 None
+C02363 #edf7a6 W22 None
+C03080 #edf7a6 W22 None
+C05581 #edf7a6 W22 None
+C05607 #edf7a6 W22 None
+C10712 #edf7a6 W22 None
+C11380 #edf7a6 W22 None
+C11457 #edf7a6 W22 None
+C12206 #edf7a6 W22 None
+C03722 #fffab7 W17 None
+C16234 #fffab7 W17 None
+C18625 #fffab7 W17 None
+C00250 #fff0a6 W25 None
+C03493 #fff0a6 W25 None
+C03986 #fff0a6 W25 None
+C05831 #fff0a6 W25 None
+C06051 #fff0a6 W25 None
+C12323 #fff0a6 W25 None
+C14170 #fff0a6 W25 None
+C14171 #fff0a6 W25 None
+C20821 #fff0a6 W25 None
+C20243 #fffab7 W17 None
+C13482 #f9fcb7 W22 None
+C01152 #f9fcb7 W18 None
+C03298 #f9fcb7 W18 None
+C17730 #fffab7 W18 None
+C01424 #fffab7 W16 None
+C05576 #fff0a6 W18 None
+C06720 #fff0a6 W18 None
+C06729 #fff0a6 W18 None
+C06731 #fff0a6 W18 None
+C07123 #fff0a6 W18 None
+C16804 #fff0a6 W18 None
+C19495 #fff0a6 W18 None
+C02499 #fffab7 W16 None
+C07733 #fffab7 W16 None
+C14224 #fffab7 W16 None
+C14342 #fffab7 W16 None
+C07841 #fffab7 W16 None
+C03092 #fffab7 W17 None
+C03246 #fffab7 W17 None
+C04433 #fffab7 W17 None
+C07276 #fffab7 W17 None
+C09790 #fffab7 W17 None
+C16462 #fffab7 W17 None
+C17621 #fffab7 W17 None
+C18020 #fffab7 W17 None
+C18027 #fffab7 W17 None
+C18066 #fffab7 W17 None
+C18202 #fffab7 W17 None
+C19082 #fffab7 W17 None
+C20326 #fffab7 W17 None
+C01875 #f9fcb7 W22 None
+C03972 #f26941 W21 None
+C12108 #f26941 W21 None
+C17356 #f26941 W21 None
+C10284 #f9fcb7 W19 None
+C11837 #f9fcb7 W19 None
+C06677 #fff0a6 W18 None
+C01571 #f9fcb7 W19 None
+C02904 #f9fcb7 W19 None
+C12289 #f9fcb7 W19 None
+C12292 #f9fcb7 W19 None
+C19194 #feda86 W20 None
+C01250 #feda86 W32 None
+C12121 #feda86 W32 None
+C17366 #feda86 W32 None
+C00850 #fff0a6 W20 None
+C02180 #fff0a6 W20 None
+C12849 #fff0a6 W20 None
+C00417 #edf7a6 W19 None
+C00425 #edf7a6 W19 None
+C02341 #edf7a6 W19 None
+C05422 #edf7a6 W19 None
+C00493 #fee695 W37 None
+C04236 #fee695 W37 None
+C16588 #fee695 W37 None
+C18307 #fee695 W37 None
+C18312 #fee695 W37 None
+C00437 #fffab7 W17 None
+C01047 #fffab7 W17 None
+C00062 #fee695 W18 None
+C00792 #fee695 W18 None
+C02385 #fee695 W18 None
+C01042 #fdb96a W29 None
+C01045 #fdb96a W29 None
+C05520 #fdb96a W29 None
+C00072 #fee695 W20 None
+C01041 #fee695 W20 None
+C02670 #fee695 W20 None
+C03217 #fee695 W20 None
+C03289 #fee695 W20 None
+C03387 #fee695 W20 None
+C04053 #fee695 W20 None
+C04349 #fee695 W20 None
+C04471 #fee695 W20 None
+C06033 #fee695 W20 None
+C06430 #fee695 W20 None
+C06440 #fee695 W20 None
+C19806 #fee695 W20 None
+C20364 #fee695 W20 None
+C01173 #fec978 W28 None
+C03081 #fec978 W28 None
+C09268 #fec978 W28 None
+C17216 #fdb96a W28 None
+C02123 #e95538 W23 None
+C02504 #e95538 W23 None
+C03328 #e95538 W23 None
+C04411 #e95538 W23 None
+C11917 #fff0a6 W18 None
+C18744 #fff0a6 W18 None
+C06034 #fff0a6 W21 None
+C17576 #fff0a6 W21 None
+C20844 #fff0a6 W21 None
+C20845 #fff0a6 W21 None
+C03093 #fff0a6 W20 None
+C09001 #fff0a6 W20 None
+C09263 #fff0a6 W20 None
+C16828 #fff0a6 W20 None
+C01419 #fee695 W20 None
+C01624 #f9fcb7 W28 None
+C02666 #f9fcb7 W28 None
+C10667 #f9fcb7 W28 None
+C14784 #f9fcb7 W28 None
+C20327 #f9fcb7 W28 None
+C20646 #f9fcb7 W28 None
+C08235 #fff0a6 W20 None
+C16287 #fff0a6 W20 None
+C10454 #f9fcb7 W23 None
+C10478 #f9fcb7 W23 None
+C14535 #f9fcb7 W23 None
+C14709 #f9fcb7 W23 None
+C17663 #f9fcb7 W23 None
+C17665 #f9fcb7 W23 None
+C17666 #f9fcb7 W23 None
+C17782 #f9fcb7 W23 None
+C07523 #f9fcb7 W26 None
+C14465 #f9fcb7 W26 None
+C03975 #fff0a6 W19 None
+C01586 #d2ec87 W21 None
+C06332 #d2ec87 W21 None
+C06339 #d2ec87 W21 None
+C19569 #d2ec87 W21 None
+C02824 #f9fcb7 W18 None
+C01179 #fff0a6 W20 None
+C01197 #fff0a6 W20 None
+C01405 #fff0a6 W20 None
+C01481 #fff0a6 W20 None
+C05350 #fff0a6 W20 None
+C12623 #fff0a6 W20 None
+C13400 #fff0a6 W20 None
+C00031 #e0f295 W37 None
+C00095 #e0f295 W37 None
+C00124 #e0f295 W37 None
+C00137 #e0f295 W37 None
+C00159 #e0f295 W37 None
+C00221 #e0f295 W37 None
+C00247 #e0f295 W37 None
+C00267 #e0f295 W37 None
+C00737 #e0f295 W37 None
+C00738 #e0f295 W37 None
+C00764 #e0f295 W37 None
+C00795 #e0f295 W37 None
+C00936 #e0f295 W37 None
+C00962 #e0f295 W37 None
+C00984 #e0f295 W37 None
+C01452 #e0f295 W37 None
+C01487 #e0f295 W37 None
+C01582 #e0f295 W37 None
+C01680 #e0f295 W37 None
+C01719 #e0f295 W37 None
+C01720 #e0f295 W37 None
+C01825 #e0f295 W37 None
+C01906 #e0f295 W37 None
+C01934 #e0f295 W37 None
+C02209 #e0f295 W37 None
+C02336 #e0f295 W37 None
+C02782 #e0f295 W37 None
+C05003 #e0f295 W37 None
+C06150 #e0f295 W37 None
+C06152 #e0f295 W37 None
+C06153 #e0f295 W37 None
+C06464 #e0f295 W37 None
+C06465 #e0f295 W37 None
+C06466 #e0f295 W37 None
+C06467 #e0f295 W37 None
+C06468 #e0f295 W37 None
+C08351 #e0f295 W37 None
+C08356 #e0f295 W37 None
+C10906 #e0f295 W37 None
+C15923 #e0f295 W37 None
+C19891 #e0f295 W37 None
+C03929 #f9fcb7 W30 None
+C08375 #f9fcb7 W19 None
+C00082 #edf7a6 W22 None
+C01536 #edf7a6 W22 None
+C03290 #edf7a6 W22 None
+C04368 #edf7a6 W22 None
+C06420 #edf7a6 W22 None
+C19579 #edf7a6 W22 None
+C19712 #edf7a6 W22 None
+C20807 #edf7a6 W22 None
+C01853 #fff0a6 W27 None
+C06680 #fff0a6 W27 None
+C12325 #fff0a6 W27 None
+C14097 #fff0a6 W27 None
+C16355 #fee695 W22 None
+C16359 #fee695 W22 None
+C03672 #edf7a6 W21 None
+C03964 #edf7a6 W21 None
+C04044 #edf7a6 W21 None
+C05582 #edf7a6 W21 None
+C05583 #edf7a6 W21 None
+C10447 #edf7a6 W21 None
+C10680 #edf7a6 W21 None
+C12622 #edf7a6 W21 None
+C00392 #f9fcb7 W19 None
+C00794 #f9fcb7 W19 None
+C01489 #f9fcb7 W19 None
+C01507 #f9fcb7 W19 None
+C01697 #f9fcb7 W19 None
+C01722 #f9fcb7 W19 None
+C02952 #fff0a6 W22 None
+C06070 #fff0a6 W22 None
+C07159 #fff0a6 W22 None
+C10448 #fff0a6 W22 None
+C17822 #fff0a6 W22 None
+C17823 #fff0a6 W22 None
+C17825 #fff0a6 W22 None
+C19351 #fff0a6 W22 None
+C20271 #fff0a6 W22 None
+C12294 #fff0a6 W21 None
+C14113 #fff0a6 W21 None
+C00847 #fff0a6 W18 None
+C04447 #fff0a6 W18 None
+C04773 #fff0a6 W18 None
+C11466 #fff0a6 W18 None
+C12026 #fff0a6 W18 None
+C00788 #fee695 W25 None
+C05589 #fee695 W25 None
+C11768 #fee695 W25 None
+C17925 #fee695 W25 None
+C03671 #edf7a6 W41 None
+C08476 #edf7a6 W41 None
+C05580 #fffab7 W18 None
+C05616 #fffab7 W18 None
+C18724 #fffab7 W18 None
+C04535 #fffab7 W17 None
+C05594 #fffab7 W17 None
+C06582 #fffab7 W17 None
+C10765 #fffab7 W17 None
+C11456 #fffab7 W17 None
+C11588 #fffab7 W17 None
+C00588 #fffab7 W17 None
+C12295 #f9fcb7 W23 None
+C13422 #f9fcb7 W23 None
+C13823 #f9fcb7 W23 None
+C13910 #f9fcb7 W23 None
+C19420 #f9fcb7 W23 None
+C02278 #fffab7 W17 None
+C14996 #fffab7 W17 None
+C01005 #fff0a6 W17 None
+C02532 #fff0a6 W17 None
+C06679 #fffab7 W18 None
+C17715 #f9fcb7 W18 None
+C01215 #f9fcb7 W20 None
+C20258 #f9fcb7 W20 None
+C03682 #edf7a6 W20 None
+C05548 #edf7a6 W20 None
+C11842 #edf7a6 W20 None
+C12988 #edf7a6 W20 None
+C01092 #fffab7 W17 None
+C12029 #fffab7 W17 None
+C06678 #fec978 W29 None
+C19128 #fdb96a W31 None
+C16589 #feda86 W38 None
+C06589 #f99354 W27 None
+C16924 #f99354 W27 None
+C08261 #f9fcb7 W17 None
+C17878 #f9fcb7 W17 None
+C00624 #b50f26 W22 None
+C03871 #b50f26 W22 None
+C12109 #b50f26 W22 None
+C06336 #f9fcb7 W19 None
+C06674 #f9fcb7 W19 None
+C04110 #fffab7 W17 None
+C18078 #fffab7 W17 None
+C00944 #feda86 W28 None
+C04049 #feda86 W28 None
+C05601 #feda86 W28 None
+C06201 #feda86 W28 None
+C17220 #c51f27 W22 None
+C04546 #fec978 W32 None
+C17938 #fee695 W31 None
+C16850 #f9fcb7 W19 None
+C00158 #d2ec87 W19 None
+C00311 #d2ec87 W19 None
+C00451 #d2ec87 W19 None
+C00679 #d2ec87 W19 None
+C02780 #d2ec87 W19 None
+C03600 #d2ec87 W19 None
+C03921 #d2ec87 W19 None
+C04575 #d2ec87 W19 None
+C04617 #d2ec87 W19 None
+C12649 #d2ec87 W19 None
+C00296 #df422f W20 None
+C01295 #df422f W20 None
+C06746 #df422f W20 None
+C12113 #df422f W20 None
+C09909 #f9fcb7 W21 None
+C17853 #f9fcb7 W21 None
+C17875 #f9fcb7 W21 None
+C12286 #fff0a6 W17 None
+C12287 #fff0a6 W17 None
+C14698 #fff0a6 W17 None
+C01586 #d52e27 W26 None
+C03450 #d52e27 W26 None
+C05598 #d52e27 W26 None
+C06332 #d52e27 W26 None
+C06726 #d52e27 W26 None
+C09962 #d52e27 W26 None
+C10581 #d52e27 W26 None
+C16587 #d52e27 W26 None
+C16595 #d52e27 W26 None
+C00779 #fffab7 W18 None
+C01494 #fffab7 W18 None
+C02379 #fffab7 W18 None
+C09974 #fffab7 W18 None
+C10470 #fffab7 W18 None
+C10477 #fffab7 W18 None
+C11233 #fffab7 W18 None
+C12204 #fffab7 W18 None
+C16982 #fffab7 W18 None
+C11429 #feda86 W20 None
+C11430 #feda86 W20 None
+C11431 #feda86 W20 None
+C11432 #feda86 W20 None
+C17497 #fffab7 W17 None
+C20342 #fffab7 W17 None
+C00822 #edf7a6 W24 None
+C04274 #edf7a6 W24 None
+C05604 #edf7a6 W24 None
+C07588 #edf7a6 W24 None
+C19631 #edf7a6 W24 None
+C01300 #fec978 W23 None
+C03404 #f9fcb7 W19 None
+C07921 #f9fcb7 W19 None
+C10588 #f9fcb7 W19 None
+C11820 #f9fcb7 W19 None
+C16586 #f9fcb7 W19 None
+C18622 #f9fcb7 W19 None
+C20800 #f9fcb7 W19 None
+C03178 #f9fcb7 W35 None
+C03314 #f9fcb7 W35 None
+C00257 #fff0a6 W29 None
+C00514 #fff0a6 W29 None
+C00770 #fff0a6 W29 None
+C00800 #fff0a6 W29 None
+C00817 #fff0a6 W29 None
+C00880 #fff0a6 W29 None
+C03215 #fff0a6 W29 None
+C15930 #fff0a6 W29 None
+C06580 #fee695 W32 None
+C07351 #fee695 W32 None
+C10664 #fee695 W32 None
+C10684 #fee695 W32 None
+C10726 #fee695 W32 None
+C12205 #fee695 W32 None
+C16778 #fee695 W32 None
+C17455 #fee695 W32 None
+C03107 #fffab7 W17 None
+C08486 #fffab7 W17 None
+C09837 #fffab7 W17 None
+C09861 #fffab7 W17 None
+C09863 #fffab7 W17 None
+C11338 #fffab7 W17 None
+C12300 #fffab7 W17 None
+C12301 #fffab7 W17 None
+C12302 #fffab7 W17 None
+C12306 #fffab7 W17 None
+C16394 #fffab7 W17 None
+C16395 #fffab7 W17 None
+C00355 #f9fcb7 W43 None
+C03004 #f9fcb7 W43 None
+C19715 #f9fcb7 W43 None
+C02997 #feda86 W22 None
+C12245 #feda86 W22 None
+C19430 #feda86 W22 None
+C05588 #fffab7 W17 None
+C08511 #fffab7 W17 None
+C20371 #fffab7 W17 None
+C01207 #fff0a6 W20 None
+C05584 #fff0a6 W20 None
+C10833 #fff0a6 W20 None
+C07717 #fffab7 W16 None
+C07724 #fffab7 W16 None
+C08447 #fffab7 W16 None
+C14230 #fffab7 W16 None
+C16926 #fffab7 W16 None
+C17856 #fffab7 W16 None
+C16366 #fff0a6 W17 None
+C18498 #fff0a6 W17 None
+C06579 #fff0a6 W19 None
+C09853 #fff0a6 W19 None
+C16644 #fff0a6 W19 None
+C17454 #fff0a6 W19 None
+C20789 #fff0a6 W19 None
+C09870 #f9fcb7 W23 None
+C12298 #f9fcb7 W23 None
+C16825 #f9fcb7 W23 None
+C16947 #f9fcb7 W23 None
+C01102 #e0f295 W21 None
+C05702 #e0f295 W21 None
+C12147 #e0f295 W21 None
+C12215 #e0f295 W21 None
+C06662 #f9fcb7 W23 None
+C11833 #f9fcb7 W23 None
+C03584 #fffab7 W17 None
+C08289 #fffab7 W17 None
+C15178 #fffab7 W17 None
+C16402 #fffab7 W17 None
+C16414 #fffab7 W17 None
+C10411 #fffab7 W18 None
+C12448 #fffab7 W18 None
+C13831 #fff0a6 W21 None
+C07721 #fffab7 W16 None
+C08458 #fffab7 W16 None
+C08741 #fffab7 W16 None
+C14244 #fffab7 W16 None
+C14298 #fffab7 W16 None
+C14747 #fffab7 W16 None
+C19800 #fffab7 W16 None
+C02679 #f9fcb7 W22 None
+C05824 #fff0a6 W17 None
+C07131 #f9fcb7 W23 None
+C02236 #fffab7 W18 None
+C04324 #f9fcb7 W19 None
+C04434 #f9fcb7 W19 None
+C05364 #f9fcb7 W19 None
+C04067 #fee695 W26 None
+C10930 #fee695 W26 None
+C08992 #fee695 W21 None
+C08277 #fff0a6 W19 None
+C14566 #fff0a6 W19 None
+C17803 #fff0a6 W19 None
+C12986 #f9fcb7 W20 None
+C15383 #f9fcb7 W20 None
+C05533 #fca85e W27 None
+C18342 #feda86 W28 None
+C09921 #fff0a6 W20 None
+C00078 #edf7a6 W24 None
+C00525 #edf7a6 W24 None
+C00806 #edf7a6 W24 None
+C07839 #edf7a6 W24 None
+C10968 #edf7a6 W24 None
+C14916 #edf7a6 W24 None
+C04586 #fee695 W24 None
+C04587 #fee695 W24 None
+C05944 #d2ec87 W22 None
+C07673 #d2ec87 W22 None
+C04000 #fffab7 W16 None
+C10476 #fffab7 W16 None
+C12458 #fffab7 W16 None
+C14567 #fffab7 W16 None
+C09690 #f9fcb7 W19 None
+C11350 #f9fcb7 W19 None
+C14132 #f9fcb7 W19 None
+C14205 #f9fcb7 W19 None
+C00579 #e0f295 W20 None
+C03519 #fffab7 W17 None
+C05620 #fffab7 W17 None
+C09933 #fffab7 W17 None
+C09986 #fffab7 W17 None
+C20126 #fffab7 W17 None
+C16201 #e0f295 W32 None
+C16202 #e0f295 W32 None
+C09265 #fee695 W32 None
+C20772 #fee695 W32 None
+C02381 #f9fcb7 W20 None
+C05610 #f9fcb7 W20 None
+C09816 #f9fcb7 W20 None
+C01484 #fec978 W21 None
+C11433 #fec978 W21 None
+C15589 #fec978 W21 None
+C04561 #fff0a6 W38 None
+C04562 #fff0a6 W38 None
+C10390 #fff0a6 W38 None
+C10430 #fff0a6 W38 None
+C10451 #fff0a6 W38 None
+C15765 #fff0a6 W38 None
+C16975 #fff0a6 W38 None
+C17821 #fff0a6 W38 None
+C17846 #fff0a6 W38 None
+C01458 #fffab7 W17 None
+C12231 #fffab7 W17 None
+C14262 #fffab7 W17 None
+C14334 #fffab7 W17 None
+C05619 #feda86 W37 None
+C11165 #fff0a6 W18 None
+C02325 #fff0a6 W20 None
+C07350 #fff0a6 W20 None
+C10709 #fff0a6 W20 None
+C08491 #fff0a6 W18 None
+C16317 #fff0a6 W18 None
+C07194 #fff0a6 W23 None
+C09946 #fff0a6 W23 None
+C20801 #fff0a6 W23 None
+C07207 #fffab7 W17 None
+C12105 #fffab7 W17 None
+C17947 #f9fcb7 W24 None
+C09801 #fee695 W23 None
+C10674 #fee695 W23 None
+C11155 #fee695 W23 None
+C01408 #fee695 W20 None
+C01745 #fee695 W20 None
+C04468 #fee695 W20 None
+C11428 #fee695 W20 None
+C12537 #fee695 W20 None
+C14233 #fee695 W20 None
+C16203 #fee695 W20 None
+C16205 #fee695 W20 None
+C20227 #fee695 W20 None
+C20228 #fee695 W20 None
+C08255 #fee695 W53 None
+C08260 #fee695 W53 None
+C20790 #fffab7 W17 None
+C08482 #f9fcb7 W18 None
+C08509 #f9fcb7 W18 None
+C16309 #f9fcb7 W18 None
+C16311 #f9fcb7 W18 None
+C18206 #f9fcb7 W24 None
+C03082 #f9fcb7 W22 None
+C07335 #f9fcb7 W22 None
+C15503 #f9fcb7 W18 None
+C14181 #f9fcb7 W18 None
+C06054 #f9fcb7 W18 None
+C17101 #edf7a6 W28 None
+C04479 #fff0a6 W18 None
+C07722 #f9fcb7 W21 None
+C08455 #f9fcb7 W21 None
+C14163 #f9fcb7 W21 None
+C14215 #f9fcb7 W21 None
+C14220 #f9fcb7 W21 None
+C14284 #f9fcb7 W21 None
+C14507 #f9fcb7 W21 None
+C16262 #f9fcb7 W21 None
+C19404 #f9fcb7 W21 None
+C19405 #f9fcb7 W21 None
+C20289 #fff0a6 W19 None
+C02367 #f9fcb7 W18 None
+C04780 #f9fcb7 W21 None
+C16640 #f9fcb7 W21 None
+C17076 #f9fcb7 W21 None
+C01233 #edf7a6 W27 None
+C11711 #f9fcb7 W25 None
+C18830 #f9fcb7 W25 None
+C06722 #f9fcb7 W32 None
+C11434 #c2e57c W27 None
+C08317 #edf7a6 W39 None
+C18590 #edf7a6 W20 None
+C16199 #fffab7 W17 None
+C09685 #edf7a6 W24 None
+C09729 #edf7a6 W24 None
+C09730 #edf7a6 W24 None
+C09737 #edf7a6 W24 None
+C09744 #edf7a6 W24 None
+C09745 #edf7a6 W24 None
+C09938 #edf7a6 W24 None
+C16779 #edf7a6 W24 None
+C16966 #edf7a6 W24 None
+C17494 #edf7a6 W24 None
+C17501 #edf7a6 W24 None
+C17914 #edf7a6 W24 None
+C17954 #edf7a6 W24 None
+C19677 #edf7a6 W24 None
+C19939 #edf7a6 W24 None
+C20262 #edf7a6 W24 None
+C20308 #edf7a6 W24 None
+C04556 #c2e57c W26 None
+C01118 #61bb62 W21 None
+C03776 #61bb62 W21 None
+C04673 #e0f295 W20 None
+C00864 #c51f27 W28 None
+C00371 #c51f27 W28 None
+C15545 #c51f27 W28 None
+C18812 #d2ec87 W26 None
+C14519 #fee695 W19 None
+C09519 #fff0a6 W21 None
+C09673 #fff0a6 W21 None
+C01100 #f9fcb7 W31 None
+C02587 #fff0a6 W17 None
+C18668 #fca85e W27 None
+C00542 #f9fcb7 W17 None
+C02291 #f9fcb7 W17 None
+C18646 #f9fcb7 W17 None
+C18906 #f9fcb7 W17 None
+C00799 #f9fcb7 W17 None
+C07584 #f9fcb7 W17 None
+C10043 #f9fcb7 W17 None
+C10405 #f9fcb7 W17 None
+C13699 #f9fcb7 W17 None
+C15608 #f9fcb7 W17 None
+C18253 #f9fcb7 W17 None
+C02655 #e0f295 W22 None
+C10429 #f9fcb7 W24 None
+C10449 #f9fcb7 W24 None
+C14175 #f9fcb7 W24 None
+C19228 #f9fcb7 W24 None
+C20225 #f9fcb7 W24 None
+C02533 #f9fcb7 W18 None
+C04223 #f9fcb7 W18 None
+C09715 #fffab7 W18 None
+C16977 #fffab7 W18 None
+C16983 #fffab7 W18 None
+C12058 #fee695 W23 None
+C13138 #fee695 W23 None
+C16704 #fee695 W23 None
+C10673 #fffab7 W18 None
+C20417 #fffab7 W18 None
+C01760 #f9fcb7 W18 None
+C04166 #f9fcb7 W18 None
+C11512 #f9fcb7 W18 None
+C16318 #f9fcb7 W18 None
+C00251 #f9fcb7 W19 None
+C00254 #f9fcb7 W19 None
+C00885 #f9fcb7 W19 None
+C16365 #edf7a6 W29 None
+C19142 #fff0a6 W19 None
+C08322 #fffab7 W21 None
+C16947 #fffab7 W21 None
+C18937 #fff0a6 W18 None
+C13733 #f9fcb7 W18 None
+C16308 #f9fcb7 W22 None
+C06424 #f9fcb7 W24 None
+C13798 #f9fcb7 W24 None
+C01517 #fff0a6 W22 None
+C08762 #fff0a6 W22 None
+C09918 #fff0a6 W22 None
+C09947 #fff0a6 W22 None
+C10253 #fff0a6 W22 None
+C10255 #fff0a6 W22 None
+C11492 #fff0a6 W22 None
+C18080 #fff0a6 W22 None
+C18083 #fff0a6 W22 None
+C19141 #fff0a6 W22 None
+C09387 #fff0a6 W20 None
+C09406 #fff0a6 W20 None
+C09658 #fff0a6 W20 None
+C15134 #fff0a6 W20 None
+C16943 #fff0a6 W20 None
+C16960 #fff0a6 W20 None
+C16988 #fff0a6 W20 None
+C17885 #fff0a6 W20 None
+C17913 #fff0a6 W20 None
+C02678 #fffab7 W18 None
+C14523 #fffab7 W18 None
+C19143 #fffab7 W18 None
+C05539 #c2e57c W21 None
+C05932 #c2e57c W21 None
+C02862 #f99354 W22 None
+C04301 #f99354 W22 None
+C02951 #fff0a6 W20 None
+C09930 #f9fcb7 W18 None
+C20841 #f9fcb7 W18 None
+C01410 #edf7a6 W20 None
+C03415 #edf7a6 W20 None
+C04390 #edf7a6 W20 None
+C15767 #edf7a6 W20 None
+C09289 #fffab7 W17 None
+C09382 #fffab7 W17 None
+C09383 #fffab7 W17 None
+C09384 #fffab7 W17 None
+C09408 #fffab7 W17 None
+C09454 #fffab7 W17 None
+C09466 #fffab7 W17 None
+C09484 #fffab7 W17 None
+C09692 #fffab7 W17 None
+C09710 #fffab7 W17 None
+C17488 #fffab7 W17 None
+C17884 #fffab7 W17 None
+C17886 #fffab7 W17 None
+C08062 #fff0a6 W21 None
+C10654 #fff0a6 W21 None
+C04486 #fff0a6 W17 None
+C06742 #fff0a6 W18 None
+C18036 #f9fcb7 W23 None
+C02253 #fff0a6 W20 None
+C09350 #f9fcb7 W18 None
+C09376 #f9fcb7 W18 None
+C09399 #f9fcb7 W18 None
+C09409 #f9fcb7 W18 None
+C09677 #f9fcb7 W18 None
+C09686 #f9fcb7 W18 None
+C09712 #f9fcb7 W18 None
+C09721 #f9fcb7 W18 None
+C09739 #f9fcb7 W18 None
+C09743 #f9fcb7 W18 None
+C16942 #f9fcb7 W18 None
+C16949 #f9fcb7 W18 None
+C17090 #f9fcb7 W18 None
+C17489 #f9fcb7 W18 None
+C17491 #f9fcb7 W18 None
+C17492 #f9fcb7 W18 None
+C17504 #f9fcb7 W18 None
+C17609 #f9fcb7 W18 None
+C19678 #f9fcb7 W18 None
+C20309 #f9fcb7 W18 None
+C20404 #f9fcb7 W18 None
+C03408 #f9fcb7 W20 None
+C03948 #f9fcb7 W20 None
+C09313 #fee695 W30 None
+C09958 #fee695 W30 None
+C18249 #feda86 W19 None
+C18255 #feda86 W19 None
+C14274 #fffab7 W17 None
+C14718 #fffab7 W17 None
+C02293 #fff0a6 W19 None
+C09627 #fff0a6 W19 None
+C09678 #fff0a6 W19 None
+C09681 #fff0a6 W19 None
+C09700 #fff0a6 W19 None
+C09733 #fff0a6 W19 None
+C16502 #fff0a6 W19 None
+C16946 #fff0a6 W19 None
+C17493 #fff0a6 W19 None
+C17604 #fff0a6 W19 None
+C01133 #feda86 W20 None
+C03146 #feda86 W20 None
+C03521 #feda86 W20 None
+C00835 #feda86 W20 None
+C03684 #feda86 W20 None
+C06313 #feda86 W20 None
+C11079 #feda86 W20 None
+C01474 #feda86 W19 None
+C10312 #feda86 W19 None
+C10370 #feda86 W19 None
+C14267 #feda86 W19 None
+C16537 #f9fcb7 W21 None
+C16665 #f9fcb7 W21 None
+C00299 #f9fcb7 W19 None
+C02067 #f9fcb7 W19 None
+C16745 #f9fcb7 W19 None
+C13790 #fffab7 W19 None
+C19897 #f9fcb7 W28 None
+C03274 #fffab7 W19 None
+C10793 #fff0a6 W18 None
+C09808 #fff0a6 W22 None
+C11536 #d2ec87 W34 None
+C14216 #feda86 W32 None
+C00669 #feda86 W21 None
+C19453 #fee695 W24 None
+C17222 #feda86 W23 None
+C17223 #feda86 W23 None
+C16503 #f9fcb7 W29 None
+C10374 #fffab7 W17 None
+C03074 #feda86 W22 None
+C15111 #feda86 W22 None
+C15616 #feda86 W22 None
+C18541 #fee695 W29 None
+C20207 #fee695 W29 None
+C09645 #fffab7 W17 None
+C16504 #fffab7 W17 None
+C17502 #fffab7 W17 None
+C17605 #fffab7 W17 None
+C17607 #fffab7 W17 None
+C17612 #fffab7 W17 None
+C16795 #f9fcb7 W28 None
+C17603 #fffab7 W16 None
+C17606 #fffab7 W16 None
+C17608 #fffab7 W16 None
+C17610 #fffab7 W16 None
+C18538 #fffab7 W16 None
+C05656 #f9fcb7 W21 None
+C03142 #edf7a6 W46 None
+C19247 #f9fcb7 W22 None
+C04271 #f9fcb7 W23 None
+C08650 #f9fcb7 W23 None
+C09762 #f9fcb7 W23 None
+C09827 #f9fcb7 W23 None
+C10262 #f9fcb7 W23 None
+C15609 #f9fcb7 W23 None
+C16404 #f9fcb7 W23 None
+C16760 #f9fcb7 W23 None
+C18256 #f9fcb7 W23 None
+C02578 #fffab7 W17 None
+C03097 #fffab7 W17 None
+C11611 #fffab7 W17 None
+C20290 #fffab7 W17 None
+C08731 #fff0a6 W22 None
+C09505 #fff0a6 W22 None
+C09650 #fff0a6 W22 None
+C10267 #fff0a6 W22 None
+C10272 #fff0a6 W22 None
+C10287 #fff0a6 W22 None
+C00249 #edf7a6 W22 None
+C00670 #f9fcb7 W27 None
+C00670 #fff0a6 W20 None
+C08402 #fffab7 W16 None
+C20044 #fffab7 W16 None
+C11002 #fff0a6 W27 None
+C14253 #fff0a6 W27 None
+C14260 #fff0a6 W27 None
+C01075 #f9fcb7 W19 None
+C04132 #f9fcb7 W19 None
+C00085 #e0f295 W21 None
+C00092 #e0f295 W21 None
+C00103 #e0f295 W21 None
+C00275 #e0f295 W21 None
+C00446 #e0f295 W21 None
+C00636 #e0f295 W21 None
+C00663 #e0f295 W21 None
+C00668 #e0f295 W21 None
+C01002 #e0f295 W21 None
+C01094 #e0f295 W21 None
+C01097 #e0f295 W21 None
+C01113 #e0f295 W21 None
+C01171 #e0f295 W21 None
+C01172 #e0f295 W21 None
+C01177 #e0f295 W21 None
+C02888 #e0f295 W21 None
+C02962 #e0f295 W21 None
+C02965 #e0f295 W21 None
+C03251 #e0f295 W21 None
+C03267 #e0f295 W21 None
+C03384 #e0f295 W21 None
+C03546 #e0f295 W21 None
+C03606 #e0f295 W21 None
+C03654 #e0f295 W21 None
+C03735 #e0f295 W21 None
+C03811 #e0f295 W21 None
+C03862 #e0f295 W21 None
+C04006 #e0f295 W21 None
+C05001 #e0f295 W21 None
+C05345 #e0f295 W21 None
+C06019 #e0f295 W21 None
+C06155 #e0f295 W21 None
+C06312 #e0f295 W21 None
+C15924 #e0f295 W21 None
+C15926 #e0f295 W21 None
+C18096 #e0f295 W21 None
+C18984 #e0f295 W21 None
+C18746 #f9fcb7 W22 None
+C18979 #f9fcb7 W27 None
+C09015 #fee695 W23 None
+C09344 #fee695 W23 None
+C09396 #fee695 W23 None
+C09450 #fee695 W23 None
+C09472 #fee695 W23 None
+C09473 #fee695 W23 None
+C09504 #fee695 W23 None
+C09508 #fee695 W23 None
+C09523 #fee695 W23 None
+C09552 #fee695 W23 None
+C09701 #fee695 W23 None
+C20398 #fee695 W23 None
+C19537 #f9fcb7 W17 None
+C19994 #f9fcb7 W21 None
+C10427 #fee695 W26 None
+C04148 #f9fcb7 W22 None
+C05642 #f9fcb7 W22 None
+C06082 #fffab7 W17 None
+C09291 #fffab7 W17 None
+C09304 #fffab7 W17 None
+C09349 #fffab7 W17 None
+C09355 #fffab7 W17 None
+C09381 #fffab7 W17 None
+C09453 #fffab7 W17 None
+C09456 #fffab7 W17 None
+C09470 #fffab7 W17 None
+C09481 #fffab7 W17 None
+C09498 #fffab7 W17 None
+C09506 #fffab7 W17 None
+C09530 #fffab7 W17 None
+C09531 #fffab7 W17 None
+C09540 #fffab7 W17 None
+C09542 #fffab7 W17 None
+C09574 #fffab7 W17 None
+C09600 #fffab7 W17 None
+C09683 #fffab7 W17 None
+C09688 #fffab7 W17 None
+C09708 #fffab7 W17 None
+C10766 #fffab7 W17 None
+C11060 #fffab7 W17 None
+C20399 #fffab7 W17 None
+C20402 #fffab7 W17 None
+C09657 #f9fcb7 W23 None
+C17747 #f9fcb7 W23 None
+C16344 #fff0a6 W19 None
+C16625 #f9fcb7 W40 None
+C12189 #fff0a6 W20 None
+C14474 #fff0a6 W24 None
+C07263 #f9fcb7 W19 None
+C11739 #f9fcb7 W19 None
+C18862 #fff0a6 W23 None
+C10205 #fffab7 W19 None
+C00858 #fec978 W22 None
+C10414 #fec978 W22 None
+C11621 #fec978 W22 None
+C12125 #fec978 W22 None
+C15110 #fec978 W22 None
+C15203 #fec978 W22 None
+C19236 #fff0a6 W22 None
+C19518 #fffab7 W16 None
+C12100 #f9fcb7 W25 None
+C16536 #f9fcb7 W25 None
+C01838 #fffab7 W18 None
+C04133 #fff0a6 W23 None
+C15122 #f9fcb7 W21 None
+C01477 #f9fcb7 W19 None
+C02495 #f9fcb7 W19 None
+C06563 #f9fcb7 W19 None
+C08730 #f9fcb7 W19 None
+C10023 #f9fcb7 W19 None
+C10037 #f9fcb7 W19 None
+C10044 #f9fcb7 W19 None
+C10113 #f9fcb7 W19 None
+C10294 #f9fcb7 W19 None
+C10343 #f9fcb7 W19 None
+C10369 #f9fcb7 W19 None
+C10376 #f9fcb7 W19 None
+C10379 #f9fcb7 W19 None
+C10397 #f9fcb7 W19 None
+C14313 #f9fcb7 W19 None
+C14314 #f9fcb7 W19 None
+C15222 #f9fcb7 W19 None
+C16796 #f9fcb7 W19 None
+C16506 #fffab7 W25 None
+C19614 #f9fcb7 W18 None
+C00509 #fff0a6 W20 None
+C01263 #fff0a6 W20 None
+C01592 #fff0a6 W20 None
+C03567 #fff0a6 W20 None
+C06561 #fff0a6 W20 None
+C08578 #fff0a6 W20 None
+C09047 #fff0a6 W20 None
+C09614 #fff0a6 W20 None
+C09751 #fff0a6 W20 None
+C09826 #fff0a6 W20 None
+C12087 #fff0a6 W20 None
+C14458 #fff0a6 W20 None
+C15567 #fff0a6 W20 None
+C16232 #fff0a6 W20 None
+C17673 #fff0a6 W20 None
+C06186 #fee695 W34 None
+C12079 #fee695 W34 None
+C04547 #fff0a6 W18 None
+C09014 #fff0a6 W18 None
+C09644 #fff0a6 W18 None
+C10340 #fff0a6 W18 None
+C10372 #fff0a6 W18 None
+C10540 #fff0a6 W18 None
+C16225 #fff0a6 W18 None
+C18133 #fff0a6 W18 None
+C09003 #fee695 W27 None
+C14719 #fee695 W27 None
+C14888 #fee695 W27 None
+C15153 #fee695 W27 None
+C18218 #f9fcb7 W18 None
+C18400 #fffab7 W17 None
+C00774 #f9fcb7 W27 None
+C08929 #f9fcb7 W27 None
+C08948 #f9fcb7 W27 None
+C09029 #f9fcb7 W27 None
+C09320 #f9fcb7 W27 None
+C09735 #f9fcb7 W27 None
+C09952 #f9fcb7 W27 None
+C12122 #f9fcb7 W27 None
+C12124 #f9fcb7 W27 None
+C12128 #f9fcb7 W27 None
+C13767 #f9fcb7 W27 None
+C16415 #f9fcb7 W27 None
+C18825 #fff0a6 W25 None
+C05283 #f9fcb7 W16 None
+C18048 #f9fcb7 W16 None
+C04700 #fff0a6 W29 None
+C07814 #fec978 W25 None
+C09852 #fec978 W25 None
+C09855 #fec978 W25 None
+C10862 #fec978 W25 None
+C12234 #fec978 W25 None
+C13682 #fec978 W25 None
+C04485 #edf7a6 W29 None
+C09548 #f9fcb7 W29 None
+C17745 #f9fcb7 W29 None
+C16300 #fffab7 W19 None
+C19042 #fffab7 W19 None
+C11453 #f9fcb7 W20 None
+C09302 #f9fcb7 W19 None
+C09354 #f9fcb7 W19 None
+C09363 #f9fcb7 W19 None
+C09379 #f9fcb7 W19 None
+C09485 #f9fcb7 W19 None
+C09983 #f9fcb7 W19 None
+C20397 #f9fcb7 W19 None
+C03343 #fffab7 W17 None
+C14214 #fffab7 W17 None
+C15205 #fffab7 W17 None
+C07341 #fffab7 W19 None
+C18433 #fffab7 W19 None
+C12540 #fffab7 W20 None
+C12616 #fffab7 W20 None
+C05595 #fec978 W21 None
+C18938 #fec978 W21 None
+C08722 #fee695 W21 None
+C10522 #fee695 W21 None
+C15465 #f9fcb7 W18 None
+C18402 #fffab7 W16 None
+C10263 #fffab7 W16 None
+C16505 #fffab7 W17 None
+C13792 #f9fcb7 W24 None
+C13946 #f9fcb7 W24 None
+C14996 #f9fcb7 W24 None
+C10643 #f26941 W51 None
+C05298 #f9fcb7 W22 None
+C05300 #f9fcb7 W22 None
+C07621 #f9fcb7 W22 None
+C14383 #f9fcb7 W22 None
+C14496 #f9fcb7 W22 None
+C18506 #f9fcb7 W22 None
+C14987 #fff0a6 W31 None
+C19615 #fff0a6 W31 None
+C11849 #f9fcb7 W21 None
+C13947 #f9fcb7 W21 None
+C08344 #df422f W50 None
+C00974 #fee695 W27 None
+C01378 #fee695 W27 None
+C05631 #fee695 W27 None
+C08724 #fee695 W27 None
+C09277 #fee695 W27 None
+C10060 #fee695 W27 None
+C10064 #fee695 W27 None
+C10083 #fee695 W27 None
+C10091 #fee695 W27 None
+C10415 #fee695 W27 None
+C12631 #fee695 W27 None
+C15525 #fee695 W27 None
+C16233 #fee695 W27 None
+C16940 #fee695 W27 None
+C07558 #fec978 W29 None
+C08285 #fee695 W28 None
+C10647 #f9fcb7 W18 None
+C10847 #f9fcb7 W18 None
+C12170 #f9fcb7 W18 None
+C12187 #f9fcb7 W18 None
+C19009 #f9fcb7 W22 None
+C03648 #fff0a6 W18 None
+C05907 #fff0a6 W18 None
+C06562 #fff0a6 W18 None
+C08739 #fff0a6 W18 None
+C08742 #fff0a6 W18 None
+C09030 #fff0a6 W18 None
+C09511 #fff0a6 W18 None
+C09727 #fff0a6 W18 None
+C09728 #fff0a6 W18 None
+C09736 #fff0a6 W18 None
+C09787 #fff0a6 W18 None
+C09796 #fff0a6 W18 None
+C14079 #fff0a6 W18 None
+C17590 #fff0a6 W18 None
+C09016 #fff0a6 W21 None
+C09492 #fee695 W22 None
+C09564 #fee695 W22 None
+C09566 #fee695 W22 None
+C17554 #fee695 W22 None
+C17746 #fee695 W22 None
+C07573 #f9fcb7 W26 None
+C04521 #fee695 W22 None
+C04580 #fee695 W22 None
+C08341 #fee695 W22 None
+C10856 #fffab7 W17 None
+C10863 #fffab7 W17 None
+C00284 #f9fcb7 W22 None
+C11740 #fff0a6 W26 None
+C04175 #fffab7 W17 None
+C06248 #fffab7 W17 None
+C17017 #fee695 W51 None
+C03373 #f9fcb7 W39 None
+C09588 #fff0a6 W21 None
+C09589 #fff0a6 W21 None
+C09613 #fff0a6 W21 None
+C09670 #fff0a6 W21 None
+C10699 #fff0a6 W21 None
+C08318 #fec978 W27 None
+C08368 #fec978 W27 None
+C14762 #fec978 W27 None
+C14767 #fec978 W27 None
+C14825 #fec978 W27 None
+C14826 #fec978 W27 None
+C19617 #fec978 W27 None
+C03425 #fdb96a W27 None
+C13787 #fdb96a W27 None
+C13838 #fdb96a W27 None
+C01961 #e95538 W25 None
+C07332 #e95538 W25 None
+C18165 #e95538 W25 None
+C00869 #fffab7 W21 None
+C08365 #fffab7 W21 None
+C13791 #fffab7 W21 None
+C19418 #fffab7 W21 None
+C19616 #fffab7 W21 None
+C16535 #fffab7 W19 None
+C16794 #fffab7 W19 None
+C06046 #fff0a6 W28 None
+C08981 #fff0a6 W32 None
+C14739 #fff0a6 W32 None
+C20431 #fff0a6 W32 None
+C00777 #fffab7 W18 None
+C07058 #fffab7 W18 None
+C09188 #fffab7 W18 None
+C12078 #fffab7 W18 None
+C14489 #fffab7 W18 None
+C14652 #fffab7 W18 None
+C14684 #fffab7 W18 None
+C14925 #fffab7 W18 None
+C15263 #fffab7 W18 None
+C15307 #fffab7 W18 None
+C15353 #fffab7 W18 None
+C15493 #fffab7 W18 None
+C16683 #fffab7 W18 None
+C18195 #fffab7 W18 None
+C18196 #fffab7 W18 None
+C20428 #fffab7 W18 None
+C20429 #fffab7 W18 None
+C03042 #f9fcb7 W22 None
+C03045 #f9fcb7 W22 None
+C03195 #f9fcb7 W22 None
+C10677 #fffab7 W18 None
+C10698 #fffab7 W18 None
+C02487 #fff0a6 W27 None
+C00836 #f9fcb7 W22 None
+C09807 #f9fcb7 W18 None
+C10495 #f9fcb7 W18 None
+C10507 #f9fcb7 W18 None
+C13870 #fff0a6 W23 None
+C02075 #f9fcb7 W18 None
+C06087 #f9fcb7 W18 None
+C06428 #f9fcb7 W18 None
+C07198 #f9fcb7 W18 None
+C09118 #f9fcb7 W18 None
+C09148 #f9fcb7 W18 None
+C09159 #f9fcb7 W18 None
+C11874 #f9fcb7 W18 None
+C11888 #f9fcb7 W18 None
+C11889 #f9fcb7 W18 None
+C12077 #f9fcb7 W18 None
+C12083 #f9fcb7 W18 None
+C14255 #f9fcb7 W18 None
+C14490 #f9fcb7 W18 None
+C14588 #f9fcb7 W18 None
+C14890 #f9fcb7 W18 None
+C15003 #f9fcb7 W18 None
+C15008 #f9fcb7 W18 None
+C15017 #f9fcb7 W18 None
+C15036 #f9fcb7 W18 None
+C15070 #f9fcb7 W18 None
+C15184 #f9fcb7 W18 None
+C15188 #f9fcb7 W18 None
+C15259 #f9fcb7 W18 None
+C15318 #f9fcb7 W18 None
+C15412 #f9fcb7 W18 None
+C15460 #f9fcb7 W18 None
+C20149 #f9fcb7 W18 None
+C20208 #f9fcb7 W18 None
+C17688 #f9fcb7 W18 None
+C01617 #f9fcb7 W21 None
+C05911 #f9fcb7 W21 None
+C12316 #f9fcb7 W21 None
+C19013 #fff0a6 W20 None
+C09293 #fffab7 W17 None
+C09303 #fffab7 W17 None
+C09394 #fffab7 W17 None
+C09496 #fffab7 W17 None
+C17559 #fee695 W22 None
+C17562 #fee695 W22 None
+C19933 #fee695 W22 None
+C00219 #e0f295 W30 None
+C09057 #e0f295 W30 None
+C09124 #e0f295 W30 None
+C11897 #e0f295 W30 None
+C14493 #e0f295 W30 None
+C14605 #e0f295 W30 None
+C14956 #e0f295 W30 None
+C15176 #e0f295 W30 None
+C15252 #e0f295 W30 None
+C15367 #e0f295 W30 None
+C17920 #e0f295 W30 None
+C20329 #e0f295 W30 None
+C09347 #fffab7 W16 None
+C20726 #f9fcb7 W20 None
+C09000 #fff0a6 W21 None
+C09299 #fee695 W32 None
+C09374 #fee695 W32 None
+C09431 #fee695 W32 None
+C09455 #fee695 W32 None
+C09487 #fee695 W32 None
+C09494 #fee695 W32 None
+C09497 #fee695 W32 None
+C09499 #fee695 W32 None
+C09522 #fee695 W32 None
+C09536 #fee695 W32 None
+C09557 #fee695 W32 None
+C09587 #fee695 W32 None
+C09602 #fee695 W32 None
+C09603 #fee695 W32 None
+C03242 #f9fcb7 W26 None
+C09072 #f9fcb7 W26 None
+C13273 #f9fcb7 W26 None
+C14882 #f9fcb7 W26 None
+C15058 #f9fcb7 W26 None
+C15376 #f9fcb7 W26 None
+C15399 #f9fcb7 W26 None
+C16522 #f9fcb7 W26 None
+C00239 #f9fcb7 W24 None
+C00051 #f9fcb7 W23 None
+C02471 #f9fcb7 W23 None
+C00365 #f9fcb7 W23 None
+C09183 #f9fcb7 W32 None
+C16525 #f9fcb7 W32 None
+C00270 #f9fcb7 W30 None
+C03525 #f9fcb7 W30 None
+C19909 #f9fcb7 W30 None
+C19910 #f9fcb7 W30 None
+C01095 #f9fcb7 W20 None
+C01151 #f9fcb7 W20 None
+C01182 #f9fcb7 W20 None
+C11371 #f9fcb7 W25 None
+C15054 #f9fcb7 W25 None
+C15060 #f9fcb7 W25 None
+C04785 #f9fcb7 W22 None
+C07357 #f9fcb7 W22 None
+C15753 #f9fcb7 W22 None
+C16321 #f9fcb7 W22 None
+C16341 #f9fcb7 W22 None
+C19936 #f9fcb7 W22 None
+C20704 #f9fcb7 W22 None
+C14308 #f9fcb7 W32 None
+C02064 #f9fcb7 W27 None
+C03425 #f9fcb7 W27 None
+C16526 #f9fcb7 W27 None
+C04717 #fff0a6 W30 None
+C07338 #fff0a6 W30 None
+C07354 #fff0a6 W30 None
+C14827 #fff0a6 W30 None
+C14831 #fff0a6 W30 None
+C14832 #fff0a6 W30 None
+C14834 #fff0a6 W30 None
+C14836 #fff0a6 W30 None
+C19618 #fff0a6 W30 None
+C19937 #fff0a6 W30 None
+C20186 #fff0a6 W30 None
+C20703 #fff0a6 W30 None
+C01607 #f9fcb7 W22 None
+C06425 #f9fcb7 W22 None
+C10167 #fffab7 W22 None
+C07498 #fec978 W23 None
+C19808 #fec978 W32 None
+C09267 #fee695 W19 None
+C11866 #fee695 W19 None
+C07355 #fff0a6 W36 None
+C14828 #fff0a6 W36 None
+C14829 #fff0a6 W36 None
+C19620 #fff0a6 W36 None
+C20702 #fff0a6 W36 None
+C08729 #fff0a6 W20 None
+C08528 #fff0a6 W20 None
+C17364 #f99354 W26 None
+C04443 #fee695 W18 None
+C08999 #fee695 W18 None
+C10022 #fee695 W18 None
+C10084 #fee695 W18 None
+C10119 #fee695 W18 None
+C10120 #fee695 W18 None
+C10176 #fee695 W18 None
+C10185 #fee695 W18 None
+C10188 #fee695 W18 None
+C19739 #fee695 W18 None
+C09186 #fff0a6 W17 None
+C09774 #fff0a6 W17 None
+C20268 #fff0a6 W17 None
+C08314 #fff0a6 W21 None
+C15988 #fff0a6 W21 None
+C19622 #fff0a6 W21 None
+C18756 #f9fcb7 W19 None
+C11168 #fff0a6 W21 None
+C11816 #fff0a6 W21 None
+C12508 #fff0a6 W21 None
+C12144 #f9fcb7 W19 None
+C02868 #f9fcb7 W20 None
+C10188 #f9fcb7 W20 None
+C15504 #f9fcb7 W20 None
+C09981 #f9fcb7 W26 None
+C09170 #fffab7 W17 None
+C03962 #fffab7 W18 None
+C04165 #fffab7 W18 None
+C00909 #fffab7 W17 None
+C02645 #fffab7 W17 None
+C04577 #fffab7 W17 None
+C09079 #fffab7 W17 None
+C09110 #fffab7 W17 None
+C11875 #fffab7 W17 None
+C13843 #fffab7 W17 None
+C14555 #fffab7 W17 None
+C14628 #fffab7 W17 None
+C14665 #fffab7 W17 None
+C14683 #fffab7 W17 None
+C14732 #fffab7 W17 None
+C14807 #fffab7 W17 None
+C14891 #fffab7 W17 None
+C14929 #fffab7 W17 None
+C14945 #fffab7 W17 None
+C14980 #fffab7 W17 None
+C15354 #fffab7 W17 None
+C15434 #fffab7 W17 None
+C17498 #fffab7 W17 None
+C17956 #fffab7 W17 None
+C18177 #fffab7 W17 None
+C20212 #fffab7 W17 None
+C20775 #fff0a6 W20 None
+C00055 #edf7a6 W25 None
+C03104 #edf7a6 W25 None
+C05822 #edf7a6 W25 None
+C00105 #f9fcb7 W17 None
+C01168 #f9fcb7 W17 None
+C01368 #f9fcb7 W17 None
+C03031 #f9fcb7 W17 None
+C00961 #feda86 W21 None
+C05230 #fee695 W23 None
+C08648 #fee695 W23 None
+C09048 #fee695 W23 None
+C09752 #fee695 W23 None
+C10421 #fee695 W23 None
+C10515 #fee695 W23 None
+C10728 #fee695 W23 None
+C09560 #fffab7 W16 None
+C20265 #f9fcb7 W20 None
+C08535 #d52e27 W23 None
+C20792 #fee695 W26 None
+C17474 #fee695 W20 None
+C18842 #fee695 W20 None
+C18843 #fee695 W20 None
+C19371 #fee695 W27 None
+C20235 #fee695 W20 None
+C09294 #fffab7 W16 None
+C10717 #fffab7 W16 None
+C09258 #f9fcb7 W21 None
+C09272 #f9fcb7 W21 None
+C17482 #f9fcb7 W21 None
+C09965 #fff0a6 W26 None
+C02195 #f9fcb7 W18 None
+C14795 #f9fcb7 W25 None
+C06429 #edf7a6 W25 None
+C14586 #edf7a6 W25 None
+C15116 #edf7a6 W25 None
+C15265 #edf7a6 W25 None
+C15299 #edf7a6 W25 None
+C06668 #fffab7 W19 None
+C01265 #f9fcb7 W24 None
+C03036 #f9fcb7 W24 None
+C03040 #f9fcb7 W24 None
+C10033 #f9fcb7 W24 None
+C10193 #f9fcb7 W24 None
+C10424 #f9fcb7 W24 None
+C16754 #f9fcb7 W24 None
+C17670 #f9fcb7 W24 None
+C09173 #fff0a6 W38 None
+C11854 #fff0a6 W38 None
+C11867 #fff0a6 W38 None
+C11871 #fff0a6 W38 None
+C18037 #fff0a6 W38 None
+C11656 #fff0a6 W20 None
+C11670 #fff0a6 W20 None
+C17055 #fff0a6 W20 None
+C17634 #fff0a6 W20 None
+C17635 #fff0a6 W20 None
+C17636 #fff0a6 W20 None
+C17637 #fff0a6 W20 None
+C09069 #fffab7 W17 None
+C14162 #fffab7 W17 None
+C14529 #fffab7 W17 None
+C20632 #fffab7 W17 None
+C14833 #fff0a6 W27 None
+C14835 #fff0a6 W27 None
+C14837 #fff0a6 W27 None
+C11896 #f9fcb7 W29 None
+C13364 #f9fcb7 W29 None
+C15413 #f9fcb7 W29 None
+C15421 #f9fcb7 W29 None
+C16184 #f9fcb7 W29 None
+C16513 #f9fcb7 W29 None
+C01608 #f9fcb7 W24 None
+C04655 #feda86 W31 None
+C05498 #fffab7 W16 None
+C09067 #fffab7 W16 None
+C09081 #fffab7 W16 None
+C09128 #fffab7 W16 None
+C09177 #fffab7 W16 None
+C11853 #fffab7 W16 None
+C11857 #fffab7 W16 None
+C11905 #fffab7 W16 None
+C15068 #fffab7 W16 None
+C15459 #fffab7 W16 None
+C18175 #fffab7 W16 None
+C19621 #fffab7 W17 None
+C15373 #edf7a6 W32 None
+C16527 #edf7a6 W32 None
+C11774 #fffab7 W16 None
+C04606 #f9fcb7 W24 None
+C01225 #f9fcb7 W34 None
+C04641 #f9fcb7 W34 None
+C04703 #f9fcb7 W34 None
+C10517 #f9fcb7 W34 None
+C05949 #f9fcb7 W28 None
+C05953 #f9fcb7 W28 None
+C05954 #f9fcb7 W28 None
+C05955 #f9fcb7 W28 None
+C05957 #f9fcb7 W28 None
+C05958 #f9fcb7 W28 None
+C09125 #f9fcb7 W28 None
+C09150 #f9fcb7 W28 None
+C11876 #f9fcb7 W28 None
+C14504 #f9fcb7 W28 None
+C14815 #f9fcb7 W28 None
+C14913 #f9fcb7 W28 None
+C15159 #f9fcb7 W28 None
+C18173 #f9fcb7 W28 None
+C16534 #edf7a6 W27 None
+C04540 #f9fcb7 W27 None
+C15501 #feda86 W29 None
+C16533 #f9fcb7 W32 None
+C19333 #feda86 W23 None
+C09725 #fffab7 W17 None
+C18880 #fffab7 W17 None
+C20854 #fffab7 W17 None
+C02165 #edf7a6 W43 None
+C06088 #edf7a6 W43 None
+C09205 #edf7a6 W43 None
+C14772 #edf7a6 W43 None
+C14773 #edf7a6 W43 None
+C14774 #edf7a6 W43 None
+C14775 #edf7a6 W43 None
+C08316 #f9fcb7 W25 None
+C02951 #f9fcb7 W19 None
+C07628 #f9fcb7 W22 None
+C15186 #f9fcb7 W22 None
+C08281 #f9fcb7 W22 None
+C00089 #c2e57c W32 None
+C00185 #c2e57c W32 None
+C00208 #c2e57c W32 None
+C00243 #c2e57c W32 None
+C00252 #c2e57c W32 None
+C00760 #c2e57c W32 None
+C00897 #c2e57c W32 None
+C01083 #c2e57c W32 None
+C01235 #c2e57c W32 None
+C01518 #c2e57c W32 None
+C01711 #c2e57c W32 None
+C01725 #c2e57c W32 None
+C01728 #c2e57c W32 None
+C01742 #c2e57c W32 None
+C01970 #c2e57c W32 None
+C01971 #c2e57c W32 None
+C02048 #c2e57c W32 None
+C02964 #c2e57c W32 None
+C03323 #c2e57c W32 None
+C03857 #c2e57c W32 None
+C04147 #c2e57c W32 None
+C04219 #c2e57c W32 None
+C05400 #c2e57c W32 None
+C05402 #c2e57c W32 None
+C06421 #c2e57c W32 None
+C06422 #c2e57c W32 None
+C07064 #c2e57c W32 None
+C08240 #c2e57c W32 None
+C08250 #c2e57c W32 None
+C15548 #c2e57c W32 None
+C18068 #c2e57c W32 None
+C19632 #c2e57c W32 None
+C19633 #c2e57c W32 None
+C19634 #c2e57c W32 None
+C19636 #c2e57c W32 None
+C19773 #c2e57c W32 None
+C20236 #c2e57c W32 None
+C05229 #f9fcb7 W51 None
+C18164 #f9fcb7 W51 None
+C11652 #feda86 W39 None
+C11653 #feda86 W39 None
+C10794 #fee695 W36 None
+C11898 #fee695 W36 None
+C14976 #fee695 W36 None
+C00020 #e0f295 W32 None
+C00362 #e0f295 W32 None
+C00946 #e0f295 W32 None
+C01367 #e0f295 W32 None
+C04378 #e0f295 W32 None
+C19970 #e0f295 W32 None
+C00859 #fffab7 W16 None
+C04597 #fffab7 W16 None
+C04844 #fffab7 W16 None
+C06096 #fffab7 W16 None
+C08759 #fffab7 W16 None
+C09356 #fffab7 W16 None
+C09407 #fffab7 W16 None
+C09520 #fffab7 W16 None
+C09539 #fffab7 W16 None
+C09554 #fffab7 W16 None
+C11868 #fffab7 W16 None
+C17005 #feda86 W35 None
+C10759 #f9fcb7 W22 None
+C14919 #f9fcb7 W22 None
+C10637 #fee695 W31 None
+C10639 #fee695 W31 None
+C01327 #f9fcb7 W17 None
+C13828 #f9fcb7 W19 None
+C04707 #f9fcb7 W21 None
+C04758 #f9fcb7 W21 None
+C04835 #f9fcb7 W21 None
+C06439 #f9fcb7 W21 None
+C13802 #f9fcb7 W21 None
+C18171 #f9fcb7 W21 None
+C18176 #f9fcb7 W21 None
+C18848 #f9fcb7 W21 None
+C20214 #f9fcb7 W21 None
+C05476 #e0f295 W32 None
+C05483 #e0f295 W32 None
+C14594 #e0f295 W32 None
+C15368 #e0f295 W32 None
+C15403 #e0f295 W32 None
+C17496 #e0f295 W32 None
+C07508 #fff0a6 W20 None
+C03677 #fff0a6 W20 None
+C11679 #fff0a6 W20 None
+C11584 #fff0a6 W22 None
+C09137 #edf7a6 W41 None
+C00852 #c51f27 W22 None
+C01527 #c51f27 W22 None
+C08996 #c51f27 W22 None
+C17147 #c51f27 W22 None
+C19624 #f9fcb7 W28 None
+C09782 #feda86 W24 None
+C17759 #feda86 W24 None
+C01590 #feda86 W25 None
+C09166 #feda86 W25 None
+C10549 #feda86 W25 None
+C17855 #feda86 W25 None
+C18024 #feda86 W25 None
+C20453 #feda86 W25 None
+C03049 #f9fcb7 W23 None
+C19623 #f9fcb7 W23 None
+C17751 #fffab7 W18 None
+C10412 #f9fcb7 W27 None
+C08554 #fffab7 W17 None
+C19660 #fffab7 W18 None
+C08427 #fffab7 W20 None
+C05557 #f9fcb7 W20 None
+C06564 #f9fcb7 W20 None
+C11636 #f9fcb7 W23 None
+C11647 #f9fcb7 W23 None
+C11649 #f9fcb7 W23 None
+C19642 #f9fcb7 W29 None
+C14575 #f9fcb7 W21 None
+C20151 #f9fcb7 W21 None
+C00144 #edf7a6 W28 None
+C06193 #edf7a6 W28 None
+C18239 #edf7a6 W28 None
+C19968 #edf7a6 W28 None
+C03579 #fdb96a W28 None
+C09585 #fdb96a W28 None
+C09607 #fdb96a W28 None
+C05950 #fffab7 W18 None
+C08758 #fffab7 W18 None
+C15438 #fffab7 W18 None
+C17974 #edf7a6 W28 None
+C08323 #edf7a6 W27 None
+C15398 #edf7a6 W27 None
+C04555 #edf7a6 W26 None
+C04741 #f9fcb7 W20 None
+C05956 #f9fcb7 W20 None
+C05962 #f9fcb7 W20 None
+C05964 #f9fcb7 W20 None
+C12202 #f9fcb7 W20 None
+C17653 #f9fcb7 W20 None
+C17655 #f9fcb7 W20 None
+C08320 #edf7a6 W23 None
+C11773 #fffab7 W16 None
+C11154 #fffab7 W17 None
+C09039 #fee695 W22 None
+C17557 #fee695 W22 None
+C11989 #f9fcb7 W23 None
+C06071 #f9fcb7 W22 None
+C11648 #f9fcb7 W22 None
+C03070 #edf7a6 W20 None
+C14991 #edf7a6 W20 None
+C15345 #edf7a6 W20 None
+C08757 #d2ec87 W24 None
+C09362 #d2ec87 W24 None
+C09433 #d2ec87 W24 None
+C09517 #d2ec87 W24 None
+C09169 #edf7a6 W21 None
+C10320 #edf7a6 W21 None
+C13818 #edf7a6 W21 None
+C13819 #edf7a6 W21 None
+C13973 #006837 W21 None
+C06124 #edf7a6 W25 None
+C10559 #08773f W21 None
+C12373 #08773f W21 None
+C14612 #e0f295 W24 None
+C03033 #fffab7 W18 None
+C06890 #fdb96a W23 None
+C07760 #f9fcb7 W22 None
+C17873 #f9fcb7 W41 None
+C09610 #feda86 W28 None
+C19981 #feda86 W28 None
+C03240 #f9fcb7 W19 None
+C00705 #f9fcb7 W23 None
+C08778 #f9fcb7 W32 None
+C10888 #f9fcb7 W32 None
+C17452 #fee695 W22 None
+C14675 #fffab7 W16 None
+C15284 #fffab7 W16 None
+C15372 #fffab7 W16 None
+C08337 #fee695 W21 None
+C09586 #f9fcb7 W29 None
+C17054 #f9fcb7 W29 None
+C02528 #f9fcb7 W19 None
+C04483 #f9fcb7 W19 None
+C07880 #f9fcb7 W19 None
+C15515 #f9fcb7 W19 None
+C15517 #f9fcb7 W19 None
+C17646 #f9fcb7 W19 None
+C17660 #f9fcb7 W19 None
+C17661 #f9fcb7 W19 None
+C17662 #f9fcb7 W19 None
+C17664 #f9fcb7 W19 None
+C17687 #f9fcb7 W19 None
+C17035 #fff0a6 W21 None
+C17036 #fff0a6 W21 None
+C15726 #fffab7 W17 None
+C00518 #f9fcb7 W24 None
+C17097 #fffab7 W16 None
+C15026 #fff0a6 W18 None
+C19438 #f9fcb7 W25 None
+C02202 #f9fcb7 W18 None
+C04719 #fee695 W20 None
+C10349 #fee695 W20 None
+C20506 #fee695 W20 None
+C03594 #f9fcb7 W24 None
+C05418 #f9fcb7 W24 None
+C05451 #f9fcb7 W24 None
+C05500 #f9fcb7 W24 None
+C05502 #f9fcb7 W24 None
+C06340 #f9fcb7 W24 None
+C13550 #f9fcb7 W24 None
+C14151 #f9fcb7 W24 None
+C15519 #f9fcb7 W24 None
+C15610 #f9fcb7 W24 None
+C15882 #f9fcb7 W24 None
+C15992 #f9fcb7 W24 None
+C07317 #edf7a6 W25 None
+C05424 #fffab7 W20 None
+C05452 #fffab7 W20 None
+C12200 #fffab7 W16 None
+C16411 #fca85e W24 None
+C16412 #fca85e W24 None
+C16413 #fca85e W24 None
+C09011 #fffab7 W16 None
+C00695 #f9fcb7 W17 None
+C01558 #f9fcb7 W17 None
+C04661 #f9fcb7 W17 None
+C17644 #f9fcb7 W17 None
+C17647 #f9fcb7 W17 None
+C17649 #f9fcb7 W17 None
+C17650 #f9fcb7 W17 None
+C17654 #f9fcb7 W17 None
+C17657 #f9fcb7 W17 None
+C17667 #f9fcb7 W17 None
+C17668 #f9fcb7 W17 None
+C17726 #f9fcb7 W17 None
+C17727 #f9fcb7 W17 None
+C17737 #f9fcb7 W17 None
+C18013 #f9fcb7 W19 None
+C18014 #f9fcb7 W19 None
+C14154 #fffab7 W17 None
+C14155 #fffab7 W17 None
+C20738 #fffab7 W17 None
+C15038 #fff0a6 W17 None
+C10707 #fff0a6 W17 None
+C10658 #f9fcb7 W18 None
+C12512 #f9fcb7 W18 None
+C15382 #f9fcb7 W18 None
+C15440 #f9fcb7 W18 None
+C01673 #f9fcb7 W24 None
+C03963 #f9fcb7 W24 None
+C05457 #f9fcb7 W24 None
+C07712 #f9fcb7 W24 None
+C08127 #f9fcb7 W24 None
+C08913 #f9fcb7 W24 None
+C08914 #f9fcb7 W24 None
+C12919 #f9fcb7 W24 None
+C15633 #f9fcb7 W24 None
+C16493 #f9fcb7 W24 None
+C16819 #f9fcb7 W24 None
+C17331 #f9fcb7 W24 None
+C17332 #f9fcb7 W24 None
+C17333 #f9fcb7 W24 None
+C17336 #f9fcb7 W24 None
+C17339 #f9fcb7 W24 None
+C19648 #f9fcb7 W24 None
+C19649 #f9fcb7 W24 None
+C19650 #f9fcb7 W24 None
+C02483 #edf7a6 W23 None
+C14152 #edf7a6 W23 None
+C15789 #edf7a6 W23 None
+C15795 #edf7a6 W23 None
+C15797 #edf7a6 W23 None
+C15883 #edf7a6 W23 None
+C20032 #f9fcb7 W22 None
+C09435 #b2de71 W27 None
+C09493 #b2de71 W27 None
+C10889 #b2de71 W27 None
+C15180 #e0f295 W28 None
+C12062 #e0f295 W29 None
+C05445 #edf7a6 W28 None
+C05453 #edf7a6 W28 None
+C05458 #edf7a6 W28 None
+C05499 #edf7a6 W28 None
+C05501 #edf7a6 W28 None
+C06341 #edf7a6 W28 None
+C15518 #edf7a6 W28 None
+C15520 #edf7a6 W28 None
+C11674 #fee695 W28 None
+C15636 #edf7a6 W39 None
+C05425 #f9fcb7 W21 None
+C05444 #f9fcb7 W21 None
+C05454 #f9fcb7 W21 None
+C11158 #e0f295 W28 None
+C07874 #feda86 W21 None
+C20365 #fff0a6 W28 None
+C18438 #f9fcb7 W24 None
+C05526 #d2ec87 W26 None
+C01674 #fee695 W18 None
+C00008 #f9fcb7 W21 None
+C00054 #f9fcb7 W21 None
+C00361 #f9fcb7 W21 None
+C03850 #f9fcb7 W21 None
+C02530 #fffab7 W17 None
+C03910 #fffab7 W17 None
+C11509 #fffab7 W17 None
+C10884 #fec978 W39 None
+C09123 #fff0a6 W43 None
+C04715 #fff0a6 W18 None
+C08891 #fff0a6 W18 None
+C08902 #fff0a6 W18 None
+C08909 #fff0a6 W18 None
+C16498 #fff0a6 W18 None
+C17337 #fff0a6 W18 None
+C17891 #fff0a6 W18 None
+C04746 #fffab7 W17 None
+C14157 #fffab7 W17 None
+C14159 #fffab7 W17 None
+C14160 #fffab7 W17 None
+C16253 #fffab7 W17 None
+C02477 #edf7a6 W23 None
+C04814 #edf7a6 W23 None
+C08899 #f9fcb7 W32 None
+C16494 #f9fcb7 W32 None
+C17003 #f9fcb7 W32 None
+C17335 #f9fcb7 W32 None
+C18231 #f9fcb7 W32 None
+C07908 #feda86 W20 None
+C08420 #fffab7 W16 None
+C03805 #f9fcb7 W21 None
+C05446 #fff0a6 W19 None
+C17868 #feda86 W27 None
+C17446 #fff0a6 W26 None
+C10270 #edf7a6 W31 None
+C09795 #c2e57c W35 None
+C10894 #fff0a6 W18 None
+C11133 #fff0a6 W18 None
+C14158 #f9fcb7 W23 None
+C14505 #f9fcb7 W23 None
+C14578 #f9fcb7 W23 None
+C15792 #f9fcb7 W23 None
+C11330 #fffab7 W16 None
+C05462 #fffab7 W17 None
+C05464 #fffab7 W17 None
+C05466 #fffab7 W17 None
+C09803 #f9fcb7 W30 None
+C16408 #f9fcb7 W30 None
+C17449 #f9fcb7 W30 None
+C17675 #f9fcb7 W30 None
+C15802 #f9fcb7 W18 None
+C16890 #f9fcb7 W27 None
+C06880 #e0f295 W32 None
+C18296 #fffab7 W20 None
+C09055 #f9fcb7 W26 None
+C09405 #fffab7 W16 None
+C09463 #fffab7 W16 None
+C09636 #fffab7 W16 None
+C14895 #fffab7 W16 None
+C09765 #f9fcb7 W23 None
+C18043 #f9fcb7 W25 None
+C15803 #fffab7 W18 None
+C08678 #d2ec87 W23 None
+C08697 #d2ec87 W23 None
+C16260 #fee695 W22 None
+C05125 #fffab7 W17 None
+C09797 #fffab7 W21 None
+C15823 #edf7a6 W37 None
+C19656 #feda86 W20 None
+C20716 #feda86 W20 None
+C00505 #fff0a6 W22 None
+C07656 #fff0a6 W22 None
+C06773 #e0f295 W30 None
+C15552 #fffab7 W17 None
+C08814 #fffab7 W22 None
+C11049 #fffab7 W22 None
+C19873 #fffab7 W22 None
+C13821 #fffab7 W17 None
+C04230 #edf7a6 W27 None
+C20562 #d2ec87 W33 None
+C00307 #edf7a6 W24 None
+C10737 #fffab7 W18 None
+C08931 #f9fcb7 W21 None
+C16783 #f9fcb7 W21 None
+C17459 #f9fcb7 W21 None
+C04230 #fffab7 W16 None
+C04230 #fee695 W21 None
+C03033 #fee695 W21 None
+C08834 #fee695 W21 None
+C16500 #fee695 W21 None
+C15343 #fff0a6 W17 None
+C11758 #fee695 W18 None
+C00420 #edf7a6 W26 None
+C00492 #edf7a6 W26 None
+C00713 #edf7a6 W26 None
+C00721 #edf7a6 W26 None
+C00883 #edf7a6 W26 None
+C01355 #edf7a6 W26 None
+C01835 #edf7a6 W26 None
+C02160 #edf7a6 W26 None
+C03367 #edf7a6 W26 None
+C03661 #edf7a6 W26 None
+C03848 #edf7a6 W26 None
+C05404 #edf7a6 W26 None
+C06219 #edf7a6 W26 None
+C07283 #edf7a6 W26 None
+C08239 #edf7a6 W26 None
+C08243 #edf7a6 W26 None
+C08251 #edf7a6 W26 None
+C10308 #e0f295 W31 None
+C04230 #edf7a6 W24 None
+C13916 #edf7a6 W22 None
+C18001 #f9fcb7 W23 None
+C08773 #fdb96a W22 None
+C17814 #fdb96a W22 None
+C17817 #fdb96a W22 None
+C17818 #fdb96a W22 None
+C07710 #feda86 W20 None
+C12447 #f9fcb7 W20 None
+C08810 #feda86 W20 None
+C10020 #d2ec87 W31 None
+C16192 #d2ec87 W31 None
+C13742 #fca85e W24 None
+C11462 #e0f295 W29 None
+C06622 #edf7a6 W21 None
+C11909 #edf7a6 W21 None
+C11922 #edf7a6 W21 None
+C11927 #edf7a6 W21 None
+C11928 #edf7a6 W21 None
+C11932 #edf7a6 W21 None
+C18029 #edf7a6 W21 None
+C08484 #f9fcb7 W22 None
+C00195 #e0f295 W22 None
+C09091 #f9fcb7 W27 None
+C17767 #f9fcb7 W27 None
+C09758 #f9fcb7 W26 None
+C16764 #f9fcb7 W26 None
+C03187 #f9fcb7 W23 None
+C03319 #f9fcb7 W23 None
+C03442 #f9fcb7 W23 None
+C07277 #f9fcb7 W23 None
+C11912 #f9fcb7 W23 None
+C20682 #f9fcb7 W23 None
+C11339 #fdb96a W37 None
+C17613 #fee695 W20 None
+C06085 #f9fcb7 W23 None
+C09916 #f9fcb7 W20 None
+C20348 #fdb96a W21 None
+C10280 #f9fcb7 W29 None
+C12481 #c2e57c W24 None
+C15659 #fff0a6 W20 None
+C03033 #f9fcb7 W24 None
+C00195 #e0f295 W23 None
+C09828 #f9fcb7 W20 None
+C16800 #f9fcb7 W20 None
+C16801 #f9fcb7 W20 None
+C17779 #f9fcb7 W20 None
+C17780 #f9fcb7 W20 None
+C00195 #e0f295 W22 None
+C00029 #f9fcb7 W23 None
+C00052 #f9fcb7 W23 None
+C03733 #f9fcb7 W23 None
+C14007 #fee695 W20 None
+C08849 #f9fcb7 W34 None
+C00167 #f9fcb7 W29 None
+C00617 #f9fcb7 W29 None
+C02330 #f9fcb7 W29 None
+C08308 #f9fcb7 W18 None
+C18069 #f9fcb7 W22 None
+C00486 #fff0a6 W27 None
+C05913 #fff0a6 W27 None
+C11630 #fff0a6 W27 None
+C00325 #f9fcb7 W37 None
+C00498 #f9fcb7 W37 None
+C02977 #f9fcb7 W37 None
+C03117 #f9fcb7 W37 None
+C05386 #f9fcb7 W37 None
+C06192 #f9fcb7 W37 None
+C18021 #fffab7 W17 None
+C17140 #fee695 W18 None
+C03870 #fff0a6 W18 None
+C04024 #fff0a6 W18 None
+C04199 #fff0a6 W18 None
+C08064 #fff0a6 W18 None
+C10195 #fff0a6 W18 None
+C10513 #fff0a6 W18 None
+C12630 #fff0a6 W18 None
+C17600 #fff0a6 W18 None
+C00043 #edf7a6 W22 None
+C00203 #edf7a6 W22 None
+C01170 #edf7a6 W22 None
+C09068 #fffab7 W16 None
+C17907 #fec978 W35 None
+C06397 #fec978 W19 None
+C06398 #fec978 W19 None
+C01288 #f9fcb7 W20 None
+C18022 #f9fcb7 W17 None
+C09608 #fff0a6 W30 None
+C06691 #fff0a6 W18 None
+C09161 #f9fcb7 W21 None
+C08112 #fee695 W18 None
+C00195 #d2ec87 W21 None
+C00416 #edf7a6 W26 None
+C00165 #f9fcb7 W20 None
+C14078 #e0f295 W27 None
+C00004 #fffab7 W16 None
+C20744 #fffab7 W16 None
+C00182 #f9fcb7 W22 None
+C00464 #f9fcb7 W22 None
+C01613 #f9fcb7 W22 None
+C02013 #f9fcb7 W22 None
+C02052 #f9fcb7 W22 None
+C03989 #f9fcb7 W22 None
+C04861 #f9fcb7 W22 None
+C08242 #f9fcb7 W22 None
+C08248 #f9fcb7 W22 None
+C00416 #edf7a6 W27 None
+C13889 #edf7a6 W27 None
+C02530 #fff0a6 W20 None
+C16463 #f9fcb7 W24 None
+C05814 #fff0a6 W18 None
+C00416 #edf7a6 W24 None
+C00550 #edf7a6 W22 None
+C06783 #fdb96a W25 None
+C13744 #fdb96a W21 None
+C00350 #edf7a6 W22 None
+C00350 #f9fcb7 W21 None
+C01280 #e0f295 W31 None
+C04458 #e0f295 W31 None
+C00006 #feda86 W20 None
+C15759 #f9fcb7 W21 None
+C04787 #f9fcb7 W33 None
+C12646 #f9fcb7 W33 None
+C13880 #f9fcb7 W18 None
+C15834 #edf7a6 W22 None
+C04899 #f9fcb7 W27 None
+C20483 #f9fcb7 W27 None
+C00350 #f9fcb7 W24 None
+C00350 #f9fcb7 W28 None
+C06125 #f9fcb7 W20 None
+C06956 #f9fcb7 W36 None
+C08866 #f9fcb7 W36 None
+C00157 #d2ec87 W20 None
+C15725 #f9fcb7 W29 None
+C08947 #f9fcb7 W19 None
+C06125 #f9fcb7 W20 None
+C00157 #f9fcb7 W21 None
+C00550 #fff0a6 W21 None
+C00157 #fff0a6 W20 None
+C19307 #fdb96a W20 None
+C19422 #fdb96a W20 None
+C15847 #f9fcb7 W26 None
+C00527 #f9fcb7 W32 None
+C18026 #f9fcb7 W32 None
+C18324 #f9fcb7 W32 None
+C20238 #f9fcb7 W32 None
+C15952 #edf7a6 W39 None
+C00422 #f99354 W23 None
+C15524 #fffab7 W17 None
+C00422 #feda86 W26 None
+C04316 #fffab7 W17 None
+C05267 #fffab7 W17 None
+C05274 #fff0a6 W20 None
+C03543 #edf7a6 W29 None
+C04574 #edf7a6 W29 None
+C19852 #edf7a6 W29 None
+C00422 #fff0a6 W17 None
+C15848 #fffab7 W18 None
+C18710 #fee695 W20 None
+C05273 #fec978 W25 None
+C06736 #fec978 W25 None
+C06737 #fec978 W25 None
+C17741 #fec978 W20 None
+C01936 #f9fcb7 W19 None
+C06217 #f9fcb7 W19 None
+C08238 #f9fcb7 W19 None
+C05258 #fec978 W19 None</textarea></td><td class="postHl">Main element selection.</td></tr>
+<tr><td class="postNm">Default opacity</td><td class="postCl">default_opacity</td><td><input name="default_opacity" size="3" type="text" value="1"/> </td><td class="postHl">Opacity setting for the non-selected parts of the map. Zero represents full transparency, while one is fully opaque</td></tr>
+<tr><td class="postNm">Default edge width</td><td class="postCl">default_width</td><td><input name="default_width" size="3" type="text" value="2"/>px </td><td class="postHl">Edge width for the non-selected parts of the map. Default is 3px.</td></tr>
+<tr><td class="postNm">Default node radius</td><td class="postCl">default_radius</td><td><input name="default_radius" size="3" type="text" value="4"/>px </td><td class="postHl">Compound radius for the non-selected parts of the map. Default is 7px.</td></tr>
+<tr><td class="postNm">Keep original colors</td><td class="postCl">keep_colors</td><td><input name="keep_colors" type="checkbox" value="1"/></td><td class="postHl">When checked, non-selected parts of the map will not change color to the default one.</td></tr>
+<tr><td class="postNm">Default color</td><td class="postCl">default_color</td><td><input name="default_color" size="7" type="text" value="#D0D0D0"/> </td><td class="postHl">Non-selected parts of the map will use this color by default. Use standard hexadecimal RGB notation.</td></tr>
+<tr><td class="postNm">Background color</td><td class="postCl">background_color</td><td><input name="background_color" size="7" type="text" value="#FFFFFF"/> </td><td class="postHl">Background color for the maps. Use standard hexadecimal RGB notation.</td></tr>
+<tr><td class="postNm">Select whole pathways</td><td class="postCl">whole_pathways</td><td><input name="whole_pathways" type="checkbox" value="1"/> </td><td class="postHl">If checked, any pathway with at least one matching edge or compound will be highlighted.</td></tr>
+<tr><td class="postNm">Select whole modules</td><td class="postCl">whole_modules</td><td><input name="whole_modules" type="checkbox" value="1"/> </td><td class="postHl">If checked, any KEGG module with at least one matching edge or compound will be highlighted.</td></tr>
+<tr><td class="postNm">Query reaction compounds</td><td class="postCl">query_reactions</td><td><input name="query_reactions" type="checkbox" value="1"/> </td><td class="postHl">If selected, compound presence within each edges reactions will also be checked</td></tr>
+<tr><td class="postNm">Species filter</td><td class="postCl">tax_filter</td><td><input name="tax_filter" size="6" type="text"/> </td><td class="postHl">You can use either NCBI tax ID or KEGG 3 letter species code. Only pathways present in selected species will be included in the map.</td></tr>
+<tr><td class="postNm">Map</td><td class="postCl">map</td><td><input checked="checked" name="map" type="radio" value="metabolic"/> <span style="font-family:Courier">metabolic</span>
+<br/><input name="map" type="radio" value="secondary"/> <span style="font-family:Courier">secondary</span><br/><input name="map" type="radio" value="microbial"/> <span style="font-family:Courier">microbial</span>
+<br/><input name="map" type="radio" value="antibiotic"/> <span style="font-family:Courier">antibiotic</span>
+</td><td class="postHl">Select the overview map to use for the initial customization </td></tr>
+<tr><th colspan="4" style="text-align: center">Graphical export options (only used when POSTing to https://pathways.embl.de/mapping.cgi)</th></tr>
+<tr><td class="postNm">Export type</td><td class="postCl">export_type</td><td><input checked="checked" name="export_type" type="radio" value="svg"/> <span style="font-family:Courier">svg</span>
+</td><td class="postHl">Select the graphical file format for the generated map. Due to misuse, only SVG is available at the moment.</td></tr>
+<tr style="display: none"><td class="postNm">Resolution (DPI)</td><td class="postCl">export_dpi</td><td><input name="export_dpi" size="6" type="text" value="120"/> </td><td class="postHl">Used only when exporting to PNG.</td></tr>
+</tbody></table>
+<input class="btn btn-info" type="submit" value="Submit to interactive interface (ipath3.cgi)"/>
+<input class="btn btn-warning" onclick="return subToMapping()" type="submit" value="Export map to graphical format (https://pathways.embl.de/mapping.cgi)"/>
+<input class="btn btn-default" type="reset"/>
+</form>
+</div>
+<div class="row">
+<!--<div id='overlapCalc' style='display:none' class='col toolBlock'>
+<h4>Element selection based on ID overlap</h4>
+<p>This tool will simply compare two sets of identifiers (which should be supported by iPath, see <a href='https://pathways.embl.dehelp.cgi#custTyp'>Supported data types</a> in the help pages, or use the ID validator tool above)
+and assign the customization parameters specified below.</p>
+
+
+ <form action='https://pathways.embl.de/calc_overlap.cgi' method='post'>
+  <table>
+    <tr><th>ID list 1</th><th>ID list 2</th><th>Customization parameters</th></tr>
+    <tr>
+    <td style='vertical-align:top'><textarea name='list1' rows='10'></textarea></td>
+    <td style='vertical-align:top'><textarea name='list2' rows='10'></textarea></td>
+    <td>
+    <table class='overlapParam'><tr><th></th><th>Color</th><th>Width</th><th>Opacity</th></tr>
+    <tr><td>IDs in list 1 only:</td><td> <input id="list1_color"  type='color' name="list1_color" value="#FF0000" /></td><td><input type='text' name='w1' size='3' value='3' /> px</td><td><input type='text' name='o1' size='2' value='1' /></td></tr>
+    <tr><td>IDs in list 2 only:</td><td><input id="list2_color"  type='color'  name="list2_color" value="#0000FF" /></td><td><input type='text' name='w2' size='3' value='3' /> px</td><td><input type='text' name='o2' size='2' value='1' /></td></tr>
+    <tr><td>Shared IDs:</td><td><input id="shared_color"  type='color'  name="shared_color" value="#00FF00" /></td><td><input type='text' name='ws' size='3' value='3' /> px</td><td><input type='text' name='os' size='2' value='1' /></td></tr></tr>
+    <tr><td style='vertical-align:top'>Visualize on map:</td><td colspan='3'>
+<input type='radio' name='chkMap' value='1' checked='checked'> Metabolic pathways<br/>
+  <input type='radio' name='chkMap' value='2' > Biosynthesis of secondary metabolites<br/>
+  <input type='radio' name='chkMap' value='3' > Microbial metabolism in diverse environments <br/>
+  <input type='radio' name='chkMap' value='4' > Biosynthesis of antibiotics
+    </td></tr>
+    </table>
+    </td></tr>
+ </table>
+
+    <input type='submit' class='btn btn-info' name='visualize' value='Visualize in iPath' />
+    <input type='submit' class='btn btn-warning' value='Download element selection' />
+
+    <input class='btn' type='reset' />
+
+  </form>
+
+
+</div>
+</div>
+<div class='row'>
+<div id='numericCalc' style='display:none' class='col toolBlock'>
+ <h4>Element selection based on numeric data</h4>
+ <p>Use this form to calculate an iPath element selection based on numeric data. Your file should have one identifier per line (which should be supported by iPath, see <a href='https://pathways.embl.dehelp.cgi#custTyp'><b>Supported data types</b></a> in the help pages,
+ or use the ID validator tool above), and its corresponding numeric values separated with the field separator selected below. Select the desired calculation type and set the customization parameters.
+ An example input file <a href='https://pathways.embl.dedata/example_numeric_data.tsv'>is available for download</a>.
+    <form enctype='multipart/form-data' action='https://pathways.embl.de/calc_numeric.cgi' method='post'>
+<table class='calcTbl table'><th>Input file:</th><td><input type='file' name='inFile' id='inFile' /></td><td class='postHl'>please use only plain text files</td></tr>
+<tr><th>Field separator:</th><td><input type="radio" style="border:none" name="ds_sep" value="space"> Space &nbsp;<input type="radio" style="border:none" name="ds_sep" value="tab" checked="checked"> Tab &nbsp;<input type="radio" style="border:none" name="ds_sep" value="comma"> Comma</td><td class='postHl'>make sure the correct delimiter is selected</td></tr>
+<tr><th>Calculation:</th><td><select id='calType' onchange='calChg()' name='calType'><option value='avg'>Simple average</option><option value='cc'>Correlation coefficient</option></select><td></td><td class='postHl'></td></tr>
+<tr class='in1'><th>Customization parameter:</th><td><input id='colRd' onclick='parChg(2)' type="radio" style="border:none" name="cs_typ" value='col' checked='checked'> Color &nbsp;<input onclick='parChg(1)' type="radio" style="border:none" name="cs_typ" value='wid'> Width &nbsp;<input onclick='parChg(3)' type="radio" style="border:none" name="cs_typ" value='opa'> Opacity</td><td class='postHl'>which parameter of the map elements will be customized</td></tr>
+
+<tr class='in1 par1' style='display:none'><th>Line width:</th><td> <table><tr><td>Min:</td><td><input type='text' size='3' value='1' name='min_wid' />px </td></tr>
+                                                                            <tr><td>Max:</td><td><input type='text' size='3' value='50' name='max_wid' />px</td></tr></table>
+                                                                        </td><td class='postHl'>element widths will be varied based on your data and values set here</td></tr>
+
+<tr class='in1 in2 par2'><th>Colors:</th><td><table><tr><td>Min:</td><td><input name='min_color' type='color' value='#ff0000' /></td></tr><tr class='sub2' style='display:none'><td>Mid:</td><td><input name='mid_color' type='color' value='#000000' /></td></tr><tr><td>Max:</td><td><input name='max_color' type='color' value='#00ff00' /></td></tr></table>
+</td><td class='postHl'>element colors will be varied based on your data and values set here</td></tr>
+
+<tr class='in1 par3' style='display:none'><th>Opacity:</th><td>  <table><tr><td>Min:</td><td><input type='text' size='3' value='0' name='min_opa' /></td></tr>
+                                                                    <tr><td>Max:</td><td><input type='text' size='3' value='1' name='max_opa' /></td></tr></table>
+                                                                    </td><td class='postHl'>element opacity will be varied based on your data and values set here</td></tr>
+
+<tr><th>Fixed values:</th><td> <table><tr class='in1 fix1'><td>Width:</td><td><input type='text' name='fix_wid' value='3' size='2' />px</td></tr>
+                                    <tr class='in1 fix2' style='display:none'><td>Color:</td><td><input type='color' name='fix_col' value='#ff0000' /></td></tr>
+                                    <tr class='in1 fix3'><td>Opacity:</td><td><input type='text' name='fix_opa' value='1' size='2' /></td></tr></table>
+
+</td><td class='postHl'>these fixed values will be applied to all customized elements</td></tr>
+
+<tr><th>Ignore unknown IDs:</th><td><input type='radio' name='ignoreUnknown' value='1' checked='checked' /> Yes &nbsp; <input type='radio' name='ignoreUnknown' value='0'  /> No <td class='postHl'>Non-matching IDs will not be included in the calculations</td></tr>
+
+  <tr><th style='vertical-align:top'>Visualize on map:</th><td>
+<input type='radio' name='chkMap' value='1' checked='checked'> Metabolic pathways<br/>
+  <input type='radio' name='chkMap' value='2' > Biosynthesis of secondary metabolites<br/>
+  <input type='radio' name='chkMap' value='3' > Microbial metabolism in diverse environments <br/>
+  <input type='radio' name='chkMap' value='4' > Biosynthesis of antibiotics
+    </td><td></td></tr>
+
+
+</table>
+<p style='margin-top: 10px;'>
+<input type='submit' class='btn btn-info' name='visualize' value='Visualize in iPath' />
+<input type='submit' class='btn btn-warning' value='Download element selection' /> <input class='btn' type='reset' /></p>
+</form>
+
+</div>
+</div>
+
+
+<div class='row'>
+<div id='speciesCompare' style='display:none' class='col toolBlock'>
+ <h4>Species comparison based on KEGG KOs</h4>
+
+<p>This tool will compare the presence of KEGG orthologous groups in two species and assign the customization parameters specified below.</p>
+
+ <form action='https://pathways.embl.de/calc_species.cgi' method='post'>
+  <table class='table'>
+    <tr><th>Species 1</th><td><input type='text' name='sp1' placeholder='e.g. hsa' size='6' /></td><td class='postHl'>use KEGG 3/4 letter species codes or NCBI numeric taxonomy IDs</td></tr>
+    <tr><th>Species 2</th><td><input type='text' name='sp2' placeholder='e.g. eco' size='6' /></td><td class='postHl'>use KEGG 3/4 letter species codes or NCBI numeric taxonomy IDs</td></tr>
+    <tr><th>Customization parameters</th>
+    <td colspan='2'>
+    <table class='overlapParam'><tr><th></th><th>Color</th><th>Width</th><th>Opacity</th></tr>
+    <tr><td>KOs in species 1 only:</td><td> <input id="list1_color"  type='color' name="sp1_color" value="#FF0000" /></td><td><input type='text' name='w1' size='3' value='3' /> px</td><td><input type='text' name='o1' size='2' value='1' /></td></tr>
+    <tr><td>KOs in species 2 only:</td><td><input id="list2_color"  type='color'  name="sp2_color" value="#0000FF" /></td><td><input type='text' name='w2' size='3' value='3' /> px</td><td><input type='text' name='o2' size='2' value='1' /></td></tr>
+    <tr><td>Shared KOs:</td><td><input id="shared_color"  type='color'  name="shared_color" value="#00FF00" /></td><td><input type='text' name='ws' size='3' value='3' /> px</td><td><input type='text' name='os' size='2' value='1' /></td></tr></tr>
+    <tr><td style='vertical-align:top'>Visualize on map:</td><td colspan='3'>
+<input type='radio' name='chkMap' value='1' checked='checked'> Metabolic pathways<br/>
+  <input type='radio' name='chkMap' value='2' > Biosynthesis of secondary metabolites<br/>
+  <input type='radio' name='chkMap' value='3' > Microbial metabolism in diverse environments <br/>
+  <input type='radio' name='chkMap' value='4' > Biosynthesis of antibiotics
+    </td></tr>
+    </table>
+    </td></tr>
+ </table>
+<p style='margin-top: 10px;'>
+    <input type='submit' class='btn btn-info' name='visualize' value='Visualize in iPath' />
+    <input type='submit' class='btn btn-warning' value='Download element selection' />
+
+    <input class='btn' type='reset' />
+</p>
+  </form>
+
+
+
+
+
+
+</div>
+</div>
+
+</div>
+<script>
+function showTool(id) {
+   $(".toolBlock").hide();
+   $("#"+id).show();
+}
+
+function parChg(i) {
+
+  if (i == 1) {
+   $(".par1").css("display", "");
+   $(".par2").css("display", "none");
+   $(".par3").css("display", "none");
+   $(".fix1").css("display", "none");
+   $(".fix2").css("display", "");
+   $(".fix3").css("display", "");
+
+  } else if (i == 2) {
+   $(".par1").css("display", "none");
+   $(".par2").css("display", "");
+   $(".par3").css("display", "none");
+   $(".fix1").css("display", "");
+   $(".fix2").css("display", "none");
+   $(".fix3").css("display", "");
+
+ } else if (i == 3) {
+   $(".par1").css("display", "none");
+   $(".par2").css("display", "none");
+   $(".par3").css("display", "");
+   $(".fix1").css("display", "");
+   $(".fix2").css("display", "");
+   $(".fix3").css("display", "none");
+
+
+ }
+}
+function calChg() {
+  if ($('#calType')[0].selectedIndex == 0) {
+   $(".in1").css("display", "");
+   $(".in2").css("display", "none");
+   $(".sub2").css("display", "none");
+   $("#colRd").click();
+ //  parChg(2);
+ } else if ($('#calType')[0].selectedIndex == 1) {
+   $(".in1").css("display", "none");
+   $(".in2").css("display", "");
+   $(".sub2").css("display", "");
+    $(".fix1").css("display", "");
+   $(".fix3").css("display", "");
+ }
+}
+--><script>function subToMapping() {
+    $('#directAccessForm').attr('action', 'https://pathways.embl.de/mapping.cgi');
+    return true;
+
+}
+</script>
+<!--<footer id='mainFooter' class="footer">
+
+      <div style='margin-left:10px' class='small text-muted float-left'>
+      <b>Citation:</b> Darzi Y <i>et al.</i> (2018) <i>Nucleic Acids Res</i> <a href="https://pathways.embl.dehttps://doi.org/10.1093/nar/gky299"><b>doi: 10.1093/nar/gyk299</b></a>
+ | <a href='https://pathways.embl.dehttps://www.embl.de/aboutus/privacy_policy/index.html'>Privacy Policy</a>
+</div>
+      <div style='margin-right:10px' class='small text-muted float-right'>design & development: <a target='_blank' href='https://pathways.embl.dehttp://www.biobyte.de'>biobyte solutions</a>
+      </div>
+
+    </footer>-->
+<div class="loading-modal"></div>
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//tr-denbi.embl.de/heimdall/";
+    _paq.push(['setTrackerUrl', u+'p.php']);
+    _paq.push(['setSiteId', '7']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'p.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+</div></body></html>

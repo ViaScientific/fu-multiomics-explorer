@@ -2,16 +2,17 @@ library(shiny)
 library(tidyverse)
 library(DT)
 library(shinyBS)
+library(Seurat)
 
 ui <- fluidPage(
   titlePanel("Multiomics Explorer"),
-  sidebarLayout(
-    sidebarPanel(
-      fileInput('rnaseq_input',"Transcriptomic Input"),
-      fileInput('protein_input',"Proteomic Input"),
-      fileInput('metabolite_input',"Metabolomic Input"),
-      width=2
-    ),
+  #sidebarLayout(
+    #sidebarPanel(
+    #  fileInput('rnaseq_input',"Transcriptomic Input"),
+    #  fileInput('protein_input',"Proteomic Input"),
+    #  fileInput('metabolite_input',"Metabolomic Input"),
+    #  width=2
+    #),
     mainPanel(
       tabsetPanel(type = "tabs",
                   tabPanel("Search",
@@ -19,7 +20,8 @@ ui <- fluidPage(
                            searchTabUI('search_tab')
                   ),
                   tabPanel("Gene Search",
-                           
+                           br(),
+                           geneSearchTabUI('geneSearch_tab')
                   ),
                   tabPanel("Protein Search",
                            br(),
@@ -38,10 +40,19 @@ ui <- fluidPage(
                   )
       )
     )
-  )
+  #)
 )
 
 server <- function(input, output, session) {
+  
+  gene_options = reactive({
+    readRDS('data/clean/sc-rnaseq_features.rds')
+  })
+  
+  seurat_obj = reactive({
+    rds = readRDS('data/raw/seurat_integrated_2&11.rds')
+    return(rds)
+  })
   
   protein_data_clean = reactive({
     read.delim(file='data/clean/A1.txt', header=TRUE, sep='\t') %>% rename(Protein=X)
@@ -81,9 +92,11 @@ server <- function(input, output, session) {
     datatable(metabolic_data_clean(), filter='top')
   })
   
-  searchTabServer('search_tab', protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
-  
-  correlateTabServer('correlate_tab', protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
+  searchTabServer('search_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
+ 
+  geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
+   
+  correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
 }
 
 shinyApp(ui = ui, server = server)

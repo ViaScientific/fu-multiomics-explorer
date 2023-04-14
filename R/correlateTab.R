@@ -18,7 +18,7 @@ correlateTabUI <- function(id) {
   )
 }
 
-correlateTabServer <- function(id, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed) {
+correlateTabServer <- function(id, gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed) {
   
   moduleServer(id, function(input, output, session) {
     

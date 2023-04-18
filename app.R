@@ -34,10 +34,10 @@ ui <- fluidPage(
                   tabPanel("Correlate",
                            br(),
                            correlateTabUI('correlate_tab')
-                  ),
-                  tabPanel("Network",
-                           
-                  )
+                  )#,
+                  #tabPanel("Network",
+                  #         
+                  #)
       )
     )
   #)

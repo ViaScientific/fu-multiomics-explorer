@@ -50,7 +50,7 @@ server <- function(input, output, session) {
   })
   
   seurat_obj = reactive({
-    rds = readRDS('data/raw/seurat_integrated_2&11.rds')
+    rds = readRDS('data/raw/seurat_integrated.rds')
     return(rds)
   })
   

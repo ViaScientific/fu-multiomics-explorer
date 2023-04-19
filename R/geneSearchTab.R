@@ -3,7 +3,6 @@ geneSearchTabUI <- function(id) {
   tagList(
     fluidRow(
       column(6,
-        textOutput(ns("test")),
         plotOutput(ns("umap_type")),
         selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
       ),
@@ -46,10 +45,6 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     selected_cluster_gene = reactive({
       req(input$cluster_DEG_rows_selected)
       (cluster_DEG() %>% slice(input$cluster_DEG_rows_selected))$Gene
-    })
-    
-    output$test = renderText({
-      selected_cluster_gene()
     })
     
     cluster_DEG = reactive({

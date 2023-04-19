@@ -54,7 +54,7 @@ server <- function(input, output, session) {
     on.exit(progress$close())
     
     progress$set(message = 'Reading input data',
-                 detail = 'about 20 seconds')
+                 detail = 'about 30 seconds')
     
     rds = readRDS('data/raw/seurat_integrated.rds')
     rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 

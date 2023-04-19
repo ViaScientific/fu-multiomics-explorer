@@ -51,6 +51,7 @@ server <- function(input, output, session) {
   
   seurat_obj = reactive({
     rds = readRDS('data/raw/seurat_integrated.rds')
+    rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 
     return(rds)
   })
   
@@ -80,7 +81,7 @@ server <- function(input, output, session) {
       pivot_longer(cols=starts_with('D')) %>%
       mutate(Donor=substr(name, 2,2)) %>%
       mutate(Type=substr(name, 4,4)) %>%
-      select(Donor, Type, ionTopName, Value=value) %>%
+      dplyr::select(Donor, Type, ionTopName, Value=value) %>%
       mutate(across(c(Donor, Type), factor))
   })
   
@@ -92,7 +93,7 @@ server <- function(input, output, session) {
     datatable(metabolic_data_clean(), filter='top')
   })
   
-  searchTabServer('search_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
+  searchTabServer('search_tab', gene_options, protein_options, metabolic_options, seurat_obj, protein_data_processed, metabolic_data_processed)
  
   geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
    

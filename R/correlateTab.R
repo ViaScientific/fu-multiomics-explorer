@@ -3,12 +3,12 @@ correlateTabUI <- function(id) {
   tagList(
     fluidRow(
       column(1, "X-axis:"),
-      column(3, selectizeInput(ns("x_type"), "Data Type:", c("Gene" = "gene", "Protein" = "protein", "Metabolite" = "metabolite"))),
+      column(3, selectizeInput(ns("x_type"), "Data Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
       column(8, selectizeInput(ns("x_value"), "Selection:", choices=NULL)),
     ),
     fluidRow(
       column(1, "Y-axis:"),
-      column(3, selectizeInput(ns("y_type"), "Data Type:", c("Gene" = "gene", "Protein" = "protein", "Metabolite" = "metabolite"))),
+      column(3, selectizeInput(ns("y_type"), "Data Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
       column(8, selectizeInput(ns("y_value"), "Selection:", choices=NULL))
     ),
     conditionalPanel("input.x_value != '' & input.y_value != ''",

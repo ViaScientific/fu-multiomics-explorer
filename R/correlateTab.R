@@ -25,18 +25,18 @@ correlateTabServer <- function(id, gene_options, protein_options, metabolic_opti
     x_data = reactive({
       req(input$x_value)
       if(input$x_type=='protein') {
-        return(protein_data_processed() %>% filter(Protein==input$x_value) %>% select(-Protein) %>% rename(!!input$x_value := Value))
+        return(protein_data_processed() %>% filter(Protein==input$x_value) %>% dplyr::select(-Protein) %>% rename(!!input$x_value := Value))
       } else if(input$x_type=='metabolite') {
-        return(metabolic_data_processed() %>% filter(ionTopName==input$x_value) %>% select(-ionTopName) %>% rename(!!input$x_value := Value))
+        return(metabolic_data_processed() %>% filter(ionTopName==input$x_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$x_value := Value))
       }
     })
     
     y_data = reactive({
       req(input$y_value)
       if(input$y_type=='protein') {
-        return(protein_data_processed() %>% filter(Protein==input$y_value) %>% select(-Protein) %>% rename(!!input$y_value := Value))
+        return(protein_data_processed() %>% filter(Protein==input$y_value) %>% dplyr::select(-Protein) %>% rename(!!input$y_value := Value))
       } else if(input$y_type=='metabolite') {
-        return(metabolic_data_processed() %>% filter(ionTopName==input$y_value) %>% select(-ionTopName) %>% rename(!!input$y_value := Value))
+        return(metabolic_data_processed() %>% filter(ionTopName==input$y_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$y_value := Value))
       }
     })
     

@@ -50,6 +50,12 @@ server <- function(input, output, session) {
   })
   
   seurat_obj = reactive({
+    progress <- Progress$new(session, min=0, max=1)
+    on.exit(progress$close())
+    
+    progress$set(message = 'Reading input data',
+                 detail = 'about 20 seconds')
+    
     rds = readRDS('data/raw/seurat_integrated.rds')
     rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 
     return(rds)

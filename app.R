@@ -34,7 +34,7 @@ ui <- fluidPage(
                   ),
                   tabPanel("Correlate",
                            br(),
-                           #correlateTabUI('correlate_tab')
+                           correlateTabUI('correlate_tab')
                   )#,
                   #tabPanel("Network",
                   #         
@@ -108,7 +108,7 @@ server <- function(input, output, session) {
 
   metaboliteSearchTabServer('metaboliteSearch_tab', metabolic_options, metabolic_data_processed)
 
-  #correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
+  correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
 }
 options(shiny.host = "0.0.0.0", shiny.port = 8789)
 shinyApp(ui = ui, server = server)

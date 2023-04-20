@@ -3,6 +3,7 @@ library(tidyverse)
 library(DT)
 library(shinyBS)
 library(Seurat)
+library(shinycssloaders)
 
 ui <- fluidPage(
   titlePanel("Multiomics Explorer"),
@@ -13,7 +14,7 @@ ui <- fluidPage(
     #  fileInput('metabolite_input',"Metabolomic Input"),
     #  width=2
     #),
-    mainPanel(
+    mainPanel(width = 12,
       tabsetPanel(type = "tabs",
                   tabPanel("Search",
                            br(),
@@ -25,15 +26,15 @@ ui <- fluidPage(
                   ),
                   tabPanel("Protein Search",
                            br(),
-                           DTOutput('protein_clean')
+                  				 proteinSearchTabUI('proteinSearch_tab')
                   ),
                   tabPanel("Metabolite Search",
                            br(),
-                           DTOutput('metabolic_clean')
+                  				 metaboliteSearchTabUI('metaboliteSearch_tab')
                   ),
                   tabPanel("Correlate",
                            br(),
-                           correlateTabUI('correlate_tab')
+                           #correlateTabUI('correlate_tab')
                   )#,
                   #tabPanel("Network",
                   #         
@@ -44,11 +45,11 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session) {
-  
+
   gene_options = reactive({
     readRDS('data/clean/sc-rnaseq_features.rds')
   })
-  
+
   seurat_obj = reactive({
     progress <- Progress$new(session, min=0, max=1)
     on.exit(progress$close())
@@ -60,11 +61,11 @@ server <- function(input, output, session) {
     rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 
     return(rds)
   })
-  
+
   protein_data_clean = reactive({
     read.delim(file='data/clean/A1.txt', header=TRUE, sep='\t') %>% rename(Protein=X)
   })
-  
+
   protein_data_processed = reactive({
     read.delim(file='data/processed/A1_processed.txt', header=TRUE, sep='\t') %>%
       mutate(across(c(Donor, Replicate, Type), factor))
@@ -73,15 +74,15 @@ server <- function(input, output, session) {
   protein_options = reactive({
     (protein_data_processed() %>% arrange(Protein) %>% distinct(Protein))$Protein
   })
-  
+
   output$protein_clean = renderDT({
     datatable(protein_data_clean(), filter='top')
   })
-  
+
   metabolic_data_clean = reactive({
     df = read.delim(file='data/clean/B1.txt', header=TRUE)
   })
-  
+
   metabolic_data_processed = reactive({
     metabolic_data_clean() %>%
       pivot_longer(cols=starts_with('D')) %>%
@@ -90,20 +91,24 @@ server <- function(input, output, session) {
       dplyr::select(Donor, Type, ionTopName, Value=value) %>%
       mutate(across(c(Donor, Type), factor))
   })
-  
+
   metabolic_options = reactive({
     (metabolic_data_processed() %>% arrange(ionTopName) %>% distinct(ionTopName))$ionTopName
   })
-  
+
   output$metabolic_clean = renderDT({
     datatable(metabolic_data_clean(), filter='top')
   })
-  
+
   searchTabServer('search_tab', gene_options, protein_options, metabolic_options, seurat_obj, protein_data_processed, metabolic_data_processed)
- 
+
   geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
-   
-  correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
+
+  proteinSearchTabServer('proteinSearch_tab', protein_options, protein_data_processed)
+
+  metaboliteSearchTabServer('metaboliteSearch_tab', metabolic_options, metabolic_data_processed)
+
+  #correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
 }
 options(shiny.host = "0.0.0.0", shiny.port = 8789)
 shinyApp(ui = ui, server = server)

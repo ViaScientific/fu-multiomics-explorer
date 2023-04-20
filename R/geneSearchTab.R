@@ -75,7 +75,7 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     output$umap_gene = renderPlot({
-      FeaturePlot(seurat_obj(), features = c(input$value))
+      FeaturePlot(seurat_obj(), features = c(input$value), split.by = 'Type') & theme(legend.position = c(0.1,0.2))
     })
     
     output$cluster_DEG = renderDT({

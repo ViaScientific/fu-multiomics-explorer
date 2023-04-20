@@ -3,21 +3,40 @@ geneSearchTabUI <- function(id) {
   tagList(
     fluidRow(
       column(6,
-        plotOutput(ns("umap_type")),
-        selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
+      	fluidRow(
+      		h3("UMAP", align='center')
+      	),
+      	fluidRow(style = 'border-style: groove;',
+        	plotOutput(ns("umap_type")) %>% withSpinner()
+      	)
       ),
-      column(6,
-        DTOutput(ns("cluster_DEG"))
+      column(6, 
+      	fluidRow(
+      		h3("Differentially Expressed Genes by Cluster", align='center'),
+      	),	
+      	fluidRow(style = 'border-style: groove;',
+      		selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
+        	DTOutput(ns("cluster_DEG")) %>% withSpinner()
+      	)
       )
     ),
     fluidRow(
-      column(6,
-        plotOutput(ns("umap_gene")),
-        selectizeInput(ns("value"), "Select Gene:", choices=NULL)
-      ),
-      column(6,
-        plotOutput(ns("violin_gene"))
-      )
+    	h3("Gene Counts per Cell", align='center')
+    ),
+    fluidRow(style = 'border-style: groove;',
+    	fluidRow(
+    		column(11, offset=.5,
+    			selectizeInput(ns("value"), "Select Gene:", choices=NULL)
+    		)
+    	),
+    	fluidRow(
+    		column(6,
+    	    plotOutput(ns("umap_gene")) %>% withSpinner()
+    	  ),
+    	  column(6,
+    	    plotOutput(ns("violin_gene")) %>% withSpinner()
+    	  )
+    	)
     )
   )
 }
@@ -63,7 +82,8 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
       datatable(cluster_DEG(), 
                 selection='single',
                 options=list(
-                  columnDefs = list(list(visible=FALSE, targets=c(1)))
+                  columnDefs = list(list(visible=FALSE, targets=c(1))),
+                  pageLength = 5
                 ),
                 rownames=FALSE,
                 colnames=c("Gene", "p", "Fold Change (log2)", "pct.1", "pct.2", "Adjusted p")
@@ -73,7 +93,7 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     output$violin_gene = renderPlot({
-      VlnPlot(seurat_obj(), features = c(input$value), slot='counts', log=TRUE)
+      VlnPlot(seurat_obj(), features = c(input$value), split.by='Type', slot='counts', log=TRUE)
     })
     
   }

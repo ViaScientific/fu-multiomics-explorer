@@ -48,7 +48,7 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     cluster_DEG = reactive({
-      read.delim(paste0('data/raw/DEG/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
+      read.delim(paste0('data/raw/DEG/organic/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
     })
     
     output$umap_type = renderPlot({

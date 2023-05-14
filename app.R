@@ -22,11 +22,11 @@ ui <- fluidPage(
       tabsetPanel(type = "tabs",
                   tabPanel("Search",
                            br(),
-                           #searchTabUI('search_tab')
+                           searchTabUI('search_tab')
                   ),
                   tabPanel("Gene Search",
                            br(),
-                           #geneSearchTabUI('geneSearch_tab')
+                           geneSearchTabUI('geneSearch_tab')
                   ),
                   tabPanel("Protein Search",
                            br(),
@@ -109,9 +109,9 @@ server <- function(input, output, session) {
     paste(readLines('data/clean/full_network.cyjs'), collapse = '')
   })
   
-  #searchTabServer('search_tab', gene_options, protein_options, metabolic_options, seurat_obj, protein_data_processed, metabolic_data_processed)
+  searchTabServer('search_tab', gene_options, protein_options, metabolic_options, seurat_obj, protein_data_processed, metabolic_data_processed)
  
-  #geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
+  geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
   
   proteinSearchTabServer('proteinSearch_tab', protein_options, protein_data_processed) 
   

@@ -3,40 +3,21 @@ geneSearchTabUI <- function(id) {
   tagList(
     fluidRow(
       column(6,
-      	fluidRow(
-      		h3("UMAP", align='center')
-      	),
-      	fluidRow(style = 'border-style: groove;',
-        	plotOutput(ns("umap_type")) %>% withSpinner()
-      	)
+        plotOutput(ns("umap_type")),
+        selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
       ),
-      column(6, 
-      	fluidRow(
-      		h3("Differentially Expressed Genes by Cluster", align='center'),
-      	),	
-      	fluidRow(style = 'border-style: groove;',
-      		selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
-        	DTOutput(ns("cluster_DEG")) %>% withSpinner()
-      	)
+      column(6,
+        DTOutput(ns("cluster_DEG"))
       )
     ),
     fluidRow(
-    	h3("Gene Counts per Cell", align='center')
-    ),
-    fluidRow(style = 'border-style: groove;',
-    	fluidRow(
-    		column(11, offset=.5,
-    			selectizeInput(ns("value"), "Select Gene:", choices=NULL)
-    		)
-    	),
-    	fluidRow(
-    		column(6,
-    	    plotOutput(ns("umap_gene")) %>% withSpinner()
-    	  ),
-    	  column(6,
-    	    plotOutput(ns("violin_gene")) %>% withSpinner()
-    	  )
-    	)
+      column(6,
+        plotOutput(ns("umap_gene")),
+        selectizeInput(ns("value"), "Select Gene:", choices=NULL)
+      ),
+      column(6,
+        plotOutput(ns("violin_gene"))
+      )
     )
   )
 }
@@ -67,7 +48,7 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     cluster_DEG = reactive({
-      read.delim(paste0('data/raw/DEG/organic/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
+      read.delim(paste0('data/raw/DEG/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
     })
     
     output$umap_type = renderPlot({
@@ -75,15 +56,14 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     output$umap_gene = renderPlot({
-      FeaturePlot(seurat_obj(), features = c(input$value), split.by = 'Type') & theme(legend.position = c(0.1,0.2))
+      FeaturePlot(seurat_obj(), features = c(input$value))
     })
     
     output$cluster_DEG = renderDT({
       datatable(cluster_DEG(), 
                 selection='single',
                 options=list(
-                  columnDefs = list(list(visible=FALSE, targets=c(1))),
-                  pageLength = 5
+                  columnDefs = list(list(visible=FALSE, targets=c(1)))
                 ),
                 rownames=FALSE,
                 colnames=c("Gene", "p", "Fold Change (log2)", "pct.1", "pct.2", "Adjusted p")
@@ -93,7 +73,7 @@ geneSearchTabServer <- function(id, gene_options, seurat_obj) {
     })
     
     output$violin_gene = renderPlot({
-      VlnPlot(seurat_obj(), features = c(input$value), split.by='Type', slot='counts', log=TRUE)
+      VlnPlot(seurat_obj(), features = c(input$value), slot='counts', log=TRUE)
     })
     
   }

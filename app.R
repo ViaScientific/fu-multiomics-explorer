@@ -35,7 +35,7 @@ ui <- fluidPage(
                   ),
                   tabPanel("Metabolite Search",
                            br(),
-                           DTOutput('metabolic_clean')
+                  				 metaboliteSearchTabUI('metaboliteSearch_tab')
                   ),
                   tabPanel("Correlate",
                            br(),
@@ -115,6 +115,8 @@ server <- function(input, output, session) {
   #geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
   
   proteinSearchTabServer('proteinSearch_tab', protein_options, protein_data_processed) 
+  
+  metaboliteSearchTabServer('metaboliteSearch_tab', metabolic_options, metabolic_data_processed)
   
   correlateTabServer('correlate_tab', gene_options, protein_options, metabolic_options, protein_data_processed, metabolic_data_processed)
 

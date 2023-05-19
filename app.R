@@ -8,6 +8,7 @@ library(jsonlite)
 library(igraph)
 library(tidyverse)
 library(DT)
+library(shinycssloaders)
 
 ui <- fluidPage(
   titlePanel("Multiomics Explorer"),
@@ -111,7 +112,7 @@ server <- function(input, output, session) {
   
   searchTabServer('search_tab', gene_options, protein_options, metabolic_options, seurat_obj, protein_data_processed, metabolic_data_processed)
  
-  geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
+  #geneSearchTabServer('geneSearch_tab', gene_options, seurat_obj)
   
   proteinSearchTabServer('proteinSearch_tab', protein_options, protein_data_processed) 
   

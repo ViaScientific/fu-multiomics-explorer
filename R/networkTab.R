@@ -1,7 +1,7 @@
 networkTabUI <- function(id) {
   ns <- NS(id)
   tagList(
-    box(width=12, title="", status='primary', solidHeader = TRUE,
+    box(width=12, title="Network", status='primary', solidHeader = TRUE,
     	cyjShinyOutput(ns('network'), width="100%", height=650)
     )
   )

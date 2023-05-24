@@ -1,7 +1,7 @@
 correlateTabUI <- function(id) {
   ns <- NS(id)
   tagList(
-    box(width=6, title="", status='primary', solidHeader = TRUE,
+    box(width=6, title="Correlation", status='primary', solidHeader = TRUE,
     	fluidRow(
       	column(1, "X-axis:"),
       	column(3, selectizeInput(ns("x_type"), "Data Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),

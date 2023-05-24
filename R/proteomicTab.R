@@ -1,28 +1,30 @@
-proteinSearchTabUI <- function(id) {
+proteomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		fluidRow(
-			selectizeInput(ns("value"), "Selection:", choices=NULL)
-		),
-		fluidRow(
-			plotOutput(ns("out")) %>% withSpinner()
+		box(width=6, title="", status='primary', solidHeader = TRUE,
+			selectizeInput(ns("value"), "Selection:", choices=NULL),
+			plotOutput(ns("out")) %>% withSpinner(image='spinner.gif')
 		)
 	)
 }
 
-proteinSearchTabServer <- function(id, protein_options, protein_processed_data) {
+proteomicTabServer <- function(id) {
 	
 	moduleServer(id, function(input, output, session) {
-		
-		observeEvent(protein_processed_data(), {
-			updateSelectizeInput(session, 'value', "Selection:", choices=protein_options(), selected='', server=TRUE)
-		})
 		
 		data = reactive({
 			read.delim(file='data/processed/A1_processed.txt', header=TRUE, sep='\t') %>%
 				mutate(across(c(Donor, Replicate, Type), factor)) %>%
 				group_by(Protein, Donor, Type) %>%
 				summarise(Error = sd(Value), Value=mean(Value), .groups='drop')
+		})
+		
+		options = reactive({
+			(data() %>% arrange(Protein) %>% distinct(Protein))$Protein
+		})
+		
+		observeEvent(data(), {
+			updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
 		})
 		
 		filtered_data = reactive({
@@ -39,5 +41,8 @@ proteinSearchTabServer <- function(id, protein_options, protein_processed_data) 
 				geom_bar(stat='identity', position=position_dodge(.9)) +
 				geom_errorbar(aes(ymin=Value-Error, ymax=Value+Error), width=.2, position=position_dodge(.9))
 		})
+		
+		return(data)
+		
 	})
 }

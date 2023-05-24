@@ -1,0 +1,40 @@
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.navbar {
+    background-color:#6697c2;
+}
+
+.navbar-default .navbar-brand {
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-nav>.active>a, {
+    color: #555;
+    background-color: #e7e7e7;
+}
+
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+    margin-left: 0px;
+}
+
+.box-body {
+    border-style: solid;
+    border-color: #6697c2;
+    margin-top: 0px;
+    padding: 25px;
+}
+
+.box-title {
+	margin-bottom: 0px;
+	padding: 10px;
+	color: #FFFFFF;
+	background: #6697c2;
+	background-color: #6697c2;
+}

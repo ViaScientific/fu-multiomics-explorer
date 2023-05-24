@@ -1,20 +1,23 @@
 networkTabUI <- function(id) {
   ns <- NS(id)
   tagList(
-    fluidRow(
-      cyjShinyOutput(ns('cyjShiny'), width="97%", height=800)
+    box(width=12, title="", status='primary', solidHeader = TRUE,
+    	cyjShinyOutput(ns('network'), width="100%", height=650)
     )
   )
 }
 
-networkTabServer <- function(id, network) {
+networkTabServer <- function(id) {
   
   moduleServer(id, function(input, output, session) {
     
-    output$cyjShiny <- renderCyjShiny({
-      cyjShiny(network(), layoutName="cola", styleFile = 'style.js')
+  	network_input = reactive({
+  		paste(readLines('data/clean/full_network.cyjs'), collapse = '')
+  	})
+  	
+    output$network <- renderCyjShiny({
+      cyjShiny(network_input(), layoutName="cola", styleFile = 'www/style.js')
     })
     
-  }
-  )
+  })
 }

@@ -1,23 +1,23 @@
 scatterplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns("out")),
+    plotOutput(ns("out")) %>% withSpinner(image='spinner.gif'),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
-               bsCollapsePanel("Input Data", 
-                               column(2, selectInput(ns("x"), "X", choices=NULL)),
-                               column(2, selectInput(ns("y"), "Y", choices=NULL)),
-                               style = "info"),
-               bsCollapsePanel("Point Options",
-                               column(2, numericInput(ns("point_size"), "Point Size", value=3)),
-                               column(2, selectInput(ns("color_by"), "Color By", choices=NULL)),
-                               column(2, selectInput(ns("shape_by"), "Shape By", choices=NULL)),
-                               column(2, selectInput(ns("facet_by"), "Group By", choices=NULL)),
-                               style = "info"),
-               bsCollapsePanel("Regression",
-                               column(2, checkboxInput(ns("include_r2"), "Display r2", value = TRUE)),
-                               column(2, checkboxInput(ns("include_reg"), "Display Regression", value = TRUE)),
-                               style = "info")
+    	bsCollapsePanel("Input Data", 
+    	                column(2, selectInput(ns("x"), "X", choices=NULL)),
+    	                column(2, selectInput(ns("y"), "Y", choices=NULL)),
+    	                style = "info"),
+    	bsCollapsePanel("Point Options",
+    	                column(2, numericInput(ns("point_size"), "Point Size", value=3)),
+    	                column(2, selectInput(ns("color_by"), "Color By", choices=NULL)),
+    	                column(2, selectInput(ns("shape_by"), "Shape By", choices=NULL)),
+    	                column(2, selectInput(ns("facet_by"), "Group By", choices=NULL)),
+    	                style = "info"),
+    	bsCollapsePanel("Regression",
+    	                column(2, checkboxInput(ns("include_r2"), "Display r2", value = TRUE)),
+    	                column(2, checkboxInput(ns("include_reg"), "Display Regression", value = TRUE)),
+    	                style = "info")
     )
   )
 }
@@ -31,14 +31,6 @@ scatterplotServer <- function(id, df, default_x, default_y) {
     column_classes = reactive({ sapply(df(), class)})
     
     numeric_columns = reactive({ (data.frame(Column=column_names(), Class=column_classes()) %>% filter(Class == 'numeric'))$Column})
-    
-    #observeEvent(default_x(), {
-    # updateSelectInput(session, 'x', "X", choices=numeric_columns(), selected=default_x)
-    #})
-    
-    #observeEvent(default_y(), {
-    #  updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected=default_y)
-    #})
     
     observeEvent(df(), {
       updateSelectInput(session, 'x', "X", choices=numeric_columns(), selected=default_x())

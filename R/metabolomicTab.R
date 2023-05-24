@@ -1,7 +1,7 @@
 metabolomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		box(width=6, title="", status='primary', solidHeader = TRUE,
+		box(width=6, title="Metabolite Quantification", status='primary', solidHeader = TRUE,
 			selectizeInput(ns("value"), "Selection:", choices=NULL),
 			plotOutput(ns("out")) %>% withSpinner(image='spinner.gif')
 		)

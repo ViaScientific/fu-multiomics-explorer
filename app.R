@@ -39,7 +39,7 @@ ui = fluidPage(
 
 server <- function(input, output, session) {
 
-  #transcriptomicTabServer('geneSearch_tab')
+  transcriptomicTabServer('geneSearch_tab')
   
   protein_data = proteomicTabServer('proteinSearch_tab') 
   

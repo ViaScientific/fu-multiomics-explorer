@@ -37,7 +37,7 @@ correlateTabServer <- function(id, protein_data, metabolite_data) {
       if(input$x_type=='protein') {
         return(protein_data() %>% filter(Protein==input$x_value) %>% dplyr::select(-Protein) %>% rename(!!input$x_value := Value))
       } else if(input$x_type=='metabolite') {
-        return(metabolic_data() %>% filter(ionTopName==input$x_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$x_value := Value))
+        return(metabolite_data() %>% filter(ionTopName==input$x_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$x_value := Value))
       }
     })
     
@@ -46,7 +46,7 @@ correlateTabServer <- function(id, protein_data, metabolite_data) {
       if(input$y_type=='protein') {
         return(protein_data() %>% filter(Protein==input$y_value) %>% dplyr::select(-Protein) %>% rename(!!input$y_value := Value))
       } else if(input$y_type=='metabolite') {
-        return(metabolic_data() %>% filter(ionTopName==input$y_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$y_value := Value))
+        return(metabolite_data() %>% filter(ionTopName==input$y_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$y_value := Value))
       }
     })
     
@@ -62,7 +62,7 @@ correlateTabServer <- function(id, protein_data, metabolite_data) {
       if (input$x_type == 'protein') {
         protein_options()
       } else if (input$x_type == 'metabolite') {
-        metabolic_options()
+        metabolite_options()
       }
     }) 
     
@@ -74,7 +74,7 @@ correlateTabServer <- function(id, protein_data, metabolite_data) {
       if (input$y_type == 'protein') {
         protein_options()
       } else if (input$y_type == 'metabolite') {
-        metabolic_options()
+        metabolite_options()
       }
     }) 
     

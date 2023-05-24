@@ -20,13 +20,13 @@ ui = fluidPage(
 	navbarPage("Multiomics Explorer",
 			
 		tabPanel("Transcriptomic Data",
-			transcriptomicTabUI('geneSearch_tab')
+			transcriptomicTabUI('transcriptomic_tab')
 		),
 		tabPanel("Proteomic Data",
-			proteomicTabUI('proteinSearch_tab')
+			proteomicTabUI('proteomic_tab')
 		),
 		tabPanel("Metabolomic Data",
-			metabolomicTabUI('metaboliteSearch_tab')
+			metabolomicTabUI('metabolomic_tab')
 		),
 		tabPanel("Correlate",
 			correlateTabUI('correlate_tab')
@@ -39,11 +39,11 @@ ui = fluidPage(
 
 server <- function(input, output, session) {
 
-  transcriptomicTabServer('geneSearch_tab')
+  transcriptomicTabServer('transcriptomic_tab')
   
-  protein_data = proteomicTabServer('proteinSearch_tab') 
+  protein_data = proteomicTabServer('proteomic_tab') 
   
-  metabolite_data = metabolomicTabServer('metaboliteSearch_tab')
+  metabolite_data = metabolomicTabServer('metabolomic_tab')
   
   correlateTabServer('correlate_tab', protein_data, metabolite_data)
 

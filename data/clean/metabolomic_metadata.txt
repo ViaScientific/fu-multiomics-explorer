@@ -1,11 +1,6 @@
-table_id	ID	source	Age	Age	BMI	gender
-Donor 1	Low glucose	2410	Alberta -clinical	28	32.7	F
-Donor 1	High glucose	2410	Alberta -clinical	28	32.7	F
-Donor 2	Low glucose	2406	Alberta -clinical	18	21	F
-Donor 2	High glucose	2406	Alberta -clinical	18	21	F
-Donor 3	Low glucose	2392	Alberta -clinical	40	24.3	M
-Donor 3	High glucose	2392	Alberta -clinical	40	24.3	M
-Donor 4	Low glucose	23481790	IIDP	48	28.4	M
-Donor 4	High glucose	23481790	IIDP	48	28.4	M
-Donor 5	Low glucose	Pooled				
-Donor 5	High glucose	Pooled				
+Donor	ID	source	Age	BMI	gender
+1	2410	Alberta -clinical	28	32.7	F
+2	2406	Alberta -clinical	18	21	F
+3	2392	Alberta -clinical	40	24.3	M
+4	23481790	IIDP	48	28.4	M
+5	Pooled	NA	NA	NA	NA

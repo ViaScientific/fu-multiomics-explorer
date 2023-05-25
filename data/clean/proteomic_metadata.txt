@@ -1,7 +1,7 @@
-table_id	ID	source	Age	BMI	gender
-Donor 1	RRID:SAMN28450743	IIDP	47	25.5	M
-Donor 2	"June 9" RRID:SAMN28874962	IIDP	32	25	M
-Donor 3	R440	Alberta	35	26.7	F
-Donor 4	R443	Alberta	25	23	F
-Donor 5	R444	Alberta	48	22	F
-Donor 6	R445	Alberta	33	24.2	M
+Donor	ID	source	Age	BMI	gender
+1	RRID:SAMN28450743	IIDP	47	25.5	M
+2	"June 9" RRID:SAMN28874962	IIDP	32	25	M
+3	R440	Alberta	35	26.7	F
+4	R443	Alberta	25	23	F
+5	R444	Alberta	48	22	F
+6	R445	Alberta	33	24.2	M

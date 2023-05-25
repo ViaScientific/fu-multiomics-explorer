@@ -48,7 +48,8 @@ server <- function(input, output, session) {
   correlateTabServer('correlate_tab', protein_data, metabolite_data)
 
   networkTabServer('network_tab')
-  
-  }
+}
+
 options(shiny.host = "0.0.0.0", shiny.port = 8789)
-shinyApp(ui = ui, server = server)
+app = shinyApp(ui = ui, server = server)
+runApp(app)

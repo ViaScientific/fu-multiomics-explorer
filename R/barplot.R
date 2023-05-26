@@ -15,7 +15,7 @@ barplotUI <- function(id) {
   )
 }
 
-barplotServer <- function(id, df) {
+barplotServer <- function(id, df, default_fill, default_group) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -28,8 +28,8 @@ barplotServer <- function(id, df) {
     observeEvent(df(), {
       updateSelectInput(session, 'x', "X", choices=column_names(), selected='Donor')
       updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected='Value')
-      updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected='Type')
-      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected='Gender')
+      updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected=default_fill)
+      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected=default_group)
     })
     
     output$out = renderPlot({

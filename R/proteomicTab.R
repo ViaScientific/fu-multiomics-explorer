@@ -72,7 +72,7 @@ proteomicTabServer <- function(id) {
 			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
 		})
 		
-		barplotServer('barplot', filtered_data)
+		barplotServer('barplot', filtered_data, "Type", "Gender")
 		
 		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y))
 		

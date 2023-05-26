@@ -3,7 +3,17 @@ proteomicTabUI <- function(id) {
 	tagList(
 		box(width=6, title="Protein Quantification", status='primary', solidHeader = TRUE,
 				selectizeInput(ns("value"), "Selection:", choices=NULL),
-				barplotUI(ns('barplot')),
+				barplotUI(ns('barplot'))
+		),
+		box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
+				fluidRow(
+					column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
+					column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
+				),
+				conditionalPanel("input.x != '' & input.y != ''",
+												 scatterplotUI(ns('comparison')),
+												 ns=ns
+				)
 		),
 		box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
 				DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
@@ -35,23 +45,14 @@ proteomicTabServer <- function(id) {
 		
 		observeEvent(data(), {
 			updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
+			updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
+			updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
 		})
 		
 		filtered_data = reactive({
 			req(input$value)
 			data() %>% filter(Protein == input$value)
 		})
-		
-		#output$out = renderPlot({
-		#	req(input$value)
-		#	ggplot(filtered_data(), aes(x=Donor, y=Value, fill=Type)) +
-		#		theme_classic() +
-		#		theme(plot.title = element_text(hjust = 0.5)) +
-		#		ggtitle(input$value) +
-		#		scale_y_continuous(expand=c(0,0)) +
-		#		geom_bar(stat='identity', position=position_dodge(.9)) +
-		#		geom_errorbar(aes(ymin=Value-Error, ymax=Value+Error), width=.2, position=position_dodge(.9))
-		#})
 		
 		output$metadata = renderDT({
 			datatable(metadata(),
@@ -63,7 +64,17 @@ proteomicTabServer <- function(id) {
 			
 		})
 		
+		comparison_data = reactive({
+			req(input$x)
+			req(input$y)
+			x = data() %>% filter(Protein == input$x) %>% rename(!!input$x := Value) %>% select(-Protein, -Error)
+			y = data() %>% filter(Protein == input$y) %>% rename(!!input$y := Value) %>% select(-Protein, -Error)
+			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
+		})
+		
 		barplotServer('barplot', filtered_data)
+		
+		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y))
 		
 		return(data)
 		

@@ -2,8 +2,18 @@ metabolomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
 		box(width=6, title="Metabolite Quantification", status='primary', solidHeader = TRUE,
-			selectizeInput(ns("value"), "Selection:", choices=NULL),
-			plotOutput(ns("out")) %>% withSpinner(image='spinner.gif')
+				selectizeInput(ns("value"), "Selection:", choices=NULL),
+				barplotUI(ns('barplot'))
+		),
+		box(width=6, title="Metabolite Comparison", status='primary', solidHeader = TRUE,
+				fluidRow(
+					column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
+					column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
+				),
+				conditionalPanel("input.x != '' & input.y != ''",
+												 scatterplotUI(ns('comparison')),
+												 ns=ns
+				)
 		),
 		box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
 				DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
@@ -36,9 +46,12 @@ metabolomicTabServer <- function(id) {
 		
 		observeEvent(data(), {
 			updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
+			updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
+			updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
 		})
 
 		filtered_data = reactive({
+			req(input$value)
 			data() %>% filter(ionTopName == input$value)
 		})
 
@@ -60,6 +73,18 @@ metabolomicTabServer <- function(id) {
 								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender")
 			)
 		})
+		
+		comparison_data = reactive({
+			req(input$x)
+			req(input$y)
+			x = data() %>% filter(ionTopName == input$x) %>% rename(!!input$x := Value) %>% select(-ionTopName)
+			y = data() %>% filter(ionTopName == input$y) %>% rename(!!input$y := Value) %>% select(-ionTopName)
+			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
+		})
+		
+		barplotServer('barplot', filtered_data)
+		
+		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y))
 		
 		return(data)
 	})

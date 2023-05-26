@@ -29,16 +29,16 @@ barplotServer <- function(id, df) {
       updateSelectInput(session, 'x', "X", choices=column_names(), selected='Donor')
       updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected='Value')
       updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected='Type')
-      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected='gender')
+      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected='Gender')
     })
     
     output$out = renderPlot({
     	
     	req(input$x)
     	
-      if (input$fill_by=='None') { fill_by_value = NULL } else { fill_by_value=input$fill_by }
+      if (input$fill_by=='None') { fill_by_value = '' } else { fill_by_value=input$fill_by }
       
-      ggplot(df(), aes_string(x=input$x, y=input$y, fill=fill_by_value)) +
+      ggplot(df(), aes(x=!!sym(input$x), y=!!sym(input$y), fill=!!sym(fill_by_value))) +
         {if (input$facet_by!='None') facet_wrap(as.formula(paste('~', input$facet_by)), scales = 'free_x')} +
         theme_classic() +
         theme(plot.title = element_text(hjust = 0.5),

@@ -1,4 +1,4 @@
-Donor	ID	source	Age	BMI	gender
+Donor	ID	Source	Age	BMI	Gender
 1	2410	Alberta -clinical	28	32.7	F
 2	2406	Alberta -clinical	18	21	F
 3	2392	Alberta -clinical	40	24.3	M

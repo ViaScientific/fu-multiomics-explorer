@@ -1,4 +1,4 @@
-Donor	ID	source	Age	BMI	gender
+Donor	ID	Source	Age	BMI	Gender
 1	RRID:SAMN28450743	IIDP	47	25.5	M
 2	"June 9" RRID:SAMN28874962	IIDP	32	25	M
 3	R440	Alberta	35	26.7	F

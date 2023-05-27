@@ -28,7 +28,6 @@ networkTabServer <- function(id) {
   		data.frame(id=df$elements$nodes$data$id, Label=df$elements$nodes$data$label)
   	})
   	
-  	
   	nodeSelectionServer('node_selection', nodes)
   	visibilityServer('visibility')
   	zoomServer('zoom')

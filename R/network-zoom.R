@@ -18,6 +18,5 @@ zoomServer <- function(id) {
 			fitSelected(session, 10)
 		})
 		
-		
 	})
 }

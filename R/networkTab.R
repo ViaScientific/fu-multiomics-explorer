@@ -24,7 +24,7 @@ networkTabServer <- function(id) {
   	})
   	
   	nodes = reactive({
-  		df = fromJSON('~/Documents/ViaScientific/Fu_lab/fu-multiomics-explorer/data/clean/full_network.cyjs')
+  		df = fromJSON('data/clean/full_network.cyjs')
   		data.frame(id=df$elements$nodes$data$id, Label=df$elements$nodes$data$label)
   	})
   	

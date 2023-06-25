@@ -28,9 +28,9 @@ ui = fluidPage(
 		tabPanel("Metabolomic Data",
 			metabolomicTabUI('metabolomic_tab')
 		),
-		#tabPanel("Correlate",
-		#	correlateTabUI('correlate_tab')
-		#),
+		tabPanel("Cross-Assay",
+			crossAssayTabUI('crossAssay_tab')
+		),
 		tabPanel("Network",
 			networkTabUI('network_tab')
 		)
@@ -45,7 +45,7 @@ server <- function(input, output, session) {
   
   metabolite_data = metabolomicTabServer('metabolomic_tab')
   
-  #correlateTabServer('correlate_tab', protein_data, metabolite_data)
+  crossAssayTabServer('crossAssay_tab', protein_data, metabolite_data)
 
   networkTabServer('network_tab')
 }

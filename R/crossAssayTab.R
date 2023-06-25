@@ -1,4 +1,4 @@
-correlateTabUI <- function(id) {
+crossAssayTabUI <- function(id) {
   ns <- NS(id)
   tagList(
     box(width=6, title="Correlation", status='primary', solidHeader = TRUE,
@@ -20,7 +20,7 @@ correlateTabUI <- function(id) {
   )
 }
 
-correlateTabServer <- function(id, protein_data, metabolite_data) {
+crossAssayTabServer <- function(id, protein_data, metabolite_data) {
   
   moduleServer(id, function(input, output, session) {
     

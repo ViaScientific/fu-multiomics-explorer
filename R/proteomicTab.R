@@ -57,11 +57,12 @@ proteomicTabServer <- function(id) {
 		output$metadata = renderDT({
 			datatable(metadata(),
 				selection='single',
+				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
 				rownames=FALSE,
-				options=list(dom='t'),
-				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender")
+				options=list(
+				  columnDefs = list(list(visible=FALSE, targets=c(6))),
+				  dom='t')
 			)
-			
 		})
 		
 		comparison_data = reactive({

@@ -4,12 +4,12 @@ crossAssayTabUI <- function(id) {
     box(width=6, title="Correlation", status='primary', solidHeader = TRUE,
     	fluidRow(
       	column(1, "X-axis:"),
-      	column(3, selectizeInput(ns("x_type"), "Data Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
+      	column(3, selectizeInput(ns("x_type"), "Assay Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
       	column(8, selectizeInput(ns("x_value"), "Selection:", choices=NULL)),
     	),
     	fluidRow(
       	column(1, "Y-axis:"),
-      	column(3, selectizeInput(ns("y_type"), "Data Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
+      	column(3, selectizeInput(ns("y_type"), "Assay Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
       	column(8, selectizeInput(ns("y_value"), "Selection:", choices=NULL)),
     	),
     	conditionalPanel("input.x_value != '' & input.y_value != ''",
@@ -25,11 +25,11 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
   moduleServer(id, function(input, output, session) {
     
   	protein_options = reactive({
-  		(protein_data() %>% arrange(Protein) %>% distinct(Protein))$Protein
+  		(protein_data() %>% distinct(Protein) %>% arrange(Protein))$Protein
   	})
   	
   	metabolite_options = reactive({
-  		(metabolite_data() %>% arrange(ionTopName) %>% distinct(ionTopName))$ionTopName
+  		(metabolite_data() %>% distinct(ionTopName) %>% arrange(ionTopName))$ionTopName
   	})
   	
     x_data = reactive({
@@ -52,9 +52,9 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
     
     merged_data = reactive({
       if(input$x_type=='protein' & input$y_type=='protein') {
-        return(x_data() %>% left_join(y_data(), by=c("Donor", "Type")))
+        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
       } else {
-        return(x_data() %>% left_join(y_data(), by=c("Donor", "Type")))
+        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
       }
     })
     

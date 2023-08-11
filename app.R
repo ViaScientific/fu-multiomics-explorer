@@ -3,7 +3,7 @@ library(shinyBS)
 library(Seurat)
 library(cyjShiny)
 library(htmlwidgets)
-library(graph)
+library(graph) 
 library(jsonlite)
 library(igraph)
 library(tidyverse)
@@ -50,5 +50,5 @@ server <- function(input, output, session) {
   networkTabServer('network_tab')
 }
 
-options(shiny.host = "0.0.0.0", shiny.port = 8789)
+options(shiny.host = "0.0.0.0", shiny.port = 8789, shiny.reactlog = TRUE)
 shinyApp(ui = ui, server = server)

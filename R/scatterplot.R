@@ -68,7 +68,7 @@ scatterplotServer <- function(id, df, default_x, default_y) {
     })
     
     output$download <- downloadHandler(
-    	filename = function() {'plot.pdf'},
+    	filename = function() {'scatter_plot.pdf'},
     	content = function(file) {
     		pdf(file=file)
     		plot(scatter_plot())

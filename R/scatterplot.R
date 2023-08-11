@@ -1,7 +1,8 @@
 scatterplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns("out")) %>% withSpinner(image='spinner.gif'),
+    plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
+    downloadButton(ns('download')),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
     	bsCollapsePanel("Input Data", 
@@ -46,7 +47,7 @@ scatterplotServer <- function(id, df, default_x, default_y) {
       summary(lm(data=df(), formula = as.formula(paste("`", input$y, "`~`", input$x, "`", sep=''))))
     })
     
-    output$out = renderPlot({
+    scatter_plot = reactive({
 
       regression()$r.squared
       
@@ -61,6 +62,20 @@ scatterplotServer <- function(id, df, default_x, default_y) {
         {if (input$include_r2) annotate(geom="text", x=-Inf, y=Inf, label=paste('r^2 == ', round(regression()$r.squared, 3)), vjust=1, hjust=-.1, parse=TRUE)} +
         geom_point(size=input$point_size)
     })
+    
+    output$plot = renderPlot({
+    	scatter_plot()	
+    })
+    
+    output$download <- downloadHandler(
+    	filename = function() {'plot.pdf'},
+    	content = function(file) {
+    		pdf(file=file)
+    		plot(scatter_plot())
+    		dev.off()
+    	}
+    )
+    
   }
   )
 }

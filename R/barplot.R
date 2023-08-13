@@ -1,7 +1,8 @@
 barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns("out")) %>% withSpinner(image='spinner.gif'),
+    plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
+    downloadButton(ns('download')),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
     	bsCollapsePanel("Input Data", 
@@ -32,7 +33,9 @@ barplotServer <- function(id, df, default_fill, default_group) {
       updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected=default_group)
     })
     
-    output$out = renderPlot({
+    barplot = reactive({
+    	
+    	options(scipen=999)
     	
     	req(input$x)
     	
@@ -47,6 +50,19 @@ barplotServer <- function(id, df, default_fill, default_group) {
       	geom_bar(stat='identity', position=position_dodge(.9)) +
       	{if(input$y == 'Value' && 'Error' %in% numeric_columns()) geom_errorbar(aes(ymin=Value-Error, ymax=Value+Error), width=.2, position=position_dodge(.9))}
     })
-  }
-  )
+    
+    output$plot = renderPlot({
+    	barplot()	
+    })
+    
+    output$download <- downloadHandler(
+    	filename = function() {'barplot.pdf'},
+    	content = function(file) {
+    		pdf(file=file)
+    		plot(barplot())
+    		dev.off()
+    	}
+    )
+    
+  })
 }

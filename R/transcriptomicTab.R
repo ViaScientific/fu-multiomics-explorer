@@ -5,7 +5,8 @@ transcriptomicTabUI <- function(id) {
 	
 			box(width=6,
 				title='UMAP', status='primary', solidHeader = TRUE,
-				plotOutput(ns("umap_type")) %>% withSpinner(image='spinner.gif')
+				plotOutput(ns("umap_cluster")) %>% withSpinner(image='spinner.gif'),
+				downloadButton(ns('download_umap_cluster')),
 			),
 			box(width=6,
 				title="Differentially Expressed Genes by Cluster", status='primary', solidHeader = TRUE,
@@ -17,10 +18,12 @@ transcriptomicTabUI <- function(id) {
 					selectizeInput(ns("value"), "Select Gene:", choices=NULL),
 					fluidRow(
 						column(6,
-									 plotOutput(ns("umap_gene")) %>% withSpinner(image='spinner.gif')
+									 plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
+									 downloadButton(ns('download_umap_count')),
 						),
 						column(6,
-									 plotOutput(ns("violin_gene")) %>% withSpinner(image='spinner.gif')
+									 plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif'),
+									 downloadButton(ns('download_violin'))
 						)
 					)
 			)
@@ -76,14 +79,40 @@ transcriptomicTabServer <- function(id) {
 			read.delim(paste0('data/raw/DEG/organic/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
 		})
 		
-		output$umap_type = renderPlot({
+		umap_cluster = reactive({
 			DimPlot(seurat_obj(), reduction = "umap")
 		})
 		
-		output$umap_gene = renderPlot({
+		output$umap_cluster = renderPlot({
+			umap_cluster()	
+		})
+		
+		output$download_umap_cluster <- downloadHandler(
+			filename = function() {'umap_by_cluster.pdf'},
+			content = function(file) {
+				pdf(file=file)
+				plot(umap_cluster())
+				dev.off()
+			}
+		)
+		
+		umap_count = reactive({
 		  req(input$value)
 			FeaturePlot(seurat_obj(), features = c(input$value))
 		})
+		
+		output$umap_count = renderPlot({
+			umap_count()	
+		})
+		
+		output$download_umap_count <- downloadHandler(
+			filename = function() {'umap_by_count.pdf'},
+			content = function(file) {
+				pdf(file=file)
+				plot(umap_count())
+				dev.off()
+			}
+		)
 		
 		output$cluster_DEG = renderDT({
 			datatable(cluster_DEG(), 
@@ -99,9 +128,23 @@ transcriptomicTabServer <- function(id) {
 				formatSignif(columns = c('adjusted_p'), digits = 4)
 		})
 		
-		output$violin_gene = renderPlot({
+		violin = reactive({
 		  req(input$value)
 			VlnPlot(seurat_obj(), features = c(input$value), split.by='Type', slot='counts', log=TRUE)
 		})
+		
+		output$violin = renderPlot({
+			violin()	
+		})
+		
+		output$download_violin <- downloadHandler(
+			filename = function() {'violin_plot.pdf'},
+			content = function(file) {
+				pdf(file=file)
+				plot(violin())
+				dev.off()
+			}
+		)
+		
 	})
 }

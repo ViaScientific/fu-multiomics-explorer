@@ -26,6 +26,9 @@ transcriptomicTabUI <- function(id) {
 								 downloadButton(ns('download_violin'))
 					)
 				)
+			),
+			box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
+					DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
 			)
 		)
 	)
@@ -159,6 +162,17 @@ transcriptomicTabServer <- function(id) {
 			)) %>% 
 			rename(Gene=gene) %>%
 			left_join(metadata(), by='ID')
+		})
+		
+		output$metadata = renderDT({
+			datatable(metadata(),
+								selection='single',
+								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
+								rownames=FALSE,
+								options=list(
+									columnDefs = list(list(visible=FALSE, targets=c(6))),
+									dom='t')
+			)
 		})
 		
 		return(beta_data)

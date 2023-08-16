@@ -28,7 +28,7 @@ ui = fluidPage(
 		tabPanel("Metabolomic Data",
 			metabolomicTabUI('metabolomic_tab')
 		),
-		tabPanel("Cross-Assay",
+		tabPanel("Linkage Assay",
 			crossAssayTabUI('crossAssay_tab')
 		),
 		tabPanel("Network",
@@ -39,13 +39,13 @@ ui = fluidPage(
 
 server <- function(input, output, session) {
 
-  transcriptomicTabServer('transcriptomic_tab')
+  transcript_data = transcriptomicTabServer('transcriptomic_tab')
   
   protein_data = proteomicTabServer('proteomic_tab') 
   
   metabolite_data = metabolomicTabServer('metabolomic_tab')
   
-  crossAssayTabServer('crossAssay_tab', protein_data, metabolite_data)
+  crossAssayTabServer('crossAssay_tab', transcript_data, protein_data, metabolite_data)
 
   networkTabServer('network_tab')
 }

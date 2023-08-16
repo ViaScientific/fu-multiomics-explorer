@@ -1,4 +1,4 @@
-table_id	ID	Source	Age	BMI	Gender	ComparisonID
-Donor 1	HP-22068-01	Prodo	20	20.8	M	1
-Donor 2	HP-22095-01	Prodo	33	25.9	M	2
-Donor 3	HP-22182-01	Prodo	48	36.4	F	3
+Donor	ID	Source	Age	BMI	Gender	ComparisonID
+1	HP22068	Prodo	20	20.8	M	1
+2	HP22095	Prodo	33	25.9	M	2
+3	HP22182	Prodo	48	36.4	F	3

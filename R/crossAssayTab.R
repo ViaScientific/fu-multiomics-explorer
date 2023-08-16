@@ -4,12 +4,12 @@ crossAssayTabUI <- function(id) {
     box(width=6, title="Correlation", status='primary', solidHeader = TRUE,
     	fluidRow(
       	column(1, "X-axis:"),
-      	column(3, selectizeInput(ns("x_type"), "Assay Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
+      	column(3, selectizeInput(ns("x_type"), "Assay Type:", c("Gene" = "gene", "Protein" = "protein", "Metabolite" = "metabolite"), selected="protein")),
       	column(8, selectizeInput(ns("x_value"), "Selection:", choices=NULL)),
     	),
     	fluidRow(
       	column(1, "Y-axis:"),
-      	column(3, selectizeInput(ns("y_type"), "Assay Type:", c("Protein" = "protein", "Metabolite" = "metabolite"))),
+      	column(3, selectizeInput(ns("y_type"), "Assay Type:", c("Gene" = "gene", "Protein" = "protein", "Metabolite" = "metabolite"), selected='protein')),
       	column(8, selectizeInput(ns("y_value"), "Selection:", choices=NULL)),
     	),
     	conditionalPanel("input.x_value != '' & input.y_value != ''",
@@ -20,10 +20,14 @@ crossAssayTabUI <- function(id) {
   )
 }
 
-crossAssayTabServer <- function(id, protein_data, metabolite_data) {
+crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_data) {
   
   moduleServer(id, function(input, output, session) {
     
+  	gene_options = reactive({
+  		(transcript_data() %>% distinct(Gene) %>% arrange(Gene))$Gene
+  	})
+  	
   	protein_options = reactive({
   		(protein_data() %>% distinct(Protein) %>% arrange(Protein))$Protein
   	})
@@ -32,25 +36,70 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
   		(metabolite_data() %>% distinct(ionTopName) %>% arrange(ionTopName))$ionTopName
   	})
   	
+  	x_name = reactive({
+  		paste0(input$x_value, '.', input$x_type)
+  	})
+  	
     x_data = reactive({
       req(input$x_value)
-      if(input$x_type=='protein') {
-        return(protein_data() %>% filter(Protein==input$x_value) %>% dplyr::select(-Protein) %>% rename(!!input$x_value := Value))
+    	
+    	if(input$x_type=='gene') {
+    		return(
+    			transcript_data() %>% 
+    			filter(Gene==input$x_value) %>% 
+    			dplyr::select(-Gene) %>% 
+    			rename(!!x_name() := Value)
+    		)
+    	} else if(input$x_type=='protein') {
+        return(
+        	protein_data() %>% 
+        	filter(Protein==input$x_value) %>% 
+        	dplyr::select(-Protein) %>% 
+        	rename(!!x_name() := Value)
+        )
       } else if(input$x_type=='metabolite') {
-        return(metabolite_data() %>% filter(ionTopName==input$x_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$x_value := Value))
+        return(
+        	metabolite_data() %>% 
+        	filter(ionTopName==input$x_value) %>% 
+        	dplyr::select(-ionTopName) %>% 
+        	rename(!!x_name() := Value)
+        )
       }
+    })
+    
+    y_name = reactive({
+    	paste0(input$y_value, '.', input$y_type)
     })
     
     y_data = reactive({
       req(input$y_value)
-      if(input$y_type=='protein') {
-        return(protein_data() %>% filter(Protein==input$y_value) %>% dplyr::select(-Protein) %>% rename(!!input$y_value := Value))
+    	if(input$y_type=='gene') {
+    		return(
+    			readRDS('data/clean/sc-rnaseq_cpm.rds') %>% 
+    			filter(Gene==input$y_value, Identity='beta') %>% 
+    			dplyr::select(-Gene) %>% 
+    			rename(!!y_name() := Value)
+    		)
+    	} else if(input$y_type=='protein') {
+        return(
+        	protein_data() %>% 
+        	filter(Protein==input$y_value) %>% 
+        	dplyr::select(-Protein) %>% 
+        	rename(!!y_name() := Value)
+        )
       } else if(input$y_type=='metabolite') {
-        return(metabolite_data() %>% filter(ionTopName==input$y_value) %>% dplyr::select(-ionTopName) %>% rename(!!input$y_value := Value))
+        return(
+        	metabolite_data() %>% 
+        	filter(ionTopName==input$y_value) %>% 
+        	dplyr::select(-ionTopName) %>% 
+        	rename(!!y_name() := Value)
+        )
       }
     })
     
     merged_data = reactive({
+    	print(x_data())
+    	print(y_data())
       if(input$x_type=='protein' & input$y_type=='protein') {
         return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
       } else {
@@ -59,7 +108,10 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
     })
     
     x_options = reactive({
-      if (input$x_type == 'protein') {
+      
+    	if(input$x_type=='gene') {
+    		gene_options()
+    	} else if (input$x_type == 'protein') {
         protein_options()
       } else if (input$x_type == 'metabolite') {
         metabolite_options()
@@ -71,7 +123,9 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
     })
     
     y_options = reactive({
-      if (input$y_type == 'protein') {
+    	if(input$y_type=='gene') {
+    		gene_options()
+    	}else if (input$y_type == 'protein') {
         protein_options()
       } else if (input$y_type == 'metabolite') {
         metabolite_options()
@@ -82,7 +136,7 @@ crossAssayTabServer <- function(id, protein_data, metabolite_data) {
       updateSelectizeInput(session, 'y_value', "Selection:", choices=y_options(), server=TRUE)
     })
     
-    scatterplotServer('correlate', merged_data, reactive(input$x_value), reactive(input$y_value))
+    scatterplotServer('correlate', merged_data, x_name, y_name)
     
   })
 }

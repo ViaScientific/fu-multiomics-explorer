@@ -14,18 +14,18 @@ transcriptomicTabUI <- function(id) {
 				DTOutput(ns("cluster_DEG")) %>% withSpinner(image='spinner.gif')
 			),
 			box(width=12,
-					title="Gene Counts per Cell", status='primary', solidHeader = TRUE,
-					selectizeInput(ns("value"), "Select Gene:", choices=NULL),
-					fluidRow(
-						column(6,
-									 plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
-									 downloadButton(ns('download_umap_count')),
-						),
-						column(6,
-									 plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif'),
-									 downloadButton(ns('download_violin'))
-						)
+				title="Gene Counts per Cell", status='primary', solidHeader = TRUE,
+				selectizeInput(ns("value"), "Select Gene:", choices=NULL),
+				fluidRow(
+					column(6,
+								 plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
+								 downloadButton(ns('download_umap_count')),
+					),
+					column(6,
+								 plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif'),
+								 downloadButton(ns('download_violin'))
 					)
+				)
 			)
 		)
 	)
@@ -145,6 +145,23 @@ transcriptomicTabServer <- function(id) {
 				dev.off()
 			}
 		)
+		
+		metadata = reactive({
+			read.delim('data/clean/transcriptomic_metadata.txt', sep='\t', header=TRUE)
+		})
+		
+		beta_data = reactive({
+			read.delim('data/raw/RNA_Count_by_donor_and_samples_beta_cells.csv', sep=',') %>%
+			pivot_longer(!gene, names_to='group', values_to='Value') %>%
+			separate(group, into=c("ID", "Type")) %>%
+			mutate(Type = case_when(Type == 'G11' ~ "H",
+															Type == 'G2' ~ 'L'
+			)) %>% 
+			rename(Gene=gene) %>%
+			left_join(metadata(), by='ID')
+		})
+		
+		return(beta_data)
 		
 	})
 }

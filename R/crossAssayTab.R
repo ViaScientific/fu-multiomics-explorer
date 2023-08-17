@@ -75,10 +75,10 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
       req(input$y_value)
     	if(input$y_type=='gene') {
     		return(
-    			readRDS('data/clean/sc-rnaseq_cpm.rds') %>% 
-    			filter(Gene==input$y_value, Identity='beta') %>% 
-    			dplyr::select(-Gene) %>% 
-    			rename(!!y_name() := Value)
+    			transcript_data() %>% 
+    				filter(Gene==input$y_value) %>% 
+    				dplyr::select(-Gene) %>% 
+    				rename(!!y_name() := Value)
     		)
     	} else if(input$y_type=='protein') {
         return(

@@ -167,10 +167,10 @@ transcriptomicTabServer <- function(id) {
 		output$metadata = renderDT({
 			datatable(metadata(),
 								selection='single',
-								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
+								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison", "Comparison2"),
 								rownames=FALSE,
 								options=list(
-									columnDefs = list(list(visible=FALSE, targets=c(6))),
+									columnDefs = list(list(visible=FALSE, targets=c(6,7))),
 									dom='t')
 			)
 		})

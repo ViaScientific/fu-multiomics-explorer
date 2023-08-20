@@ -69,10 +69,10 @@ metabolomicTabServer <- function(id) {
 			datatable(metadata(),
 								selection='single',
 								rownames=FALSE,
-								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "ComparisonID"),
+								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "ComparisonID", "ComparisonID2"),
 								options=list(
 								  dom='t',
-								  columnDefs = list(list(visible=FALSE, targets=c(6)))          
+								  columnDefs = list(list(visible=FALSE, targets=c(6,7)))          
 								)
 			)
 		})

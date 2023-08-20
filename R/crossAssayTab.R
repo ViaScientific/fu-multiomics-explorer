@@ -98,8 +98,8 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     })
     
     merged_data = reactive({
-      if(input$x_type=='protein' & input$y_type=='protein') {
-        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
+      if((input$x_type=='gene' & input$y_type=='metabolite') | (input$x_type=='metabolite' & input$y_type=='gene')) {
+        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID2", "Type")))
       } else {
         return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
       }

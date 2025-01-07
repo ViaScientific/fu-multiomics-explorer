@@ -1,7 +1,16 @@
+#' User Interface for Barplot
+#'
+#' @param id A namespace ID for the module.
+#' @return A UI definition for the barplot visualization.
+#' @importFrom shiny NS tagList
+#' @importFrom shinycssloaders withSpinner
+#' @importFrom shiny downloadButton selectInput
+#' @importFrom shinyBS bsCollapse bsCollapsePanel
+#' @export
 barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
+    plotOutput(ns("plot")) %>% withSpinner(image='www/spinner.gif'),
     downloadButton(ns('download')),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
@@ -16,6 +25,22 @@ barplotUI <- function(id) {
   )
 }
 
+#' Server Logic for Barplot
+#'
+#' @param id A namespace ID for the module.
+#' @param df A reactive data frame to be used for plotting.
+#' @param default_fill Default value for the "Color By" input.
+#' @param default_group Default value for the "Group By" input.
+#' @return A reactive output containing the barplot.
+#' @importFrom shiny moduleServer reactive observeEvent
+#' @importFrom dplyr %>% filter
+#' @importFrom ggplot2 ggplot aes sym facet_wrap theme_classic theme
+#'   element_text element_blank scale_y_continuous geom_bar geom_errorbar
+#'   position_dodge
+#' @importFrom rlang sym
+#' @importFrom shiny downloadHandler renderPlot
+#' @importFrom grDevices dev.off
+#' @export
 barplotServer <- function(id, df, default_fill, default_group) {
   
   moduleServer(id, function(input, output, session) {

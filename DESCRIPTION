@@ -1,0 +1,28 @@
+Package: fuMultiomicsExplorer
+Type: Package
+Title: Analysis and Visualization Tools for Multi-Omics Data
+Version: 1.0.0
+Author: Zach Dwyer <zach@viascientific.com>,
+        Alper Kucukural <alper@viascientific.com>
+Maintainer: Zach Dwyer <zach@viascientific.com>,
+            Alper Kucukural <alper@viascientific.com>
+Description: A package providing tools for analyzing and visualizing multi-omics data, including transcriptomics, metabolomics, and proteomics.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Depends: R (>= 4.0.0)
+Imports:
+    ggplot2,
+    dplyr,
+    tidyr,
+    shiny,
+    shinyBS,
+    Seurat,
+    cyjShiny,
+    jsonlite,
+    DT,
+    shinycssloaders,
+    shinydashboard,
+    rlang,
+    tibble

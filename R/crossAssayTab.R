@@ -78,7 +78,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     
     # Reactive for x_data
     x_data <- reactive({
-      req(input$x_value)
+      req(input$x_value, input$x_type)
       tryCatch({
         if (input$x_type == 'gene') {
           transcript_data() %>%

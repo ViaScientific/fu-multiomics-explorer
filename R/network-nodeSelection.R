@@ -25,7 +25,7 @@ nodeSelectionUI <- function(id) {
 #' @importFrom shiny moduleServer reactive observeEvent
 #' @importFrom dplyr filter
 #' @importFrom cyjShiny selectNodes getSelectedNodes clearSelection
-#'    selectFirstNeighbors invertSelection loadStyleFile styleFile
+#'    selectFirstNeighbors invertSelection loadStyleFile
 #' @export
 nodeSelectionServer <- function(id, nodes) {
   moduleServer(id, function(input, output, session) {

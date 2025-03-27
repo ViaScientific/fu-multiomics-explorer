@@ -1,8 +1,3 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
 # Viewing Multiomics Explorer App
 
 1. Navigate to `https://viafoundry.umassmed.edu/`

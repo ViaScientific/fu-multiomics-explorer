@@ -84,6 +84,22 @@ rm data.tar.gz
 
 2. From any browswer, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.
 
+#### Instructions for using your own data:
+
+The following files can be replaced with your own data (names must be exact). Not all files are required to run each section.
+
+```
+data/clean/metabolomic_metadata.txt
+data/clean/B1.txt
+data/clean/full_network.cyjs
+data/clean/proteomic_metadata.txt
+data/processed/A1_processed.txt
+data/clean/sc-rnaseq_features.rds
+data/raw/seurat_integrated.rds
+data/raw/DEG/organic/*_2vs11_organic.csv
+data/clean/transcriptomic_metadata.txt
+data/raw/RNA_Count_by_donor_and_samples_beta_cells.csv
+```
 
 ### Additional Information
 

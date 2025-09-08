@@ -10,12 +10,18 @@ library(tidyverse)
 library(DT)
 library(shinycssloaders)
 library(shinydashboard)
+library(svglite)
+library(shinyjs)
+
+options(scipen = 4) 
 
 ui = fluidPage( 
 
+  useShinyjs(),
+  
 	tags$head(
 		tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
-	),			
+	),
 	
 	navbarPage("Multiomics Explorer",
 			

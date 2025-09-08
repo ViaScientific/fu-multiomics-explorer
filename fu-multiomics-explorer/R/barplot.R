@@ -2,7 +2,8 @@ barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
     plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
-    downloadButton(ns('download')),
+    ggplotDownloadHandlerUI(ns('plot_download')),
+    dfDownloadHandlerUI(ns('data_download')),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
     	bsCollapsePanel("Input Data", 
@@ -16,7 +17,7 @@ barplotUI <- function(id) {
   )
 }
 
-barplotServer <- function(id, df, default_fill, default_group) {
+barplotServer <- function(id, df, default_fill, default_group, download_data) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -34,9 +35,7 @@ barplotServer <- function(id, df, default_fill, default_group) {
     })
     
     barplot = reactive({
-    	
-    	options(scipen=999)
-    	
+      
     	req(input$x)
     	
       if (input$fill_by=='None') { fill_by_value = '' } else { fill_by_value=input$fill_by }
@@ -52,17 +51,12 @@ barplotServer <- function(id, df, default_fill, default_group) {
     })
     
     output$plot = renderPlot({
-    	barplot()	
+      barplot()	
     })
     
-    output$download <- downloadHandler(
-    	filename = function() {'barplot.pdf'},
-    	content = function(file) {
-    		pdf(file=file)
-    		plot(barplot())
-    		dev.off()
-    	}
-    )
+    ggplotDownloadHandlerServer('plot_download', barplot, "barplot")
+    
+    dfDownloadHandlerServer('data_download', download_data, "barplot_data")
     
   })
 }

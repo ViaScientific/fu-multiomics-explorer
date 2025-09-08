@@ -2,7 +2,8 @@ scatterplotUI <- function(id) {
   ns <- NS(id)
   tagList(
     plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
-    downloadButton(ns('download')),
+    ggplotDownloadHandlerUI(ns('plot_download')),
+    dfDownloadHandlerUI(ns('data_download')),
     h3("Figure Options"),
     bsCollapse(id = "figure_options", open = "",
     	bsCollapsePanel("Input Data", 
@@ -23,7 +24,7 @@ scatterplotUI <- function(id) {
   )
 }
 
-scatterplotServer <- function(id, df, default_x, default_y) {
+scatterplotServer <- function(id, df, default_x, default_y, download_data) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -53,7 +54,7 @@ scatterplotServer <- function(id, df, default_x, default_y) {
       
       if (input$color_by=='None') { color_by_value = '' } else { color_by_value= input$color_by }
       if (input$shape_by=='None') { shape_by_value = '' } else { shape_by_value= input$shape_by }
-     
+      
       ggplot(df(), aes(x=!!sym(input$x), y=!!sym(input$y), color=!!sym(color_by_value), shape=!!sym(shape_by_value))) +
         {if (input$facet_by!='None') facet_wrap(as.formula(paste('~', input$facet_by)))} +
         theme_classic() +
@@ -67,14 +68,9 @@ scatterplotServer <- function(id, df, default_x, default_y) {
     	scatter_plot()	
     })
     
-    output$download <- downloadHandler(
-    	filename = function() {'scatter_plot.pdf'},
-    	content = function(file) {
-    		pdf(file=file)
-    		plot(scatter_plot())
-    		dev.off()
-    	}
-    )
+    ggplotDownloadHandlerServer('plot_download', scatter_plot, "scatter_plot")
+    
+    dfDownloadHandlerServer('data_download', download_data, "scatter_plot_data")
     
   }
   )

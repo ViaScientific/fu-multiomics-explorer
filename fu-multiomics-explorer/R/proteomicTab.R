@@ -27,13 +27,17 @@ proteomicTabServer <- function(id) {
 		
 		metadata = reactive({
 			read.delim(file='data/clean/proteomic_metadata.txt', header=TRUE, sep='\t') %>%
-			mutate(Donor=as.factor(Donor))
+			mutate(Donor= as.factor(Donor))
 		})
 
+		raw_data = reactive({
+		  read.delim(file='data/processed/A1_processed.txt', header=TRUE, sep='\t') %>%
+		    mutate(across(c(Donor, Replicate, Type), factor)) %>%
+		    group_by(Protein, Donor, Type)
+		})
+		
 		data = reactive({
-			read.delim(file='data/processed/A1_processed.txt', header=TRUE, sep='\t') %>%
-				mutate(across(c(Donor, Replicate, Type), factor)) %>%
-				group_by(Protein, Donor, Type) %>%
+        raw_data() %>%
 				summarise(Error = sd(Value), Value=mean(Value), .groups='drop') %>%
 				filter(Protein != '') %>%
 				left_join(metadata(), by='Donor')
@@ -73,9 +77,20 @@ proteomicTabServer <- function(id) {
 			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
 		})
 		
-		barplotServer('barplot', filtered_data, "Type", "Gender")
+		barplot_download_data = reactive({
+		  req(input$value)
+		  raw_data() %>% filter(Protein == input$value)
+		})
 		
-		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y))
+		scatterplot_download_data = reactive({
+		  req(input$x)
+		  req(input$y)
+		  raw_data() %>% filter(Protein == input$x | Protein == input$y)
+		})
+		
+		barplotServer('barplot', filtered_data, "Type", "Gender", barplot_download_data)
+		
+		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), scatterplot_download_data)
 		
 		return(data)
 		

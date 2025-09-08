@@ -85,9 +85,15 @@ metabolomicTabServer <- function(id) {
 			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
 		})
 		
-		barplotServer('barplot', filtered_data, 'Type', 'None')
+		download_data = reactive({
+		  req(input$x)
+		  req(input$y)
+		  data() %>% filter(ionTopName == input$x | ionTopName == input$y) %>% select(Donor, Type, ionTopName, Value)
+		})
 		
-		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y))
+		barplotServer('barplot', filtered_data, 'Type', 'None', filtered_data)
+		
+		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), download_data)
 		
 		return(data)
 	})

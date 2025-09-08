@@ -134,7 +134,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
       updateSelectizeInput(session, 'y_value', "Selection:", choices=y_options(), server=TRUE)
     })
     
-    scatterplotServer('correlate', merged_data, x_name, y_name)
+    scatterplotServer('correlate', merged_data, x_name, y_name, merged_data)
     
   })
 }

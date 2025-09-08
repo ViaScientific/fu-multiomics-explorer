@@ -21,17 +21,17 @@ proteomicTabUI <- function(id) {
 	)
 }
 
-proteomicTabServer <- function(id) {
+proteomicTabServer <- function(id, data_path) {
 	
 	moduleServer(id, function(input, output, session) {
 		
 		metadata = reactive({
-			read.delim(file='data/clean/proteomic_metadata.txt', header=TRUE, sep='\t') %>%
+			read.delim(file=paste0(data_path(), 'clean/proteomic_metadata.txt'), header=TRUE, sep='\t') %>%
 			mutate(Donor= as.factor(Donor))
 		})
 
 		raw_data = reactive({
-		  read.delim(file='data/processed/A1_processed.txt', header=TRUE, sep='\t') %>%
+		  read.delim(file=paste0(data_path(), 'processed/A1_processed.txt'), header=TRUE, sep='\t') %>%
 		    mutate(across(c(Donor, Replicate, Type), factor)) %>%
 		    group_by(Protein, Donor, Type)
 		})

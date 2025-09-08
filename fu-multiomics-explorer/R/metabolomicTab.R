@@ -21,17 +21,17 @@ metabolomicTabUI <- function(id) {
 	)
 }
 
-metabolomicTabServer <- function(id) {
+metabolomicTabServer <- function(id, data_path) {
 
 	moduleServer(id, function(input, output, session) {
 
 		metadata = reactive({
-			read.delim(file='data/clean/metabolomic_metadata.txt', header=TRUE, sep='\t') %>%
+			read.delim(file=paste0(data_path(), 'clean/metabolomic_metadata.txt'), header=TRUE, sep='\t') %>%
 				mutate(Donor=as.factor(Donor))
 		})
 		
 		data = reactive({
-			read.delim(file='data/clean/B1.txt', header=TRUE) %>%
+			read.delim(file=paste0(data_path(), 'clean/B1.txt'), header=TRUE) %>%
 				pivot_longer(cols=starts_with('D')) %>%
 				mutate(Donor=substr(name, 2,2)) %>%
 				mutate(Type=substr(name, 4,4)) %>%

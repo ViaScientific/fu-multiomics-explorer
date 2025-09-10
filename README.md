@@ -58,6 +58,8 @@ tidyverse
 DT
 shinycssloaders
 shinydashboard
+svglite
+shinyjs
 ```
 
 ### Installation Guide:
@@ -68,7 +70,7 @@ This code will clone the application from github and then download the input fil
 
 ```
 git clone https://github.com/ViaScientific/fu-multiomics-explorer.git
-cd fu-multiomics-explorer/data
+cd fu-multiomics-explorer/fu-multiomics-explorer/data
 wget https://umms.dolphinnext.com/fulab/fu-multiomics-explorer-main/data/data.tar.gz
 tar -xvf data.tar.gz
 rm data.tar.gz
@@ -79,10 +81,10 @@ rm data.tar.gz
 1. Open a terminal and execute the following command. You must replace `<path_to_clone_location>` with the path to the directory that contains the fu-multiomics-explorer directory that was downloaded from github.
 
   ```
-  R -e "shiny::runApp('<path_to_clone_location>/fu-multiomics-explorer/app.R')"
+  R -e "shiny::runApp('<path_to_clone_location>/fu-multiomics-explorer/fu-multiomics-explorer/app.R')"
   ```
 
-2. From any browswer, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.
+2. From any browser, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.
 
 #### Instructions for using your own data:
 

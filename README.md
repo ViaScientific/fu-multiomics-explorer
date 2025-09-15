@@ -28,22 +28,60 @@
 
 # Viewing Multiomics Explorer App Locally
 
-## System Requirements
+To view the app locally, there are two options.
 
-### Hardware Requirements
+1. Launch the app on a container that is pre-loaded with all dependencies.
+
+2. Download the app code from github and install all dependencies manually.
+
+## Locally Using Docker
+
+### Preparing local environment
+
+1. To run the app using docker first you must download the data to your local machine.
+
+  ```
+  mkdir <path_to_app_data>
+  cd <path_to_app_data>
+  wget https://umms.dolphinnext.com/fulab/fu-multiomics-explorer-main/data/data.tar.gz
+  tar -xvf data.tar.gz
+  rm data.tar.gz
+  ```
+
+2. Pull the container to your local machine.
+
+  ```
+  docker pull quay.io/viascientific/fu-multiomics-explorer:1.0.1   
+  ```
+
+### Run Guide:
+
+1. Open a terminal and execute the following command. You must replace `<path_to_app_data>` with the path to the directory that contains the data you downloaded.
+
+  ```
+  docker run  --platform linux/amd64 -p 8789:8789 -v <path_to_app_data>:/home/app_data/ -ti quay.io/viascientific/fu-multiomics-explorer:1.0.1
+  ```
+
+2. From any browser, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.
+
+## Locally from Github
+
+### System Requirements
+
+#### Hardware Requirements
 
 The explorer requires only a standard computer with enough RAM to support the in-memory operations.
 
-### Software Requirements
+#### Software Requirements
 
-#### OS Requirements
+##### OS Requirements
 
 The explorer is supported for macOS and Linux. The package has been tested on the following systems:
 
 * macOS: Sequoia (15.5)
 * Linux: Ubuntu (20.04.3 LTS)
 
-#### R Dependencies
+##### R Dependencies
 
 ```
 shiny
@@ -62,9 +100,9 @@ svglite
 shinyjs
 ```
 
-### Installation Guide:
+#### Installation Guide:
 
-#### Install from Github
+##### Install from Github
 
 This code will clone the application from github and then download the input files. This will take about 2 minutes + the time it takes to download the input files (~3.2 Gb).
 
@@ -76,7 +114,7 @@ tar -xvf data.tar.gz
 rm data.tar.gz
 ```
 
-### Running Guide:
+#### Run Guide:
 
 1. Open a terminal and execute the following command. You must replace `<path_to_clone_location>` with the path to the directory that contains the fu-multiomics-explorer directory that was downloaded from github.
 
@@ -86,7 +124,7 @@ rm data.tar.gz
 
 2. From any browser, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.
 
-#### Instructions for using your own data:
+##### Instructions for using your own data:
 
 The following files can be replaced with your own data (names must be exact). Not all files are required to run each section.
 
@@ -103,7 +141,7 @@ data/clean/transcriptomic_metadata.txt
 data/raw/RNA_Count_by_donor_and_samples_beta_cells.csv
 ```
 
-### Additional Information
+# Additional Information
 
 App-based analysis in the paper was performed in the following docker container: `viascientific/multiomics-explorer-docker:1.0` 
 

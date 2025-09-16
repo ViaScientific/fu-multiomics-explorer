@@ -2,19 +2,15 @@
 
 1. Navigate to `https://viafoundry.umassmed.edu/`
 
-2. In upper right corner, click `Log in`
+2. Enter username and password. Click `Sign in`
 
-<p align="center"> <img src="images/login.png" width="80%"/> </p>
+<p align="center"> <img src="images/login.png" width="40%"/> </p>
 
-3. Enter username and password. Click `Login`
+3. On the left banner, click `Apps` tab
 
-<p align="center"> <img src="images/login_2.png" width="40%"/> </p>
+<p align="center"> <img src="images/dashboard.png" width="20%"/> </p>
 
-4. On top banner, click `Apps` tab
-
-<p align="center"> <img src="images/dashboard.png" width="80%"/> </p>
-
-5. In the `Shared Apps` tab, search for `Multiomics Explorer`; Click `Launch`
+4. In the `Shared With Me` tab, search for `Multiomics Explorer`; Click on the three dots and select `Launch`
 
 <p align="center"> <img src="images/launch_app.png" width="80%"/> </p>
 
@@ -22,11 +18,11 @@
 
 <p align="center"> <img src="images/popup_blocked.png" width="60%"/> </p>
 
-6. The app will launch in a new window.
+5. The app will launch in a new window.
 
 <p align="center"> <img src="images/app.png" width="100%"/> </p>
 
-# Viewing Multiomics Explorer App Locally
+# Viewing Multiomics Explorer App on Local Machine
 
 To view the app locally, there are two options.
 

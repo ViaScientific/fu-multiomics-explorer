@@ -1,17 +1,4 @@
-library(shiny)
-library(shinyBS)
-library(Seurat)
-library(cyjShiny)
-library(htmlwidgets)
-library(graph) 
-library(jsonlite)
-library(igraph)
-library(tidyverse)
-library(DT)
-library(shinycssloaders)
-library(shinydashboard)
-library(svglite)
-library(shinyjs)
+source("global.R", local = FALSE)
 
 options(scipen = 4) 
 
@@ -45,23 +32,15 @@ ui = fluidPage(
 
 server <- function(input, output, session) {
 
-  data_path = reactive({
-    if (Sys.info()[[7]] == 'root') {
-      return("/home/app_data/")
-    } else {
-      return("data/")
-    }
-  })
+  transcript_data = transcriptomicTabServer('transcriptomic_tab')
   
-  transcript_data = transcriptomicTabServer('transcriptomic_tab', data_path)
+  protein_data = proteomicTabServer('proteomic_tab') 
   
-  protein_data = proteomicTabServer('proteomic_tab', data_path) 
-  
-  metabolite_data = metabolomicTabServer('metabolomic_tab', data_path)
+  metabolite_data = metabolomicTabServer('metabolomic_tab')
   
   crossAssayTabServer('crossAssay_tab', transcript_data, protein_data, metabolite_data)
 
-  networkTabServer('network_tab', data_path)
+  networkTabServer('network_tab')
 }
 
 options(shiny.host = "0.0.0.0", shiny.port = 8789, shiny.reactlog = TRUE)

@@ -16,6 +16,8 @@ RUN R -e "BiocManager::install(version = '3.18')"
 RUN R -e 'BiocManager::install(c("graph"))'
 RUN R -e "install.packages(c('cyjShiny'))"
 
+ENV DATA_DIR=/home/app_data/
+
 # Copy app directory onto image
 ADD fu-multiomics-explorer /fu-multiomics-explorer/
 

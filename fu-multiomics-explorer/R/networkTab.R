@@ -15,16 +15,16 @@ networkTabUI <- function(id) {
   )
 }
 
-networkTabServer <- function(id, data_path) {
+networkTabServer <- function(id) {
   
   moduleServer(id, function(input, output, session) {
     
   	network_input = reactive({
-  		paste(readLines(paste0(data_path(), 'clean/full_network.cyjs')), collapse = '')
+  		paste(readLines(clean_data_path('full_network.cyjs')), collapse = '')
   	})
   	
   	nodes = reactive({
-  		df = fromJSON(paste0(data_path(), 'clean/full_network.cyjs'))
+  		df = fromJSON(clean_data_path('full_network.cyjs'))
   		data.frame(id=df$elements$nodes$data$id, Label=df$elements$nodes$data$label)
   	})
   	

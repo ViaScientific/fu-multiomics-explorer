@@ -35,12 +35,12 @@ transcriptomicTabUI <- function(id) {
 	)
 }
 
-transcriptomicTabServer <- function(id, data_path) {
+transcriptomicTabServer <- function(id) {
 	
 	moduleServer(id, function(input, output, session) {
 		
 		gene_options = reactive({
-			readRDS(paste0(data_path(), 'clean/sc-rnaseq_features.rds'))
+			readRDS(clean_data_path('sc-rnaseq_features.rds'))
 		})
 		
 		observeEvent(gene_options(), {
@@ -54,7 +54,7 @@ transcriptomicTabServer <- function(id, data_path) {
 			progress$set(message = 'Reading input data',
 									 detail = 'about 30 seconds')
 			
-			rds = readRDS(paste0(data_path(), 'raw/seurat_integrated.rds'))
+			rds = readRDS(raw_data_path('seurat_integrated.rds'))
 			rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 
 			return(rds)
 		})
@@ -80,7 +80,7 @@ transcriptomicTabServer <- function(id, data_path) {
 		
 		cluster_DEG = reactive({
 		  req(input$cluster)
-			read.delim(paste0(data_path(), 'raw/DEG/organic/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
+		  read.delim(cluster_path(paste0(input$cluster, '_2vs11_organic.csv')), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
 		})
 		
 		umap_cluster = reactive({
@@ -132,11 +132,11 @@ transcriptomicTabServer <- function(id, data_path) {
 		ggplotDownloadHandlerServer('violin_download', violin, "violin_plot")
 		
 		metadata = reactive({
-			read.delim(paste0(data_path(), 'clean/transcriptomic_metadata.txt'), sep='\t', header=TRUE)
+			read.delim(clean_data_path('transcriptomic_metadata.txt'), sep='\t', header=TRUE)
 		})
 		
 		beta_data = reactive({
-			read.delim(paste0(data_path(), 'raw/RNA_Count_by_donor_and_samples_beta_cells.csv'), sep=',') %>%
+			read.delim(raw_data_path('RNA_Count_by_donor_and_samples_beta_cells.csv'), sep=',') %>%
 			pivot_longer(!gene, names_to='group', values_to='Value') %>%
 			separate(group, into=c("ID", "Type")) %>%
 			mutate(Type = case_when(Type == 'G11' ~ "H",

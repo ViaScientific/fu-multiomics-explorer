@@ -53,14 +53,18 @@ scatterplotServer <- function(id, df, selection_column, title) {
       df() %>% distinct(.data[[selection_column]]) %>% arrange(.data[[selection_column]]) %>% pull(.data[[selection_column]])
     })
     
-    observeEvent(df(), {
-      updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
-      updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
+    observeEvent(options(), {
+      updateSelectizeInput(session, 'x', "X:", choices=options(), selected=options()[1], server=TRUE)
+      updateSelectizeInput(session, 'y', "Y:", choices=options(), selected=options()[2], server=TRUE)
+    })
+    
+    valid_xy <- reactive({
+      req(input$x, input$y)
+      !identical(input$x, input$y)
     })
     
     comparison_data = reactive({
-      req(input$x)
-      req(input$y)
+      req(valid_xy())
       x = df() %>% filter(.data[[selection_column]] == input$x) %>% rename(!!input$x := Value) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
       y = df() %>% filter(.data[[selection_column]] == input$y) %>% rename(!!input$y := Value) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
       combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
@@ -70,8 +74,6 @@ scatterplotServer <- function(id, df, selection_column, title) {
     
     column_classes = reactive({ sapply(df(), class)})
     
-    numeric_columns = reactive({ (data.frame(Column=column_names(), Class=column_classes()) %>% filter(Class == 'numeric'))$Column})
-    
     observeEvent(df(), {
       updateSelectInput(session, 'color_by', "Color By", choices=c('None', column_names()))
       updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', column_names()))
@@ -79,15 +81,11 @@ scatterplotServer <- function(id, df, selection_column, title) {
     })
     
     regression = reactive({
-      req(input$x)
-      req(input$y)
+      req(valid_xy())
       summary(lm(data=comparison_data(), formula = as.formula(paste("`", input$y, "`~`", input$x, "`", sep=''))))
     })
     
     scatter_plot = reactive({
-
-      req(input$x)
-      req(input$y)
       
       if (input$color_by=='None') { color_by_value = '' } else { color_by_value= input$color_by }
       if (input$shape_by=='None') { shape_by_value = '' } else { shape_by_value= input$shape_by }
@@ -101,8 +99,15 @@ scatterplotServer <- function(id, df, selection_column, title) {
         geom_point(size=input$point_size)
     })
     
-    output$plot = renderPlot({
-    	scatter_plot()	
+    output$plot <- renderPlot({
+      req(input$x, input$y)
+      
+      if (identical(input$x, input$y)) {
+        plot.new()
+        text(0.5, 0.5, "Please choose different values for X and Y.")
+        return(invisible())
+      }
+      scatter_plot()
     })
     
     download_data = reactive({

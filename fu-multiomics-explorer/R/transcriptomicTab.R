@@ -62,18 +62,7 @@ transcriptomicTabUI <- function(id) {
 	          )
 	        )
 	      ),
-        card(height = '550px',
-          card_header_with_download_and_settings(
-            "Metadata",
-            popover(
-              title = "Download Options", bs_icon("download"),
-              dfDownloadPopoverUI(ns('metadata_download'))
-            )
-          ),
-          card_body(
-            DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-          )
-        ),
+	      metadataTableUI(ns('metadata')),
 	      col_widths = c(8,4)
       )
 	  )
@@ -180,6 +169,8 @@ transcriptomicTabServer <- function(id) {
 			read.delim(clean_data_path('transcriptomic_metadata.txt'), sep='\t', header=TRUE)
 		})
 		
+		metadataTableServer('metadata', metadata)
+		
 		beta_data = reactive({
 			read.delim(raw_data_path('RNA_Count_by_donor_and_samples_beta_cells.csv'), sep=',') %>%
 			pivot_longer(!gene, names_to='group', values_to='Value') %>%
@@ -190,22 +181,6 @@ transcriptomicTabServer <- function(id) {
 			rename(Gene=gene) %>%
 			left_join(metadata(), by='ID')
 		})
-		
-		metadata_download = reactive({
-		  metadata() %>% select(-ComparisonID, -ComparisonID2)
-		})
-		
-		output$metadata = renderDT({
-			datatable(
-			  metadata_download(),
-				selection='single',
-				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender"),
-				rownames=FALSE,
-				options=list(dom='t')
-			)
-		})
-		
-		dfDownloadHandlerServer('metadata_download', metadata_download, "transcriptomic_metadata")
 		
 		return(beta_data)
 		

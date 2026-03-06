@@ -1,8 +1,11 @@
 zoomUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		actionButton(ns("fit"), "All Nodes"),
-		actionButton(ns("fitSelected"), "Selected Nodes")
+	  h5('Zoom:'),
+	  fluidRow(
+  		column(4, actionButton(ns("fit"), "All Nodes", class = "btn-secondary")),
+		  column(6, actionButton(ns("fitSelected"), "Selected Nodes", class = "btn-secondary"))
+	  )
 	)
 }
 

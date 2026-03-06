@@ -1,16 +1,27 @@
 networkTabUI <- function(id) {
   ns <- NS(id)
   tagList(
-  	box(width=3, title="Options", status='primary', solidHeader = TRUE,
-  		h4("Node Selection:"),
-  		nodeSelectionUI(ns('node_selection')),
-  		h4("Node Visibility:"),
-  		visibilityUI(ns('visibility')),
-  		h4('Zoom:'),
-  		zoomUI(ns('zoom'))
-  	),
-    box(width=9, title="Network", status='primary', solidHeader = TRUE,
-    	cyjShinyOutput(ns('network'), width="100%", height=650)
+    
+    layout_columns(
+      card(
+        card_header(
+          "Options"
+        ),
+        card_body(
+          nodeSelectionUI(ns('node_selection')),
+          visibilityUI(ns('visibility')),
+          zoomUI(ns('zoom'))
+        )
+      ),
+      card(
+        card_header(
+          "Network"
+        ),
+        card_body(
+          cyjShinyOutput(ns('network'), width="100%", height=650)
+        )
+      ),
+      col_widths = c(3,9)
     )
   )
 }

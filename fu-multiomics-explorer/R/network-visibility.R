@@ -1,10 +1,11 @@
 visibilityUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		actionButton(ns("show_all"), "Show All"),
-		fluidRow(
-			column(6, actionButton(ns("hide_selected"), "Hide Selected")),
-			column(6, actionButton(ns("hide_unselected"), "Hide Unselected"))
+	  h5("Node Visibility:"),
+	  column(3, actionButton(ns("show_all"), "Show All", class = "btn-secondary")),
+	  fluidRow(
+			column(5, actionButton(ns("hide_selected"), "Hide Selected", class = "btn-secondary")),
+			column(5, actionButton(ns("hide_unselected"), "Hide Unselected", class = "btn-secondary"))
 		)
 	)
 }

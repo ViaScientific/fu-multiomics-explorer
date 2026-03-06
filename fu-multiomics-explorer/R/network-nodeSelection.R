@@ -1,13 +1,16 @@
 nodeSelectionUI <- function(id) {
 	ns <- NS(id)
 	tagList(
+	  h5("Node Selection:"),
 		fluidRow(
 			column(9, selectizeInput(ns("select_by_name_list"), "Select by ID:", choices = NULL, multiple=TRUE)),
-			column(3, actionButton(ns("select_by_name"), "Select",  style = 'margin-top:25px;'))
+			column(3, actionButton(ns("select_by_name"), "Select",  class = "btn-secondary", style = 'margin-top:35px;'))
 		),
-		actionButton(ns("clearSelection"), "Unselect All"),
-		actionButton(ns("invert_selection"), "Invert Selection"),
-		actionButton(ns("sfn"), "Highlight Neighbors")
+		column(4, actionButton(ns("clearSelection"), "Unselect All", class = "btn-secondary")),
+		fluidRow(
+		  column(5, actionButton(ns("invert_selection"), "Invert Selection", class = "btn-secondary")),
+		  column(6, actionButton(ns("sfn"), "Highlight Neighbors", class = "btn-secondary"))
+		)
 	)
 }
 

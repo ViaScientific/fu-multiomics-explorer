@@ -2,29 +2,67 @@ source("global.R", local = FALSE)
 
 options(scipen = 4) 
 
-ui = fluidPage( 
+ui = tagList( 
 
   useShinyjs(),
   
-	tags$head(
-		tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
-	),
-	
-	navbarPage("Multiomics Explorer",
-			
-		tabPanel("Transcriptomic Data",
+  page_navbar(
+    title='Multiomics Explorer', id='nav_id', fillable=TRUE, navbar_options = navbar_options(theme = "dark"),
+    theme = bs_theme(
+      version = 5, bootswatch = "cosmo",
+      tooltip_max_width = "none",
+      "navbar-padding-y" = "0.2rem",
+      "nav-link-padding-y" = "0.25rem",
+      "nav-link-font-size" = "0.9rem",
+      "nav-link-line-height" = "1"
+    ) |> bs_add_rules("
+        .acc--dense {
+          --bs-accordion-btn-padding-y: 0.25rem;
+          --bs-accordion-btn-padding-x: 0.6rem;
+          --bs-accordion-btn-font-size: 0.88rem;
+          --bs-accordion-body-padding-y: 0.35rem;
+          --bs-accordion-body-padding-x: 0.6rem;
+          --bs-accordion-btn-icon-width: 0.85rem;
+        }
+        .acc--dense .accordion-button {
+          line-height: 1.1;
+        }
+        .acc--dense .accordion-body > * {
+          margin-bottom: 0.4rem;
+        }
+        .acc--dense .accordion-body > *:last-child {
+          margin-bottom: 0;
+        }
+        .acc--dense .mb-3 {
+          margin-bottom: 0.5rem !important;
+        }
+        .acc--dense .form-label {
+          margin-bottom: 0.25rem;
+        }
+        .acc--dense .btn {
+          padding: 0.25rem 0.5rem;
+        }
+        .table > :not(caption) > * > * {
+          padding: 0.4rem 0.6rem;
+        }
+        .table {
+          font-size: 0.9rem;
+        }
+    "),
+
+		nav_panel("Transcriptomic Data",
 			transcriptomicTabUI('transcriptomic_tab')
 		),
-		tabPanel("Proteomic Data",
+		nav_panel("Proteomic Data",
 			proteomicTabUI('proteomic_tab')
 		),
-		tabPanel("Metabolomic Data",
+		nav_panel("Metabolomic Data",
 			metabolomicTabUI('metabolomic_tab')
 		),
-		tabPanel("Linkage Assay",
+		nav_panel("Linkage Assay",
 			crossAssayTabUI('crossAssay_tab')
 		),
-		tabPanel("Network",
+		nav_panel("Network",
 			networkTabUI('network_tab')
 		)
   )

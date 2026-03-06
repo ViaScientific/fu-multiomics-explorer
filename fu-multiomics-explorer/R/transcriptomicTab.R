@@ -1,37 +1,82 @@
 transcriptomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		dashboardBody(
-	
-			box(width=6,
-			  title='UMAP', status='primary', solidHeader = TRUE,
-			  plotOutput(ns("umap_cluster")) %>% withSpinner(image='spinner.gif'),
-        ggplotDownloadHandlerUI(ns('umap_cluster_download'))
-			),
-			box(width=6,
-				title="Differentially Expressed Genes by Cluster", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
-				DTOutput(ns("cluster_DEG")) %>% withSpinner(image='spinner.gif'),
-				dfDownloadHandlerUI(ns('marker_gene_df_download'))
-			),
-			box(width=12,
-				title="Gene Counts per Cell", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("value"), "Select Gene:", choices=NULL),
-				fluidRow(
-					column(6,
-					  plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
-					  ggplotDownloadHandlerUI(ns('umap_count_download'))
-					),
-					column(6,
-					  plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif'),
-					  ggplotDownloadHandlerUI(ns('violin_download'))
-					)
-				)
-			),
-			box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-					DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-			)
-		)
+	  div(
+      layout_columns(
+        card(min_height = '350px',
+          card_header_with_download_and_settings(
+            "UMAP",
+            popover(
+              title = "Download Options", bs_icon("download"),
+              ggplotDownloadPopoverUI(ns('umap_cluster_download'))
+            )
+          ),
+          card_body(
+            plotOutput(ns("umap_cluster")) %>% withSpinner(image='spinner.gif'),
+          )
+        ),
+        card(min_height = '350px',
+          card_header_with_download_and_settings(
+            "Differentially Expressed Genes by Cluster",
+            popover(
+              title = "Download Options", bs_icon("download"),
+              dfDownloadPopoverUI(ns('marker_gene_df_download'))
+            )
+          ),
+          card_body(
+            selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
+            DTOutput(ns("cluster_DEG")) %>% withSpinner(image='spinner.gif')
+          )
+        ),
+        col_widths = c(6,6),
+        gap = "0.5rem"
+      )
+	  ),
+	  div(
+      layout_columns(
+	      card(height = '550px',
+	        card_header_with_download_and_settings(
+	          "Gene Counts per Cell",
+	          popover(
+	            title = "Download Options", bs_icon("download"),
+	            accordion(
+	              id = ns("download_acc"),
+	              class = "acc--dense",
+	              open = TRUE,
+	              accordion_panel(
+	                "UMAP",
+	                ggplotDownloadPopoverUI(ns('umap_count_download'))
+	              ),
+	              accordion_panel(
+	                "Boxplots",
+	                ggplotDownloadPopoverUI(ns('violin_download'))
+	              )
+	            )
+	          )
+	        ),
+	        card_body(
+	          selectizeInput(ns("value"), "Select Gene:", choices=NULL),
+	          layout_columns(
+              plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
+              plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif')
+	          )
+	        )
+	      ),
+        card(height = '550px',
+          card_header_with_download_and_settings(
+            "Metadata",
+            popover(
+              title = "Download Options", bs_icon("download"),
+              dfDownloadPopoverUI(ns('metadata_download'))
+            )
+          ),
+          card_body(
+            DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
+          )
+        ),
+	      col_widths = c(8,4)
+      )
+	  )
 	)
 }
 
@@ -91,7 +136,7 @@ transcriptomicTabServer <- function(id) {
 			umap_cluster()	
 		})
 		
-		ggplotDownloadHandlerServer('umap_cluster_download', umap_cluster, "umap_by_cluster")
+		ggplotDownloadPopoverServer('umap_cluster_download', umap_cluster, "umap_by_cluster")
 		
 		umap_count = reactive({
 		  req(input$value)
@@ -129,7 +174,7 @@ transcriptomicTabServer <- function(id) {
 			violin()	
 		})
 		
-		ggplotDownloadHandlerServer('violin_download', violin, "violin_plot")
+		ggplotDownloadHandlerServer('violin_download', violin, "boxplots_plot")
 		
 		metadata = reactive({
 			read.delim(clean_data_path('transcriptomic_metadata.txt'), sep='\t', header=TRUE)
@@ -146,16 +191,21 @@ transcriptomicTabServer <- function(id) {
 			left_join(metadata(), by='ID')
 		})
 		
+		metadata_download = reactive({
+		  metadata() %>% select(-ComparisonID, -ComparisonID2)
+		})
+		
 		output$metadata = renderDT({
-			datatable(metadata(),
-								selection='single',
-								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison", "Comparison2"),
-								rownames=FALSE,
-								options=list(
-									columnDefs = list(list(visible=FALSE, targets=c(6,7))),
-									dom='t')
+			datatable(
+			  metadata_download(),
+				selection='single',
+				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender"),
+				rownames=FALSE,
+				options=list(dom='t')
 			)
 		})
+		
+		dfDownloadHandlerServer('metadata_download', metadata_download, "transcriptomic_metadata")
 		
 		return(beta_data)
 		

@@ -60,7 +60,7 @@ barplotServer <- function(id, input_data, selection_column, title, default_fill,
     numeric_columns = reactive({ (data.frame(Column=column_names(), Class=column_classes()) %>% filter(Class == 'numeric'))$Column })
    
     observeEvent(input_data(), {
-      updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
+      updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected=options()[1], server=TRUE)
       updateSelectInput(session, 'x', "X", choices=column_names(), selected='Donor')
       updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected='Value')
       updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected=default_fill)

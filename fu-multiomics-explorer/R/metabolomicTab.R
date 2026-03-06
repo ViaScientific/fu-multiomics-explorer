@@ -1,10 +1,18 @@
 metabolomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-	  layout_columns(
-	    barplotUI(ns('barplot')),
-	    scatterplotUI(ns('comparison')),
-	    col_widths = c(6,6)
+	  div(
+	    layout_columns(
+	      barplotUI(ns('barplot')),
+	      scatterplotUI(ns('comparison')),
+	      col_widths = c(6,6)
+	    )
+	  ),
+	  div(
+	    layout_columns(
+	      metadataTableUI(ns('metadata')),
+	      col_widths = c(6)
+	    )
 	  )
 	)
 }
@@ -30,19 +38,8 @@ metabolomicTabServer <- function(id) {
 				
 		barplotServer('barplot', raw_data, 'ionTopName', 'Metabolite', 'Type', 'None')
 		scatterplotServer('comparison', raw_data, "ionTopName", "Metabolite")
-		
-		#output$metadata = renderDT({
-		#	datatable(metadata(),
-		#						selection='single',
-		#						rownames=FALSE,
-		#						colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "ComparisonID", "ComparisonID2"),
-		#						options=list(
-		#						  dom='t',
-		#						  columnDefs = list(list(visible=FALSE, targets=c(6,7)))          
-		#						)
-		#	)
-		#})
-
+		metadataTableServer('metadata', metadata)
+	
 		return(data)
 		
 	})

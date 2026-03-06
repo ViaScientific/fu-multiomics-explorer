@@ -10,7 +10,10 @@ networkTabUI <- function(id) {
         card_body(
           nodeSelectionUI(ns('node_selection')),
           visibilityUI(ns('visibility')),
-          zoomUI(ns('zoom'))
+          zoomUI(ns('zoom')),
+          br(),
+          br(),
+          downloadButton(ns('download_file'), label = "Download Network for Cytoscape"),
         )
       ),
       card(
@@ -46,6 +49,15 @@ networkTabServer <- function(id) {
     output$network <- renderCyjShiny({
       cyjShiny(network_input(), layoutName="cola", styleFile = 'www/style.js')
     })
+    
+    output$download_file <- downloadHandler(
+      filename = function() {
+        "network.cys"
+      },
+      content = function(file) {
+        file.copy(raw_data_path('A3.cys'), file)
+      }
+    )
     
   })
 }

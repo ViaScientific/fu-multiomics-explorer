@@ -1,20 +1,11 @@
 metabolomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-	  barplotUI(ns('barplot'))
-		#box(width=6, title="Metabolite Comparison", status='primary', solidHeader = TRUE,
-		#		fluidRow(
-		#			column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
-		#			column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
-		#		),
-		#		conditionalPanel("input.x != '' & input.y != ''",
-		#										 scatterplotUI(ns('comparison')),
-		#										 ns=ns
-		#		)
-		#),
-		#box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-		#		DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-		#)
+	  layout_columns(
+	    barplotUI(ns('barplot')),
+	    scatterplotUI(ns('comparison')),
+	    col_widths = c(6,6)
+	  )
 	)
 }
 
@@ -38,6 +29,7 @@ metabolomicTabServer <- function(id) {
 		})
 				
 		barplotServer('barplot', raw_data, 'ionTopName', 'Metabolite', 'Type', 'None')
+		scatterplotServer('comparison', raw_data, "ionTopName", "Metabolite")
 		
 		#output$metadata = renderDT({
 		#	datatable(metadata(),
@@ -50,22 +42,8 @@ metabolomicTabServer <- function(id) {
 		#						)
 		#	)
 		#})
-		#
-		#observeEvent(raw_data(), {
-		#  updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
-		#  updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
-		#})
-		#
-		#comparison_data = reactive({
-		#	req(input$x)
-		#	req(input$y)
-		#	x = raw_data() %>% filter(ionTopName == input$x) %>% rename(!!input$x := Value) %>% select(-ionTopName)
-		#	y = raw_data() %>% filter(ionTopName == input$y) %>% rename(!!input$y := Value) %>% select(-ionTopName)
-		#	combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
-		#})
-		#
-		#scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), download_data)
-		
+
 		return(data)
+		
 	})
 }

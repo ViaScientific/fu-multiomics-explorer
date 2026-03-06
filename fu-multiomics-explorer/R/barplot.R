@@ -1,7 +1,7 @@
 barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    card(
+    card(min_height = '350px',
       card_header_with_download_and_settings(
         uiOutput(ns("card_title")),
         popover(

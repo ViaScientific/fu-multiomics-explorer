@@ -1,24 +1,19 @@
 proteomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-	  layout_columns(
-		  barplotUI(ns('barplot')),
-		  scatterplotUI(ns('comparison')),
-		  col_widths = c(6,6)
+	  div(
+	    layout_columns(
+		    barplotUI(ns('barplot')),
+		    scatterplotUI(ns('comparison')),
+		    col_widths = c(6,6)
+	    )
+	  ),
+	  div(
+	    layout_columns(
+	      metadataTableUI(ns('metadata')),
+	      col_widths = c(6)
+	    )
 	  )
-		#box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
-		#		fluidRow(
-		#			column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
-		#			column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
-		#		),
-		#		conditionalPanel("input.x != '' & input.y != ''",
-		#										 scatterplotUI(ns('comparison')),
-		#										 ns=ns
-		#		)
-		#),
-		#box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-		#		DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-		#)
 	)
 }
 
@@ -45,26 +40,8 @@ proteomicTabServer <- function(id) {
 		})
 		
 		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
-		
-		#scatterplot_download_data = reactive({
-		#  req(input$x)
-		#  req(input$y)
-		#  raw_data() %>% filter(Protein == input$x | Protein == input$y)
-		#})
-		
 		scatterplotServer('comparison', data, "Protein", "Protein")
-		
-		#output$metadata = renderDT({
-		#	datatable(metadata(),
-		#		selection='single',
-		#		colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
-		#		rownames=FALSE,
-		#		options=list(
-		#		  columnDefs = list(list(visible=FALSE, targets=c(6))),
-		#		  dom='t')
-		#	)
-		#})
-		
+		metadataTableServer('metadata', metadata)
 		
 		return(data)
 		

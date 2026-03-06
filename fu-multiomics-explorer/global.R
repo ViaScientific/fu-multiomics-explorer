@@ -25,6 +25,7 @@ processed_data_path <- function(...) file.path(DATA_DIR, "processed", ...)
 cluster_path <- function(...) file.path(DATA_DIR, "raw", "DEG", "organic", ...)
 
 BARPLOT_DOWNLOAD_COLUMNS = c("Protein", "ionTopName", "Donor", "Type", "Value", "Error", "ID", "Source", "Age", "BMI", "Gender")
+SCATTERPLOT_DOWNLOAD_COLUMNS = c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender")
 
 card_header_with_download_and_settings <- function(title, ...) {
   card_header(

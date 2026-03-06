@@ -1,7 +1,11 @@
 proteomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		barplotUI(ns('barplot'))
+	  layout_columns(
+		  barplotUI(ns('barplot')),
+		  scatterplotUI(ns('comparison')),
+		  col_widths = c(6,6)
+	  )
 		#box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
 		#		fluidRow(
 		#			column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
@@ -42,6 +46,14 @@ proteomicTabServer <- function(id) {
 		
 		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
 		
+		#scatterplot_download_data = reactive({
+		#  req(input$x)
+		#  req(input$y)
+		#  raw_data() %>% filter(Protein == input$x | Protein == input$y)
+		#})
+		
+		scatterplotServer('comparison', data, "Protein", "Protein")
+		
 		#output$metadata = renderDT({
 		#	datatable(metadata(),
 		#		selection='single',
@@ -52,28 +64,7 @@ proteomicTabServer <- function(id) {
 		#		  dom='t')
 		#	)
 		#})
-		#
-		#observeEvent(data(), {
-		#  updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
-		#  updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
-		#})
-		#
-		#comparison_data = reactive({
-		#	req(input$x)
-		#	req(input$y)
-		#	x = data() %>% filter(Protein == input$x) %>% rename(!!input$x := Value) %>% select(-Protein, -Error)
-		#	y = data() %>% filter(Protein == input$y) %>% rename(!!input$y := Value) %>% select(-Protein, -Error)
-		#	combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
-		#})
-		#
-		#
-		#scatterplot_download_data = reactive({
-		#  req(input$x)
-		#  req(input$y)
-		#  raw_data() %>% filter(Protein == input$x | Protein == input$y)
-		#})
 		
-		#scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), scatterplot_download_data)
 		
 		return(data)
 		

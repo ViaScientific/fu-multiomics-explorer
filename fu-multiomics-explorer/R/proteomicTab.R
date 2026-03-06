@@ -1,23 +1,20 @@
 proteomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		box(width=6, title="Protein Quantification", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("value"), "Selection:", choices=NULL),
-				barplotUI(ns('barplot'))
-		),
-		box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
-				fluidRow(
-					column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
-					column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
-				),
-				conditionalPanel("input.x != '' & input.y != ''",
-												 scatterplotUI(ns('comparison')),
-												 ns=ns
-				)
-		),
-		box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-				DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-		)
+		barplotUI(ns('barplot'))
+		#box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
+		#		fluidRow(
+		#			column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
+		#			column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
+		#		),
+		#		conditionalPanel("input.x != '' & input.y != ''",
+		#										 scatterplotUI(ns('comparison')),
+		#										 ns=ns
+		#		)
+		#),
+		#box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
+		#		DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
+		#)
 	)
 }
 
@@ -43,54 +40,40 @@ proteomicTabServer <- function(id) {
 				left_join(metadata(), by='Donor')
 		})
 		
-		options = reactive({
-			(data() %>% arrange(Protein) %>% distinct(Protein))$Protein
-		})
+		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
 		
-		observeEvent(data(), {
-			updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
-			updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
-			updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
-		})
+		#output$metadata = renderDT({
+		#	datatable(metadata(),
+		#		selection='single',
+		#		colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
+		#		rownames=FALSE,
+		#		options=list(
+		#		  columnDefs = list(list(visible=FALSE, targets=c(6))),
+		#		  dom='t')
+		#	)
+		#})
+		#
+		#observeEvent(data(), {
+		#  updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
+		#  updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
+		#})
+		#
+		#comparison_data = reactive({
+		#	req(input$x)
+		#	req(input$y)
+		#	x = data() %>% filter(Protein == input$x) %>% rename(!!input$x := Value) %>% select(-Protein, -Error)
+		#	y = data() %>% filter(Protein == input$y) %>% rename(!!input$y := Value) %>% select(-Protein, -Error)
+		#	combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
+		#})
+		#
+		#
+		#scatterplot_download_data = reactive({
+		#  req(input$x)
+		#  req(input$y)
+		#  raw_data() %>% filter(Protein == input$x | Protein == input$y)
+		#})
 		
-		filtered_data = reactive({
-			req(input$value)
-			data() %>% filter(Protein == input$value)
-		})
-		
-		output$metadata = renderDT({
-			datatable(metadata(),
-				selection='single',
-				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
-				rownames=FALSE,
-				options=list(
-				  columnDefs = list(list(visible=FALSE, targets=c(6))),
-				  dom='t')
-			)
-		})
-		
-		comparison_data = reactive({
-			req(input$x)
-			req(input$y)
-			x = data() %>% filter(Protein == input$x) %>% rename(!!input$x := Value) %>% select(-Protein, -Error)
-			y = data() %>% filter(Protein == input$y) %>% rename(!!input$y := Value) %>% select(-Protein, -Error)
-			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
-		})
-		
-		barplot_download_data = reactive({
-		  req(input$value)
-		  raw_data() %>% filter(Protein == input$value)
-		})
-		
-		scatterplot_download_data = reactive({
-		  req(input$x)
-		  req(input$y)
-		  raw_data() %>% filter(Protein == input$x | Protein == input$y)
-		})
-		
-		barplotServer('barplot', filtered_data, "Type", "Gender", barplot_download_data)
-		
-		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), scatterplot_download_data)
+		#scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), scatterplot_download_data)
 		
 		return(data)
 		

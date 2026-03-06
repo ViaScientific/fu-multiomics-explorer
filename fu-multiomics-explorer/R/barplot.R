@@ -1,33 +1,66 @@
 barplotUI <- function(id) {
   ns <- NS(id)
   tagList(
-    plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
-    ggplotDownloadHandlerUI(ns('plot_download')),
-    dfDownloadHandlerUI(ns('data_download')),
-    h3("Figure Options"),
-    bsCollapse(id = "figure_options", open = "",
-    	bsCollapsePanel("Input Data", 
-    		column(3, selectInput(ns("x"), "X", choices=NULL)),
-    		column(3, selectInput(ns("y"), "Y", choices=NULL)),
-    		column(3, selectInput(ns("fill_by"), "Color By", choices=NULL)),
-    		column(3, selectInput(ns("facet_by"), "Group By", choices=NULL)),
-    		style = "info"
-    	)
+    card(
+      card_header_with_download_and_settings(
+        uiOutput(ns("card_title")),
+        popover(
+          title = "Download Options", bs_icon("download"),
+          accordion(
+            id = ns("download_acc"),
+            class = "acc--dense",
+            open = TRUE,
+            accordion_panel(
+              "Plot",
+              ggplotDownloadPopoverUI(ns('plot_download')),
+            ),
+            accordion_panel(
+              "Data",
+              dfDownloadPopoverUI(ns('data_download'))
+            )
+          )
+        ),
+        popover(
+          title = "Barplot Settings", bs_icon("gear"),
+          selectInput(ns("x"), "X", choices=NULL),
+          selectInput(ns("y"), "Y", choices=NULL),
+          selectInput(ns("fill_by"), "Color By", choices=NULL),
+          selectInput(ns("facet_by"), "Group By", choices=NULL)
+        )
+      ),
+      card_body(
+        selectizeInput(ns("value"), "Selection:", choices=NULL),
+        plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
+      )
     )
   )
 }
 
-barplotServer <- function(id, df, default_fill, default_group, download_data) {
+barplotServer <- function(id, input_data, selection_column, title, default_fill, default_group) {
   
   moduleServer(id, function(input, output, session) {
     
-    column_names = reactive({ colnames(df()) })
+    output$card_title <- renderUI({
+      paste0(title, " Quantification")
+    })
     
-    column_classes = reactive({ sapply(df(), class) })
+    options = reactive({
+      input_data() %>% distinct(.data[[selection_column]]) %>% arrange(.data[[selection_column]]) %>% pull(.data[[selection_column]])
+    })
+    
+    filtered_data = reactive({
+      req(input$value)
+      input_data() %>% filter(.data[[selection_column]] == input$value)
+    })
+    
+    column_names = reactive({ colnames(input_data()) })
+    
+    column_classes = reactive({ sapply(input_data(), class) })
     
     numeric_columns = reactive({ (data.frame(Column=column_names(), Class=column_classes()) %>% filter(Class == 'numeric'))$Column })
    
-    observeEvent(df(), {
+    observeEvent(input_data(), {
+      updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
       updateSelectInput(session, 'x', "X", choices=column_names(), selected='Donor')
       updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected='Value')
       updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected=default_fill)
@@ -35,12 +68,12 @@ barplotServer <- function(id, df, default_fill, default_group, download_data) {
     })
     
     barplot = reactive({
-      
+    
     	req(input$x)
     	
       if (input$fill_by=='None') { fill_by_value = '' } else { fill_by_value=input$fill_by }
       
-      ggplot(df(), aes(x=!!sym(input$x), y=!!sym(input$y), fill=!!sym(fill_by_value))) +
+      ggplot(filtered_data(), aes(x=.data[[input$x]], y=.data[[input$y]], fill=.data[[fill_by_value]])) +
         {if (input$facet_by!='None') facet_wrap(as.formula(paste('~', input$facet_by)), scales = 'free_x')} +
         theme_classic() +
         theme(plot.title = element_text(hjust = 0.5),
@@ -54,9 +87,13 @@ barplotServer <- function(id, df, default_fill, default_group, download_data) {
       barplot()	
     })
     
-    ggplotDownloadHandlerServer('plot_download', barplot, "barplot")
+    download_data = reactive({
+      filtered_data() %>% select(any_of(BARPLOT_DOWNLOAD_COLUMNS))
+    })
     
-    dfDownloadHandlerServer('data_download', download_data, "barplot_data")
+    ggplotDownloadPopoverServer('plot_download', barplot, "barplot")
+    
+    dfDownloadPopoverServer('data_download', download_data, "barplot_data")
     
   })
 }

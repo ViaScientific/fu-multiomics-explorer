@@ -55,7 +55,7 @@ To view the app locally, there are two options.
 1. Open a terminal and execute the following command. You must replace `<path_to_app_data>` with the path to the directory that contains the data you downloaded.
 
   ```
-  docker run  --platform linux/amd64 -p 8789:8789 -v <path_to_app_data>:/home/app_data/ -ti quay.io/viascientific/fu-multiomics-explorer:1.0.1
+  docker run  --platform linux/amd64 -p 8789:8789 -v <path_to_app_data>:/home/app_data/ -ti quay.io/viascientific/fu-multiomics-explorer:1.0.2
   ```
 
 2. From any browser, navigate to [http://localhost:8789/](http://localhost:8789/). The app will take about 30 seconds to fully load.

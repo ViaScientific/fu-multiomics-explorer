@@ -1,37 +1,33 @@
 proteomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		box(width=6, title="Protein Quantification", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("value"), "Selection:", choices=NULL),
-				barplotUI(ns('barplot'))
-		),
-		box(width=6, title="Protein Comparison", status='primary', solidHeader = TRUE,
-				fluidRow(
-					column(6, selectizeInput(ns("x"), "X:", choices=NULL)),
-					column(6, selectizeInput(ns("y"), "Y:", choices=NULL))
-				),
-				conditionalPanel("input.x != '' & input.y != ''",
-												 scatterplotUI(ns('comparison')),
-												 ns=ns
-				)
-		),
-		box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-				DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-		)
+	  div(
+	    layout_columns(
+		    barplotUI(ns('barplot')),
+		    scatterplotUI(ns('comparison')),
+		    col_widths = c(6,6)
+	    )
+	  ),
+	  div(
+	    layout_columns(
+	      metadataTableUI(ns('metadata')),
+	      col_widths = c(6)
+	    )
+	  )
 	)
 }
 
-proteomicTabServer <- function(id, data_path) {
+proteomicTabServer <- function(id) {
 	
 	moduleServer(id, function(input, output, session) {
 		
 		metadata = reactive({
-			read.delim(file=paste0(data_path(), 'clean/proteomic_metadata.txt'), header=TRUE, sep='\t') %>%
+			read.delim(file=clean_data_path('proteomic_metadata.txt'), header=TRUE, sep='\t') %>%
 			mutate(Donor= as.factor(Donor))
 		})
 
 		raw_data = reactive({
-		  read.delim(file=paste0(data_path(), 'processed/A1_processed.txt'), header=TRUE, sep='\t') %>%
+		  read.delim(file=processed_data_path('A1_processed.txt'), header=TRUE, sep='\t') %>%
 		    mutate(across(c(Donor, Replicate, Type), factor)) %>%
 		    group_by(Protein, Donor, Type)
 		})
@@ -43,54 +39,9 @@ proteomicTabServer <- function(id, data_path) {
 				left_join(metadata(), by='Donor')
 		})
 		
-		options = reactive({
-			(data() %>% arrange(Protein) %>% distinct(Protein))$Protein
-		})
-		
-		observeEvent(data(), {
-			updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected='', server=TRUE)
-			updateSelectizeInput(session, 'x', "X:", choices=options(), selected='', server=TRUE)
-			updateSelectizeInput(session, 'y', "Y:", choices=options(), selected='', server=TRUE)
-		})
-		
-		filtered_data = reactive({
-			req(input$value)
-			data() %>% filter(Protein == input$value)
-		})
-		
-		output$metadata = renderDT({
-			datatable(metadata(),
-				selection='single',
-				colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison"),
-				rownames=FALSE,
-				options=list(
-				  columnDefs = list(list(visible=FALSE, targets=c(6))),
-				  dom='t')
-			)
-		})
-		
-		comparison_data = reactive({
-			req(input$x)
-			req(input$y)
-			x = data() %>% filter(Protein == input$x) %>% rename(!!input$x := Value) %>% select(-Protein, -Error)
-			y = data() %>% filter(Protein == input$y) %>% rename(!!input$y := Value) %>% select(-Protein, -Error)
-			combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
-		})
-		
-		barplot_download_data = reactive({
-		  req(input$value)
-		  raw_data() %>% filter(Protein == input$value)
-		})
-		
-		scatterplot_download_data = reactive({
-		  req(input$x)
-		  req(input$y)
-		  raw_data() %>% filter(Protein == input$x | Protein == input$y)
-		})
-		
-		barplotServer('barplot', filtered_data, "Type", "Gender", barplot_download_data)
-		
-		scatterplotServer('comparison', comparison_data, reactive(input$x), reactive(input$y), scatterplot_download_data)
+		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
+		scatterplotServer('comparison', data, "Protein", "Protein")
+		metadataTableServer('metadata', metadata)
 		
 		return(data)
 		

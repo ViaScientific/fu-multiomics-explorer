@@ -1,46 +1,80 @@
 transcriptomicTabUI <- function(id) {
 	ns <- NS(id)
 	tagList(
-		dashboardBody(
-	
-			box(width=6,
-			  title='UMAP', status='primary', solidHeader = TRUE,
-			  plotOutput(ns("umap_cluster")) %>% withSpinner(image='spinner.gif'),
-        ggplotDownloadHandlerUI(ns('umap_cluster_download'))
-			),
-			box(width=6,
-				title="Differentially Expressed Genes by Cluster", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
-				DTOutput(ns("cluster_DEG")) %>% withSpinner(image='spinner.gif'),
-				dfDownloadHandlerUI(ns('marker_gene_df_download'))
-			),
-			box(width=12,
-				title="Gene Counts per Cell", status='primary', solidHeader = TRUE,
-				selectizeInput(ns("value"), "Select Gene:", choices=NULL),
-				fluidRow(
-					column(6,
-					  plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
-					  ggplotDownloadHandlerUI(ns('umap_count_download'))
-					),
-					column(6,
-					  plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif'),
-					  ggplotDownloadHandlerUI(ns('violin_download'))
-					)
-				)
-			),
-			box(width=6, title="Metadata", status='primary', solidHeader = TRUE,
-					DTOutput(ns("metadata")) %>% withSpinner(image='spinner.gif')
-			)
-		)
+	  div(
+      layout_columns(
+        card(min_height = '350px',
+          card_header_with_download_and_settings(
+            "UMAP",
+            popover(
+              title = "Download Options", bs_icon("download"),
+              ggplotDownloadPopoverUI(ns('umap_cluster_download'))
+            )
+          ),
+          card_body(
+            plotOutput(ns("umap_cluster")) %>% withSpinner(image='spinner.gif'),
+          )
+        ),
+        card(min_height = '350px',
+          card_header_with_download_and_settings(
+            "Differentially Expressed Genes by Cluster",
+            popover(
+              title = "Download Options", bs_icon("download"),
+              dfDownloadPopoverUI(ns('marker_gene_df_download'))
+            )
+          ),
+          card_body(
+            selectizeInput(ns("cluster"), "Select Cluster:", choices=NULL),
+            DTOutput(ns("cluster_DEG")) %>% withSpinner(image='spinner.gif')
+          )
+        ),
+        col_widths = c(6,6),
+        gap = "0.5rem"
+      )
+	  ),
+	  div(
+      layout_columns(
+	      card(height = '550px',
+	        card_header_with_download_and_settings(
+	          "Gene Counts per Cell",
+	          popover(
+	            title = "Download Options", bs_icon("download"),
+	            accordion(
+	              id = ns("download_acc"),
+	              class = "acc--dense",
+	              open = TRUE,
+	              accordion_panel(
+	                "UMAP",
+	                ggplotDownloadPopoverUI(ns('umap_count_download'))
+	              ),
+	              accordion_panel(
+	                "Boxplots",
+	                ggplotDownloadPopoverUI(ns('violin_download'))
+	              )
+	            )
+	          )
+	        ),
+	        card_body(
+	          selectizeInput(ns("value"), "Select Gene:", choices=NULL),
+	          layout_columns(
+              plotOutput(ns("umap_count")) %>% withSpinner(image='spinner.gif'),
+              plotOutput(ns("violin")) %>% withSpinner(image='spinner.gif')
+	          )
+	        )
+	      ),
+	      metadataTableUI(ns('metadata')),
+	      col_widths = c(8,4)
+      )
+	  )
 	)
 }
 
-transcriptomicTabServer <- function(id, data_path) {
+transcriptomicTabServer <- function(id) {
 	
 	moduleServer(id, function(input, output, session) {
 		
 		gene_options = reactive({
-			readRDS(paste0(data_path(), 'clean/sc-rnaseq_features.rds'))
+			readRDS(clean_data_path('sc-rnaseq_features.rds'))
 		})
 		
 		observeEvent(gene_options(), {
@@ -54,7 +88,7 @@ transcriptomicTabServer <- function(id, data_path) {
 			progress$set(message = 'Reading input data',
 									 detail = 'about 30 seconds')
 			
-			rds = readRDS(paste0(data_path(), 'raw/seurat_integrated.rds'))
+			rds = readRDS(raw_data_path('seurat_integrated.rds'))
 			rds@meta.data = rds@meta.data %>% separate(SampleID, into=c("Donor", "Type"), sep='_') 
 			return(rds)
 		})
@@ -70,17 +104,17 @@ transcriptomicTabServer <- function(id, data_path) {
 		})
 		
 		observeEvent(selected_cluster_gene(), {
-			updateSelectizeInput(session, 'value', "Gene:", choices=gene_options(), selected=selected_cluster_gene(), server=TRUE)
+			updateSelectizeInput(session, 'value', "Select Gene:", choices=gene_options(), selected=selected_cluster_gene(), server=TRUE)
 		})
 		
 		observeEvent(cluster_annotations(), {
 		  req(cluster_annotations())
-			updateSelectizeInput(session, 'cluster', "Cluster:", choices=cluster_annotations(), selected=cluster_annotations()[1], server=TRUE)
+			updateSelectizeInput(session, 'cluster', "Select Cluster:", choices=cluster_annotations(), selected=cluster_annotations()[1], server=TRUE)
 		})
 		
 		cluster_DEG = reactive({
 		  req(input$cluster)
-			read.delim(paste0(data_path(), 'raw/DEG/organic/', input$cluster, '_2vs11_organic.csv'), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
+		  read.delim(cluster_path(paste0(input$cluster, '_2vs11_organic.csv')), sep=',', col.names = c("Gene", "p", "avg_log2FC", "pct.1", "pct.2", "adjusted_p"))
 		})
 		
 		umap_cluster = reactive({
@@ -91,7 +125,7 @@ transcriptomicTabServer <- function(id, data_path) {
 			umap_cluster()	
 		})
 		
-		ggplotDownloadHandlerServer('umap_cluster_download', umap_cluster, "umap_by_cluster")
+		ggplotDownloadPopoverServer('umap_cluster_download', umap_cluster, "umap_by_cluster")
 		
 		umap_count = reactive({
 		  req(input$value)
@@ -102,7 +136,7 @@ transcriptomicTabServer <- function(id, data_path) {
 			umap_count()	
 		})
 		
-		ggplotDownloadHandlerServer('umap_count_download', umap_count, "umap_by_count")
+		ggplotDownloadPopoverServer('umap_count_download', umap_count, "umap_by_count")
 		
 		output$cluster_DEG = renderDT({
 			datatable(cluster_DEG(), 
@@ -118,7 +152,7 @@ transcriptomicTabServer <- function(id, data_path) {
 				formatSignif(columns = c('adjusted_p'), digits = 4)
 		})
 		
-		dfDownloadHandlerServer('marker_gene_df_download', cluster_DEG, paste0(input$cluster, "_marker_genes"))
+		dfDownloadPopoverServer('marker_gene_df_download', cluster_DEG, paste0(input$cluster, "_marker_genes"))
 		
 		violin = reactive({
 		  req(input$value)
@@ -129,14 +163,16 @@ transcriptomicTabServer <- function(id, data_path) {
 			violin()	
 		})
 		
-		ggplotDownloadHandlerServer('violin_download', violin, "violin_plot")
+		ggplotDownloadPopoverServer('violin_download', violin, "boxplots_plot")
 		
 		metadata = reactive({
-			read.delim(paste0(data_path(), 'clean/transcriptomic_metadata.txt'), sep='\t', header=TRUE)
+			read.delim(clean_data_path('transcriptomic_metadata.txt'), sep='\t', header=TRUE)
 		})
 		
+		metadataTableServer('metadata', metadata)
+		
 		beta_data = reactive({
-			read.delim(paste0(data_path(), 'raw/RNA_Count_by_donor_and_samples_beta_cells.csv'), sep=',') %>%
+			read.delim(raw_data_path('RNA_Count_by_donor_and_samples_beta_cells.csv'), sep=',') %>%
 			pivot_longer(!gene, names_to='group', values_to='Value') %>%
 			separate(group, into=c("ID", "Type")) %>%
 			mutate(Type = case_when(Type == 'G11' ~ "H",
@@ -144,17 +180,6 @@ transcriptomicTabServer <- function(id, data_path) {
 			)) %>% 
 			rename(Gene=gene) %>%
 			left_join(metadata(), by='ID')
-		})
-		
-		output$metadata = renderDT({
-			datatable(metadata(),
-								selection='single',
-								colnames=c("Donor", "ID", "Source", "Age", "BMI", "Gender", "Comparison", "Comparison2"),
-								rownames=FALSE,
-								options=list(
-									columnDefs = list(list(visible=FALSE, targets=c(6,7))),
-									dom='t')
-			)
 		})
 		
 		return(beta_data)

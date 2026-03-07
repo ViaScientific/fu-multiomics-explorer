@@ -1,21 +1,23 @@
-ggplotDownloadHandlerUI <- function(id) {
+ggplotDownloadPopoverUI = function(id) {
   ns <- NS(id)
   tagList(
+    column(6, selectizeInput(ns('type'), "Format:", choices=c('pdf', 'png', 'svg', 'jpeg', 'tiff'), selected='pdf')),
     fluidRow(
-      column(2, downloadButton(ns('download_button'), label = "Plot", style = "margin-top: 25px;")),
-      column(2, selectizeInput(ns('type'), "Format:", choices=c('pdf', 'png', 'svg', 'jpeg', 'tiff'), selected='pdf')),
-      column(2, numericInput(ns('width'), "Width:", value = 1800)),
-      column(2, numericInput(ns('height'), "Height:", value = 1200)),
-      column(2, selectizeInput(ns('units'), "Units:", choices=c("px", "in", "cm", "mm"), selected='px')),
-      column(2, shinyjs::hidden(numericInput(ns('dpi'), "dpi:", value = 300)))
-    )
+      column(6, numericInput(ns('width'), "Width:", value = 1800)),
+      column(6, numericInput(ns('height'), "Height:", value = 1200)),
+    ),
+    fluidRow(
+      column(6, selectizeInput(ns('units'), "Units:", choices=c("px", "in", "cm", "mm"), selected='px')),
+      column(6, shinyjs::hidden(numericInput(ns('dpi'), "dpi:", value = 300)))
+    ),
+    downloadButton(ns('download_button'), label = "Plot"),
   )
 }
 
-ggplotDownloadHandlerServer <- function(id, plot, filename_base='plot') {
+ggplotDownloadPopoverServer = function(id, plot, filename_base='plot') {
   
   moduleServer(id, function(input, output, session) {
-  
+    
     observeEvent(input$units, ignoreInit = TRUE, {
       
       if (input$units == 'px') {
@@ -54,6 +56,6 @@ ggplotDownloadHandlerServer <- function(id, plot, filename_base='plot') {
         ggsave(file, plot = plot(), device = input$type, units = input$units, width = input$width, height = input$height, dpi = input$dpi)
       }
     )
-
-  })
+    
+  })   
 }

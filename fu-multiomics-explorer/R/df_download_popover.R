@@ -1,14 +1,12 @@
-dfDownloadHandlerUI <- function(id) {
+dfDownloadPopoverUI = function(id) {
   ns <- NS(id)
   tagList(
-    fluidRow(
-      column(2, downloadButton(ns('download_button'), label = "Data", style = "margin-top: 25px;")),
-      column(2, selectizeInput(ns('type'), "Format:", choices=c('tsv', 'csv'), selected='tsv'))
-    )
+    selectizeInput(ns('type'), "Format:", choices=c('tsv', 'csv'), selected='tsv'),
+    downloadButton(ns('download_button'), label = "Data")
   )
 }
 
-dfDownloadHandlerServer <- function(id, df, filename_base='data') {
+dfDownloadPopoverServer = function(id, df, filename_base='data') {
   
   moduleServer(id, function(input, output, session) {
     
@@ -27,5 +25,5 @@ dfDownloadHandlerServer <- function(id, df, filename_base='data') {
       }
     )
     
-  })
+  })   
 }

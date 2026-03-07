@@ -143,6 +143,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     }) 
     
     observeEvent(x_options(), {
+      freezeReactiveValue(input, "x_value")
       updateSelectizeInput(session, 'x_value', "Selection:", choices=x_options(), selected=x_options()[1], server=TRUE)
     })
     
@@ -157,6 +158,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     }) 
     
     observeEvent(y_options(), {
+      freezeReactiveValue(input, "y_value")
       updateSelectizeInput(session, 'y_value', "Selection:", choices=y_options(), selected=y_options()[2], server=TRUE)
     })
     

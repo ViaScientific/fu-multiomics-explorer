@@ -40,7 +40,7 @@ metabolomicTabServer <- function(id) {
 		scatterplotServer('comparison', raw_data, "ionTopName", "Metabolite")
 		metadataTableServer('metadata', metadata)
 	
-		return(data)
+		return(raw_data)
 		
 	})
 }

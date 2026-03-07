@@ -48,6 +48,28 @@ ui = tagList(
         .table {
           font-size: 0.9rem;
         }
+        
+        .btn,
+        .btn-sm,
+        .btn-group-sm > .btn {
+          --bs-btn-padding-y: 0.25rem;
+          --bs-btn-padding-x: 0.5rem;
+          --bs-btn-font-size: 0.85rem;
+          --bs-btn-border-radius: 0.2rem;
+        }
+        
+        .btn-secondary {
+          --bs-btn-bg: #e9ecef;
+          --bs-btn-border-color: #dee2e6;
+          --bs-btn-color: #495057;
+        
+          --bs-btn-hover-bg: #dde2e6;
+          --bs-btn-hover-border-color: #ced4da;
+          --bs-btn-hover-color: #343a40;
+        
+          --bs-btn-active-bg: #d3d9df;
+          --bs-btn-active-border-color: #c6ccd2;
+        }
     "),
 
 		nav_panel("Transcriptomic Data",

@@ -47,7 +47,7 @@ To view the app locally, there are two options.
 2. Pull the container to your local machine.
 
   ```
-  docker pull quay.io/viascientific/fu-multiomics-explorer:1.0.1   
+  docker pull quay.io/viascientific/fu-multiomics-explorer:1.0.2   
   ```
 
 ### Run Guide:

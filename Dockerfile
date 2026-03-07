@@ -1,4 +1,4 @@
-FROM rocker/shiny:4.3.0
+FROM rocker/shiny:4.5.0
 LABEL author="zach@viascientific.com" description="Docker image containing all requirements for Fu Multiomics App"
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -11,9 +11,9 @@ RUN apt-get update --fix-missing && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
     
 # Install required R packages
-RUN R -e 'install.packages(c("shiny", "Seurat", "graph", "jsonlite", "igraph", "tidyverse", "DT", "shinycssloaders", "svglite", "shinyjs", "data.table", "BiocManager", "bslib", "bsicons"), \
-    repos="https://packagemanager.posit.co/cran/__linux__/focal/2023-04-01")'
-RUN R -e "BiocManager::install(version = '3.18')"
+RUN R -e 'install.packages(c("shiny", "Seurat", "graph", "jsonlite", "igraph", "dplyr", "tidyr", "ggplot2", "readr", "tibble", "DT", "shinycssloaders", "svglite", "shinyjs", "data.table", "BiocManager", "bslib", "bsicons"), \
+    repos="https://packagemanager.posit.co/cran/__linux__/noble/2026-03-01")'
+RUN R -e "BiocManager::install(version = '3.22')"
 RUN R -e 'BiocManager::install(c("graph"))'
 RUN R -e "install.packages(c('cyjShiny'))"
 

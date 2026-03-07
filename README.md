@@ -81,19 +81,20 @@ The explorer is supported for macOS and Linux. The package has been tested on th
 
 ```
 shiny
-shinyBS
 Seurat
 cyjShiny
-htmlwidgets
-graph
 jsonlite
-igraph
-tidyverse
+dplyr
+tidyr
+ggplot2
+readr
+tibble
 DT
 shinycssloaders
-shinydashboard
 svglite
 shinyjs
+bslib
+bsicons
 ```
 
 #### Installation Guide:

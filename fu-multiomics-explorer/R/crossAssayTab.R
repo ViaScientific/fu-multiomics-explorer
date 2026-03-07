@@ -169,8 +169,6 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     
     column_names = reactive({ colnames(merged_data())})
     
-    column_classes = reactive({ sapply(merged_data(), class)})
-    
     observeEvent(merged_data(), {
       updateSelectInput(session, 'color_by', "Color By", choices=c('None', column_names()))
       updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', column_names()))
@@ -209,8 +207,8 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
       merged_data() %>% select(-any_of(c("ComparisonID", "ComparisonID2")))
     })
     
-    ggplotDownloadHandlerServer('plot_download', scatter_plot, "scatter_plot")
-    dfDownloadHandlerServer('data_download', download_data, "scatter_plot_data")
+    ggplotDownloadPopoverServer('plot_download', scatter_plot, "scatter_plot")
+    dfDownloadPopoverServer('data_download', download_data, "scatter_plot_data")
 
   })
 }

@@ -136,7 +136,7 @@ transcriptomicTabServer <- function(id) {
 			umap_count()	
 		})
 		
-		ggplotDownloadHandlerServer('umap_count_download', umap_count, "umap_by_count")
+		ggplotDownloadPopoverServer('umap_count_download', umap_count, "umap_by_count")
 		
 		output$cluster_DEG = renderDT({
 			datatable(cluster_DEG(), 
@@ -152,7 +152,7 @@ transcriptomicTabServer <- function(id) {
 				formatSignif(columns = c('adjusted_p'), digits = 4)
 		})
 		
-		dfDownloadHandlerServer('marker_gene_df_download', cluster_DEG, paste0(input$cluster, "_marker_genes"))
+		dfDownloadPopoverServer('marker_gene_df_download', cluster_DEG, paste0(input$cluster, "_marker_genes"))
 		
 		violin = reactive({
 		  req(input$value)
@@ -163,7 +163,7 @@ transcriptomicTabServer <- function(id) {
 			violin()	
 		})
 		
-		ggplotDownloadHandlerServer('violin_download', violin, "boxplots_plot")
+		ggplotDownloadPopoverServer('violin_download', violin, "boxplots_plot")
 		
 		metadata = reactive({
 			read.delim(clean_data_path('transcriptomic_metadata.txt'), sep='\t', header=TRUE)

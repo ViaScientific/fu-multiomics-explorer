@@ -72,8 +72,6 @@ scatterplotServer <- function(id, df, selection_column, title) {
     
     column_names = reactive({ colnames(df())})
     
-    column_classes = reactive({ sapply(df(), class)})
-    
     observeEvent(df(), {
       updateSelectInput(session, 'color_by', "Color By", choices=c('None', column_names()))
       updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', column_names()))
@@ -114,8 +112,8 @@ scatterplotServer <- function(id, df, selection_column, title) {
       comparison_data() %>% select(any_of(SCATTERPLOT_DOWNLOAD_COLUMNS), !!input$x, !!input$y)
     })
     
-    ggplotDownloadHandlerServer('plot_download', scatter_plot, "scatter_plot")
-    dfDownloadHandlerServer('data_download', download_data, "scatter_plot_data")
+    ggplotDownloadPopoverServer('plot_download', scatter_plot, "scatter_plot")
+    dfDownloadPopoverServer('data_download', download_data, "scatter_plot_data")
     
   })
 }

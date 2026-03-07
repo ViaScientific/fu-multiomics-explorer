@@ -143,7 +143,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     }) 
     
     observeEvent(x_options(), {
-      updateSelectizeInput(session, 'x_value', "Selection:", choices=x_options(), server=TRUE)
+      updateSelectizeInput(session, 'x_value', "Selection:", choices=x_options(), selected=x_options()[1], server=TRUE)
     })
     
     y_options = reactive({
@@ -157,7 +157,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
     }) 
     
     observeEvent(y_options(), {
-      updateSelectizeInput(session, 'y_value', "Selection:", choices=y_options(), server=TRUE)
+      updateSelectizeInput(session, 'y_value', "Selection:", choices=y_options(), selected=y_options()[2], server=TRUE)
     })
     
     valid_xy <- reactive({

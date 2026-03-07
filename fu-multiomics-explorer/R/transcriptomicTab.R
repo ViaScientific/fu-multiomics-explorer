@@ -104,12 +104,12 @@ transcriptomicTabServer <- function(id) {
 		})
 		
 		observeEvent(selected_cluster_gene(), {
-			updateSelectizeInput(session, 'value', "Gene:", choices=gene_options(), selected=selected_cluster_gene(), server=TRUE)
+			updateSelectizeInput(session, 'value', "Select Gene:", choices=gene_options(), selected=selected_cluster_gene(), server=TRUE)
 		})
 		
 		observeEvent(cluster_annotations(), {
 		  req(cluster_annotations())
-			updateSelectizeInput(session, 'cluster', "Cluster:", choices=cluster_annotations(), selected=cluster_annotations()[1], server=TRUE)
+			updateSelectizeInput(session, 'cluster', "Select Cluster:", choices=cluster_annotations(), selected=cluster_annotations()[1], server=TRUE)
 		})
 		
 		cluster_DEG = reactive({

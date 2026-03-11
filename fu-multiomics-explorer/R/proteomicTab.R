@@ -34,13 +34,13 @@ proteomicTabServer <- function(id) {
 		
 		data = reactive({
         raw_data() %>%
-				summarise(Error = sd(Value), Value=mean(Value), .groups='drop') %>%
+				summarise(Error = sd(Value), `MS Signal Intensity`=mean(Value), .groups='drop') %>%
 				filter(Protein != '') %>%
 				left_join(metadata(), by='Donor')
 		})
 		
-		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
-		scatterplotServer('comparison', data, "Protein", "Protein")
+		barplotServer('barplot', data, "Protein", "Protein", "MS Signal Intensity", "Type", "Gender")
+		scatterplotServer('comparison', data, "Protein", "Protein", 'MS Signal Intensity')
 		metadataTableServer('metadata', metadata)
 		
 		return(data)

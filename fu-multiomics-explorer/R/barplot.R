@@ -12,7 +12,7 @@ barplotUI <- function(id) {
             open = TRUE,
             accordion_panel(
               "Plot",
-              ggplotDownloadPopoverUI(ns('plot_download')),
+              ggplotDownloadPopoverUI(ns('plot_download'))
             ),
             accordion_panel(
               "Data",
@@ -30,13 +30,13 @@ barplotUI <- function(id) {
       ),
       card_body(
         selectizeInput(ns("value"), "Selection:", choices=NULL),
-        plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif'),
+        plotOutput(ns("plot")) %>% withSpinner(image='spinner.gif')
       )
     )
   )
 }
 
-barplotServer <- function(id, input_data, selection_column, title, default_fill, default_group) {
+barplotServer <- function(id, input_data, selection_column, title, y_label, default_fill, default_group) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -53,18 +53,17 @@ barplotServer <- function(id, input_data, selection_column, title, default_fill,
       input_data() %>% filter(.data[[selection_column]] == input$value)
     })
     
-    column_names = reactive({ colnames(input_data()) })
+    quant_columns = reactive({
+      cnames = colnames(input_data())
+      return(cnames[cnames %in% QUANTITATIVE_COLUMNS])
+    })
     
-    column_classes = reactive({ sapply(input_data(), class) })
-    
-    numeric_columns = reactive({ (data.frame(Column=column_names(), Class=column_classes()) %>% filter(Class == 'numeric'))$Column })
-   
     observeEvent(input_data(), {
       updateSelectizeInput(session, 'value', "Selection:", choices=options(), selected=options()[1], server=TRUE)
-      updateSelectInput(session, 'x', "X", choices=column_names(), selected='Donor')
-      updateSelectInput(session, 'y', "Y", choices=numeric_columns(), selected='Value')
-      updateSelectInput(session, 'fill_by', "Color By", choices=c('None', column_names()), selected=default_fill)
-      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()), selected=default_group)
+      updateSelectInput(session, 'x', "X", choices=GROUPING_COLUMNS, selected='Donor')
+      updateSelectInput(session, 'y', "Y", choices=quant_columns(), selected=y_label)
+      updateSelectInput(session, 'fill_by', "Color By", choices=c("None", GROUPING_COLUMNS), selected=default_fill)
+      updateSelectInput(session, 'facet_by', "Group By", choices=c("None", GROUPING_COLUMNS), selected=default_group)
     })
     
     barplot = reactive({
@@ -73,14 +72,14 @@ barplotServer <- function(id, input_data, selection_column, title, default_fill,
     	
       if (input$fill_by=='None') { fill_by_value = '' } else { fill_by_value=input$fill_by }
       
-      ggplot(filtered_data(), aes(x=.data[[input$x]], y=.data[[input$y]], fill=.data[[fill_by_value]])) +
+      ggplot(filtered_data(), aes(x=.data[[input$x]], y=.data[[input$y]], fill=!!sym(fill_by_value))) +
         {if (input$facet_by!='None') facet_wrap(as.formula(paste('~', input$facet_by)), scales = 'free_x')} +
         theme_classic() +
         theme(plot.title = element_text(hjust = 0.5),
         			strip.background = element_blank()) +
-        scale_y_continuous(expand=c(0,0)) +
+        scale_y_continuous(expand=c(0,0), name = y_label) +
       	geom_bar(stat='identity', position=position_dodge(.9)) +
-      	{if(input$y == 'Value' && 'Error' %in% numeric_columns()) geom_errorbar(aes(ymin=Value-Error, ymax=Value+Error), width=.2, position=position_dodge(.9))}
+      	{if(input$y == y_label && y_label == 'MS Signal Intensity') geom_errorbar(aes(ymin=!!sym(y_label) - Error, ymax=!!sym(y_label) + Error), width=.2, position=position_dodge(.9))}
     })
     
     output$plot = renderPlot({
@@ -88,7 +87,8 @@ barplotServer <- function(id, input_data, selection_column, title, default_fill,
     })
     
     download_data = reactive({
-      filtered_data() %>% select(any_of(BARPLOT_DOWNLOAD_COLUMNS))
+      filtered_data() %>% 
+        select(any_of(BARPLOT_DOWNLOAD_COLUMNS))
     })
     
     ggplotDownloadPopoverServer('plot_download', barplot, "barplot")

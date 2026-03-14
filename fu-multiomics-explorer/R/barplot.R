@@ -70,6 +70,12 @@ barplotServer <- function(id, input_data, selection_column, title, y_label, defa
     
     	req(input$x)
     	
+      if ((input$x != 'Donor' & input$fill_by != 'Donor' & input$facet_by != 'Donor') | (input$x != 'Treatment' & input$fill_by != 'Treatment' & input$facet_by != 'Treatment')) {
+        plot.new()
+        text(0.5, 0.5, "Donor and Treatment must each be selected for one of X, Color By or Group By")
+        return(invisible())
+      }
+      
       if (input$fill_by=='None') { fill_by_value = '' } else { fill_by_value=input$fill_by }
       
       ggplot(filtered_data(), aes(x=.data[[input$x]], y=.data[[input$y]], fill=!!sym(fill_by_value))) +

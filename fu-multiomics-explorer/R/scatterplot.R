@@ -67,7 +67,7 @@ scatterplotServer <- function(id, df, selection_column, title, y_label) {
       req(valid_xy())
       x = df() %>% filter(.data[[selection_column]] == input$x) %>% rename(!!input$x := y_label) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
       y = df() %>% filter(.data[[selection_column]] == input$y) %>% rename(!!input$y := y_label) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
-      combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
+      combined = x %>% left_join(y, by=c("Donor", "Treatment", "ID", "Source", "Age", "BMI", "Gender"))
     })
     
     observeEvent(df(), {

@@ -23,9 +23,12 @@ clean_data_path <- function(...) file.path(DATA_DIR, "clean", ...)
 processed_data_path <- function(...) file.path(DATA_DIR, "processed", ...)
 cluster_path <- function(...) file.path(DATA_DIR, "raw", "DEG", "organic", ...)
 
-BARPLOT_DOWNLOAD_COLUMNS = c("Protein", "ionTopName", "Donor", "Type", "Value", "Error", "ID", "Source", "Age", "BMI", "Gender")
-SCATTERPLOT_DOWNLOAD_COLUMNS = c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender")
+BARPLOT_DOWNLOAD_COLUMNS = c("Protein", "Ion name", "Donor", "Treatment", "MS Signal Intensity", "Normalized MS Signal Intensity", "Error", "ID", "Source", "Age", "BMI", "Gender")
+SCATTERPLOT_DOWNLOAD_COLUMNS = c("Donor", "Treatment", "MS Signal Intensity", "Normalized MS Signal Intensity", "ID", "Source", "Age", "BMI", "Gender")
 METADATA_COLUMNS = c("Donor", "ID", "Source", "Age", "BMI", "Gender")
+
+GROUPING_COLUMNS = c("Donor", "Treatment", "Gender")
+QUANTITATIVE_COLUMNS = c("MS Signal Intensity", "Normalized MS Signal Intensity", "Age", "BMI", "Error")
 
 card_header_with_download_and_settings <- function(title, ...) {
   card_header(

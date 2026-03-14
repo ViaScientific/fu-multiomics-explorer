@@ -61,7 +61,7 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
   	})
   	
   	metabolite_options = reactive({
-  	  metabolite_data() %>% distinct(ionTopName) %>% arrange(ionTopName) %>% pull(ionTopName)
+  	  metabolite_data() %>% distinct(`Ion name`) %>% arrange(`Ion name`) %>% pull(`Ion name`)
   	})
   	
   	x_name = reactive({
@@ -82,14 +82,14 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
         	protein_data() %>% 
         	filter(Protein==input$x_value) %>% 
         	dplyr::select(-Protein) %>% 
-        	rename(!!x_name() := Value)
+        	rename(!!x_name() := 'MS Signal Intensity')
         )
       } else if(input$x_type=='metabolite') {
         return(
         	metabolite_data() %>% 
-        	filter(ionTopName==input$x_value) %>% 
-        	dplyr::select(-ionTopName) %>% 
-        	rename(!!x_name() := Value)
+        	filter(`Ion name`==input$x_value) %>% 
+        	dplyr::select(-`Ion name`) %>% 
+        	rename(!!x_name() := 'Normalized MS Signal Intensity')
         )
       }
     })
@@ -112,23 +112,23 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
         	protein_data() %>% 
         	filter(Protein==input$y_value) %>% 
         	dplyr::select(-Protein) %>% 
-        	rename(!!y_name() := Value)
+        	rename(!!y_name() := 'MS Signal Intensity')
         )
       } else if(input$y_type=='metabolite') {
         return(
         	metabolite_data() %>% 
-        	filter(ionTopName==input$y_value) %>% 
-        	dplyr::select(-ionTopName) %>% 
-        	rename(!!y_name() := Value)
+        	filter(`Ion name`==input$y_value) %>% 
+        	dplyr::select(-`Ion name`) %>% 
+        	rename(!!y_name() := 'Normalized MS Signal Intensity')
         )
       }
     })
     
     merged_data = reactive({
       if((input$x_type=='gene' & input$y_type=='metabolite') | (input$x_type=='metabolite' & input$y_type=='gene')) {
-        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID2", "Type")))
+        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID2", "Treatment")))
       } else {
-        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Type")))
+        return(x_data() %>% inner_join(y_data(), by=c("ComparisonID", "Treatment")))
       }
     })
     
@@ -167,12 +167,10 @@ crossAssayTabServer <- function(id, transcript_data, protein_data, metabolite_da
       !identical(x_name(), y_name())
     })
     
-    column_names = reactive({ colnames(merged_data())})
-    
     observeEvent(merged_data(), {
-      updateSelectInput(session, 'color_by', "Color By", choices=c('None', column_names()))
-      updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', column_names()))
-      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()))
+      updateSelectInput(session, 'color_by', "Color By", choices=c('None', GROUPING_COLUMNS))
+      updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', GROUPING_COLUMNS))
+      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', GROUPING_COLUMNS))
     })
     
     regression = reactive({

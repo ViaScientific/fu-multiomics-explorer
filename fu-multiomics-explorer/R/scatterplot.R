@@ -41,7 +41,7 @@ scatterplotUI <- function(id) {
   )
 }
 
-scatterplotServer <- function(id, df, selection_column, title) {
+scatterplotServer <- function(id, df, selection_column, title, y_label) {
   
   moduleServer(id, function(input, output, session) {
     
@@ -65,17 +65,15 @@ scatterplotServer <- function(id, df, selection_column, title) {
     
     comparison_data = reactive({
       req(valid_xy())
-      x = df() %>% filter(.data[[selection_column]] == input$x) %>% rename(!!input$x := Value) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
-      y = df() %>% filter(.data[[selection_column]] == input$y) %>% rename(!!input$y := Value) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
-      combined = x %>% left_join(y, by=c("Donor", "Type", "ID", "Source", "Age", "BMI", "Gender"))
+      x = df() %>% filter(.data[[selection_column]] == input$x) %>% rename(!!input$x := y_label) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
+      y = df() %>% filter(.data[[selection_column]] == input$y) %>% rename(!!input$y := y_label) %>% select(-any_of(c(!!selection_column, 'Error', 'ComparisonID')))
+      combined = x %>% left_join(y, by=c("Donor", "Treatment", "ID", "Source", "Age", "BMI", "Gender"))
     })
     
-    column_names = reactive({ colnames(df())})
-    
     observeEvent(df(), {
-      updateSelectInput(session, 'color_by', "Color By", choices=c('None', column_names()))
-      updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', column_names()))
-      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', column_names()))
+      updateSelectInput(session, 'color_by', "Color By", choices=c('None', GROUPING_COLUMNS))
+      updateSelectInput(session, 'shape_by', "Shape By", choices=c('None', GROUPING_COLUMNS))
+      updateSelectInput(session, 'facet_by', "Group By", choices=c('None', GROUPING_COLUMNS))
     })
     
     regression = reactive({

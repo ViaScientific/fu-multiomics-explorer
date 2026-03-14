@@ -179,7 +179,8 @@ transcriptomicTabServer <- function(id) {
 															Type == 'G2' ~ 'L'
 			)) %>% 
 			rename(Gene=gene) %>%
-			left_join(metadata(), by='ID')
+			left_join(metadata(), by='ID') %>%
+		  rename(Treatment = Type)
 		})
 		
 		return(beta_data)

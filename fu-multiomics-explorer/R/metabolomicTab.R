@@ -26,21 +26,22 @@ metabolomicTabServer <- function(id) {
 				mutate(Donor=as.factor(Donor))
 		})
 		
-		raw_data = reactive({
+		data = reactive({
 			read.delim(file=clean_data_path('B1.txt'), header=TRUE) %>%
 				pivot_longer(cols=starts_with('D')) %>%
 				mutate(Donor=substr(name, 2,2)) %>%
 				mutate(Type=substr(name, 4,4)) %>%
-				dplyr::select(Donor, Type, ionTopName, Value=value) %>%
+				dplyr::select(Donor, Type, `Ion name`=ionTopName, `Normalized MS Signal Intensity`=value) %>%
 				mutate(across(c(Donor, Type), factor)) %>%
-				left_join(metadata(), by='Donor')
+				left_join(metadata(), by='Donor') %>%
+		    rename(Treatment = Type)
 		})
 				
-		barplotServer('barplot', raw_data, 'ionTopName', 'Metabolite', 'Type', 'None')
-		scatterplotServer('comparison', raw_data, "ionTopName", "Metabolite")
+		barplotServer('barplot', data, 'Ion name', 'Metabolite', 'Normalized MS Signal Intensity', 'Treatment', 'None')
+		scatterplotServer('comparison', data, "Ion name", "Metabolite", 'Normalized MS Signal Intensity')
 		metadataTableServer('metadata', metadata)
 	
-		return(raw_data)
+		return(data)
 		
 	})
 }

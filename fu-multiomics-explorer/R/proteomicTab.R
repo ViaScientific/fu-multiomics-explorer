@@ -26,21 +26,18 @@ proteomicTabServer <- function(id) {
 			mutate(Donor= as.factor(Donor))
 		})
 
-		raw_data = reactive({
+		data = reactive({
 		  read.delim(file=processed_data_path('A1_processed.txt'), header=TRUE, sep='\t') %>%
 		    mutate(across(c(Donor, Replicate, Type), factor)) %>%
-		    group_by(Protein, Donor, Type)
+		    group_by(Protein, Donor, Type) %>%
+		    summarise(Error = sd(Value), `MS Signal Intensity` = mean(Value), .groups='drop') %>%
+		    filter(Protein != '') %>%
+		    left_join(metadata(), by='Donor') %>%
+		    rename(Treatment=Type)
 		})
 		
-		data = reactive({
-        raw_data() %>%
-				summarise(Error = sd(Value), Value=mean(Value), .groups='drop') %>%
-				filter(Protein != '') %>%
-				left_join(metadata(), by='Donor')
-		})
-		
-		barplotServer('barplot', data, "Protein", "Protein", "Type", "Gender")
-		scatterplotServer('comparison', data, "Protein", "Protein")
+		barplotServer('barplot', data, "Protein", "Protein", "MS Signal Intensity", "Treatment", "Gender")
+		scatterplotServer('comparison', data, "Protein", "Protein", 'MS Signal Intensity')
 		metadataTableServer('metadata', metadata)
 		
 		return(data)
